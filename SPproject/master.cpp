@@ -8,5 +8,7 @@ void menu() {
 int main() {
 	menu();
 	cout << "it worked";
+	cout << "ITS ME JANNAH. CAN YOU SEE ME.";
+	cout << "COMMIT PLEASE";
 	return 0;
 }

@@ -7,7 +7,7 @@ void menu() {
 	cout << "1.rent a movie \n2.exit";
 	cin >> choice;
 }
-
+// sPpRoJeCt;
 int main() {
 	menu();
 	cout << "it worked";

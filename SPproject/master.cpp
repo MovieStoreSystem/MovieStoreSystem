@@ -31,10 +31,18 @@ int main() {
 	return 0;
 }
 
-int main() {
-	menu();
-	cout << "it worked";
-	cout << "ITS ME JANNAH. CAN YOU SEE ME.";
-	cout << "COMMIT PLEASE";
-	return 0;
+
+//menu of the system!
+char menu()
+{
+	char choice;
+	cout << "\t\tWelcome to our Movie Store\n";
+	cout << "1.View Movies\n";
+	cout << "2.Rent a Movie\n";
+	cout << "3.Return a Movie\n";
+	cout << "4.Rental History\n";
+	cout << "5.Exit\n";
+	cout << "Please enter your choice number: ";
+	cin >> choice;
+	return choice;
 }

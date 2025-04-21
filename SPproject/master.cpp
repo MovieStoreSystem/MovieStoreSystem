@@ -1,8 +1,6 @@
 #include <iostream>
 using namespace std;
 char menu();
-
-
 int main() {
 	switch (menu())
 	{

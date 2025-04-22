@@ -28,12 +28,12 @@ bool findemail(string email, user users[], int& totalusers);
 bool findphonenumber(string phonenum, user users[], int& totalusers);
 bool findaccountnum(int accountnum, user users[], int& totalusers);
 bool findtrueinfo(string email, string password, user users[], int& totalusers);
-bool signin(user& temp, user users[], int& totalusers);
+int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);
 
 
 int main() {
-	int totalusers = 0;
+	int totalusers = 0, loggedinindex = -1;
 	char ch = 'y', choice;
 	user users[20];
 	cout << "1.Sign up \n2.Sign in\n";
@@ -42,10 +42,13 @@ int main() {
 	{
 	case'1':
 		signup(users[totalusers], users, totalusers);
+		loggedinindex = totalusers;
 		totalusers++;
 		break;
 	case'2':
-		signin(users[totalusers], users, totalusers);
+		loggedinindex = signin(users, totalusers);
+		if (loggedinindex == -1)
+			return 0;
 		break;
 	default:
 		cout << "invalid choice";
@@ -53,36 +56,72 @@ int main() {
 	}
 	do {
 
-		switch (menu())
+		if (users[loggedinindex].isEmployee)
 		{
-		case'1':
-			//
-			break;
+			//show the employee window
+			/*switch ()
+			{
+			case'1':
+				//
+				break;
 
-		case '2':
-			//
-			break;
+			case '2':
+				//
+				break;
 
-		case '3':
-			//
-			break;
+			case '3':
+				//
+				break;
 
-		case '4':
-			//
-			break;
+			case '4':
+				//
+				break;
 
-		case '5':
-			//
-			break;
+			case '5':
+				//
+				break;
 
-		default:
-			cout << "Sorry, Invalid choice!";
-			break;
+			default:
+				cout << "Sorry, Invalid choice!";
+				break;
+			}*/
 		}
+		else
+		{
+			// show the customer window
+			/*switch ()
+			{
+			case'1':
+				//
+				break;
+
+			case '2':
+				//
+				break;
+
+			case '3':
+				//
+				break;
+
+			case '4':
+				//
+				break;
+
+			case '5':
+				//
+				break;
+
+			default:
+				cout << "Sorry, Invalid choice!";
+				break;
+			}*/
+		}
+
+
 		cout << "Do you want to continue(y/n)\n";
 		cin >> ch;
 	} while (ch == 'y' || ch == 'Y');
-	return 0;
+
 }
 
 //menu of the system!
@@ -178,7 +217,7 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	if (findemail(temp.useraccount.email, users, totalusers)) {
 		cout << "This email already exists!\n";
-		return false; // ✅ Sign-up failed
+		return false; 
 	}
 
 	cout << "Enter your password:\n";
@@ -188,20 +227,22 @@ bool signup(user& temp, user users[], int& totalusers)
 	while (findaccountnum(temp.useraccount.accountnumber, users, totalusers)) {
 		temp.useraccount.accountnumber = (rand() % 100) + 5;
 	}
-	return true;  // ✅ Sign-up succeeded
+	return true; 
 }
 
-bool signin(user& temp, user users[], int& totalusers) {
-	cout << "Enter your email" << endl;
-	cin >> temp.useraccount.email;
-	cout << "Enter your password" << endl;
-	cin >> temp.useraccount.password;
-	if (findtrueinfo(temp.useraccount.email, temp.useraccount.password, users, totalusers)) {
-		cout << "loged in successfully\n";
-		return true;
+int signin(user users[], int totalusers) {
+	string email, password;
+	cout << "Enter your email: ";
+	cin >> email;
+	cout << "Enter your password: ";
+	cin >> password;
+
+	for (int i = 0; i < totalusers; i++) {
+		if (users[i].useraccount.email == email && users[i].useraccount.password == password) {
+			cout << "Logged in successfully.\n";
+			return i; 
+		}
 	}
-	else {
-		cout << "this account doesn't exist\n";
-		return false;
-	}
+	cout << "This account doesn't exist.\n";
+	return -1; 
 }

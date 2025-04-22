@@ -19,6 +19,7 @@ struct user
 	string phonenumber;
 	string rentedmovies[10];
 	bool frozen = false;
+	bool isEmployee = false;
 };
 
 //functions
@@ -142,6 +143,17 @@ bool findtrueinfo(string email, string password, user users[], int& totalusers) 
 
 bool signup(user& temp, user users[], int& totalusers)
 {
+	char role;
+	cout << "Are you an Employee (E) or a Customer (C)? ";
+	cin >> role;
+
+	if (role == 'E' || role == 'e') {
+		temp.isEmployee = true;
+	}
+	else {
+		temp.isEmployee = false;
+	}
+
 	cout << "Enter your username:\n";
 	cin.ignore();
 	getline(cin, temp.useraccount.username);

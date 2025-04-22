@@ -1,6 +1,6 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 int main() {
-	cout << "Renting System\n";
+	cout << "renting in movie store system:))";
 	return 0;
 }

@@ -3,33 +3,45 @@
 using namespace std;
 
 //structs and variables
+const int number_of_movies = 20;
 struct accountinfo
 {
 	string username;
 	string email;
 	string password;
-	int movieNumber;
-	int accountNumber;
+	int movieNumber = 0;
+	int accountNumber = 0;
 };
 
 struct user
 {
 	accountinfo userAccount;
-	int age;
+	int age = 0;
 	string phoneNumber;
 	string rentedMovies[10];
 	bool frozen = false;
 	bool isEmployee = false;
 };
 
+struct movieinfo {
+	string name_of_movie;
+	float price = 0;
+	int rentingCount = 0;
+	float average_rate = 0;
+	int final_score_of_movie = 0;
+	int total_ratings = 0;
+}movie[number_of_movies];
+
 //functions
-char menu();
+char customermenu();
+char employeermenu();
 bool findemail(string email, user users[], int& totalusers);
 bool findphonenumber(string phonenum, user users[], int& totalusers);
 bool findaccountnum(int accountnum, user users[], int& totalusers);
 bool findtrueinfo(string email, string password, user users[], int& totalusers);
 int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);
+void movierate(movieinfo movies[]);
 
 
 int main() {
@@ -58,8 +70,7 @@ int main() {
 
 		if (users[logged_in_index].isEmployee)
 		{
-			//show the employee window
-			/*switch ()
+			switch (employeermenu())
 			{
 			case'1':
 				//
@@ -80,16 +91,24 @@ int main() {
 			case '5':
 				//
 				break;
+			case '6':
+				//
+				break;
+			case '7':
+				//
+				break;
 
+			case '8':
+				cout << "Exiting :)\n";
+				break;
 			default:
 				cout << "Sorry, Invalid choice!";
 				break;
-			}*/
+			}
 		}
 		else
 		{
-			// show the customer window
-			/*switch ()
+			switch (customermenu())
 			{
 			case'1':
 				//
@@ -111,10 +130,22 @@ int main() {
 				//
 				break;
 
+			case '6':
+				movierate(movie);
+				break;
+
+			case '7':
+				//
+				break;
+
+			case '8':
+				cout << "Exiting :)\n";
+				break;
+
 			default:
 				cout << "Sorry, Invalid choice!";
 				break;
-			}*/
+			}
 		}
 
 
@@ -125,7 +156,7 @@ int main() {
 }
 
 //menu of the system!
-char menu()
+char customermenu()
 {
 	char choice;
 	cout << "\t\tWelcome to our Movie Store\n";
@@ -133,11 +164,32 @@ char menu()
 	cout << "2.Rent a Movie\n";
 	cout << "3.Return a Movie\n";
 	cout << "4.Rental History\n";
-	cout << "5.Exit\n";
+	cout << "5. View Account Information\n";
+	cout << "6. Rate a Movie / Leave a Review\n";
+	cout << "7.View Currently Rented Movies\n";
+	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
 	cin >> choice;
 	return choice;
 }
+
+char employeermenu()
+{
+	char choice;
+	cout << "\t\tWelcome to our Movie Store\n";
+	cout << "1.Add a Movie\n";
+	cout << "2.Remove a Movie\n";
+	cout << "3.List all Movies\n";
+	cout << "4.List Customers\n";
+	cout << "5.Rental History\n";
+	cout << "6. Freeze/Unfreeze Customer Account\n";
+	cout << "7. Edit Movie Information\n";
+	cout << "8.Exit\n";
+	cout << "Please enter your choice number: ";
+	cin >> choice;
+	return choice;
+}
+
 
 bool findemail(string email, user users[], int& totalusers)
 {
@@ -179,7 +231,6 @@ bool findtrueinfo(string email, string password, user users[], int& totalusers) 
 	return false;
 }
 
-
 bool signup(user& temp, user users[], int& totalusers)
 {
 	char role;
@@ -217,7 +268,7 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	if (findemail(temp.userAccount.email, users, totalusers)) {
 		cout << "This email already exists!\n";
-		return false; 
+		return false;
 	}
 
 	cout << "Enter your password:\n";
@@ -227,7 +278,7 @@ bool signup(user& temp, user users[], int& totalusers)
 	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
 		temp.userAccount.accountNumber = (rand() % 100) + 5;
 	}
-	return true; 
+	return true;
 }
 
 int signin(user users[], int totalusers) {
@@ -237,12 +288,42 @@ int signin(user users[], int totalusers) {
 	cout << "Enter your password: ";
 	cin >> password;
 
+	//checking if they are true!
 	for (int i = 0; i < totalusers; i++) {
 		if (users[i].userAccount.email == email && users[i].userAccount.password == password) {
 			cout << "Logged in successfully.\n";
-			return i; 
+			return i;
 		}
 	}
 	cout << "This account doesn't exist.\n";
-	return -1; 
+	return -1;
+}
+
+void movierate(movieinfo movie[]) {
+	string title;
+	int temp_rate;
+	cout << "Enter the title of the movie\n";
+	cin.ignore();
+	getline(cin, title);
+
+	for (int i = 0;i < number_of_movies;i++)
+	{
+		if (movie[i].name_of_movie == title)
+		{
+			cout << "Please enter a rating from 1 to 5\n";
+			cin >> temp_rate;
+
+			if (temp_rate < 1 || temp_rate>5) {
+				cout << "Sorry, Invalid rating. Should be from 1 to 5 \n";
+				return;
+			}
+			movie[i].total_ratings++;
+			movie[i].final_score_of_movie += temp_rate;
+			movie[i].average_rate = (float)movie[i].final_score_of_movie / movie[i].total_ratings;
+			cout << "The new rating is " << movie[i].average_rate << endl;
+			return;
+		}
+	}
+	cout << "Movie title not found \n";
+	return;
 }

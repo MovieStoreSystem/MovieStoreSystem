@@ -8,16 +8,16 @@ struct accountinfo
 	string username;
 	string email;
 	string password;
-	int movienumber;
-	int accountnumber;
+	int movieNumber;
+	int accountNumber;
 };
 
 struct user
 {
-	accountinfo useraccount;
+	accountinfo userAccount;
 	int age;
-	string phonenumber;
-	string rentedmovies[10];
+	string phoneNumber;
+	string rentedMovies[10];
 	bool frozen = false;
 	bool isEmployee = false;
 };
@@ -33,7 +33,7 @@ bool signup(user& temp, user users[], int& totalusers);
 
 
 int main() {
-	int totalusers = 0, loggedinindex = -1;
+	int total_users = 0, logged_in_index = -1;
 	char ch = 'y', choice;
 	user users[20];
 	cout << "1.Sign up \n2.Sign in\n";
@@ -41,13 +41,13 @@ int main() {
 	switch (choice)
 	{
 	case'1':
-		signup(users[totalusers], users, totalusers);
-		loggedinindex = totalusers;
-		totalusers++;
+		signup(users[total_users], users, total_users);
+		logged_in_index = total_users;
+		total_users++;
 		break;
 	case'2':
-		loggedinindex = signin(users, totalusers);
-		if (loggedinindex == -1)
+		logged_in_index = signin(users, total_users);
+		if (logged_in_index == -1)
 			return 0;
 		break;
 	default:
@@ -56,7 +56,7 @@ int main() {
 	}
 	do {
 
-		if (users[loggedinindex].isEmployee)
+		if (users[logged_in_index].isEmployee)
 		{
 			//show the employee window
 			/*switch ()
@@ -142,7 +142,7 @@ char menu()
 bool findemail(string email, user users[], int& totalusers)
 {
 	for (int i = 0; i < totalusers; i++) {
-		if (email == users[i].useraccount.email) {
+		if (email == users[i].userAccount.email) {
 			return true;
 		}
 	}
@@ -152,7 +152,7 @@ bool findemail(string email, user users[], int& totalusers)
 bool findphonenumber(string phonenum, user users[], int& totalusers) {
 	{
 		for (int i = 0; i < totalusers; i++) {
-			if (phonenum == users[i].phonenumber) {
+			if (phonenum == users[i].phoneNumber) {
 				return true;
 			}
 		}
@@ -163,7 +163,7 @@ bool findphonenumber(string phonenum, user users[], int& totalusers) {
 bool findaccountnum(int accountnum, user users[], int& totalusers) {
 	{
 		for (int i = 0; i < totalusers; i++) {
-			if (accountnum == users[i].useraccount.accountnumber) {
+			if (accountnum == users[i].userAccount.accountNumber) {
 				return true;
 			}
 		}
@@ -173,7 +173,7 @@ bool findaccountnum(int accountnum, user users[], int& totalusers) {
 
 bool findtrueinfo(string email, string password, user users[], int& totalusers) {
 	for (int i = 0;i < totalusers;i++) {
-		if (email == users[i].useraccount.email && password == users[i].useraccount.password)
+		if (email == users[i].userAccount.email && password == users[i].userAccount.password)
 			return true;
 	}
 	return false;
@@ -195,7 +195,7 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	cout << "Enter your username:\n";
 	cin.ignore();
-	getline(cin, temp.useraccount.username);
+	getline(cin, temp.userAccount.username);
 
 	cout << "Enter your age:\n";
 	cin >> temp.age;
@@ -206,26 +206,26 @@ bool signup(user& temp, user users[], int& totalusers)
 	}
 
 	cout << "Enter your phone number:\n";
-	cin >> temp.phonenumber;
-	if (findphonenumber(temp.phonenumber, users, totalusers)) {
+	cin >> temp.phoneNumber;
+	if (findphonenumber(temp.phoneNumber, users, totalusers)) {
 		cout << "phone number already used" << endl;
 		return false;
 	}
 
 	cout << "Enter your email:\n";
-	cin >> temp.useraccount.email;
+	cin >> temp.userAccount.email;
 
-	if (findemail(temp.useraccount.email, users, totalusers)) {
+	if (findemail(temp.userAccount.email, users, totalusers)) {
 		cout << "This email already exists!\n";
 		return false; 
 	}
 
 	cout << "Enter your password:\n";
-	cin >> temp.useraccount.password;
+	cin >> temp.userAccount.password;
 
-	temp.useraccount.accountnumber = (rand() % 100) + 5;
-	while (findaccountnum(temp.useraccount.accountnumber, users, totalusers)) {
-		temp.useraccount.accountnumber = (rand() % 100) + 5;
+	temp.userAccount.accountNumber = (rand() % 100) + 5;
+	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
+		temp.userAccount.accountNumber = (rand() % 100) + 5;
 	}
 	return true; 
 }
@@ -238,7 +238,7 @@ int signin(user users[], int totalusers) {
 	cin >> password;
 
 	for (int i = 0; i < totalusers; i++) {
-		if (users[i].useraccount.email == email && users[i].useraccount.password == password) {
+		if (users[i].userAccount.email == email && users[i].userAccount.password == password) {
 			cout << "Logged in successfully.\n";
 			return i; 
 		}

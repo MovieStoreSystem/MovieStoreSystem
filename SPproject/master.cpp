@@ -208,7 +208,7 @@ bool signup(user& temp, user users[], int& totalusers)
 	cout << "Enter your phone number:\n";
 	cin >> temp.phonenumber;
 	if (findphonenumber(temp.phonenumber, users, totalusers)) {
-		cout << "phone number already used" << endl;
+		cout << "phone number already used" << '\n';
 		return false;
 	}
 
@@ -246,3 +246,4 @@ int signin(user users[], int totalusers) {
 	cout << "This account doesn't exist.\n";
 	return -1; 
 }
+

@@ -52,12 +52,12 @@ int main() {
 	cin >> choice;
 	switch (choice)
 	{
-	case'1':
+	case '1':
 		signup(users[total_users], users, total_users);
 		logged_in_index = total_users;
 		total_users++;
 		break;
-	case'2':
+	case '2':
 		logged_in_index = signin(users, total_users);
 		if (logged_in_index == -1)
 			return 0;
@@ -72,7 +72,7 @@ int main() {
 		{
 			switch (employeermenu())
 			{
-			case'1':
+			case '1':
 				//
 				break;
 
@@ -110,7 +110,7 @@ int main() {
 		{
 			switch (customermenu())
 			{
-			case'1':
+			case '1':
 				//
 				break;
 

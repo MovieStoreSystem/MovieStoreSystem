@@ -48,14 +48,14 @@ int main() {
 				break;
 
 			case '4':
-				//
+				ListofDaysLeft();
 				break;
 
 			case '5':
 				//
 				break;
 			case '6':
-				//
+				Overdue_clients();
 				break;
 			case '7':
 				//
@@ -79,7 +79,7 @@ int main() {
 				break;
 
 			case '2':
-				//
+				Renting();
 				break;
 
 			case '3':
@@ -157,14 +157,13 @@ char employeermenu()
 	cout << "3.List all Movies\n";
 	cout << "4.List Customers\n";
 	cout << "5.Rental History\n";
-	cout << "6. Freeze/Unfreeze Customer Account\n";
+	cout << "6.Show Freezed Customers\n";
 	cout << "7. Edit Movie Information\n";
 	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
 	cin >> choice;
 	return choice;
 }
-
 
 bool findemail(string email, user users[], int& totalusers)
 {
@@ -179,7 +178,7 @@ bool findemail(string email, user users[], int& totalusers)
 bool findphonenumber(string phonenum, user users[], int& totalusers) {
 	{
 		for (int i = 0; i < totalusers; i++) {
-			if (phonenum == users[i].phoneNumber) {
+			if (phonenum == users[i].userAccount.phoneNumber) {
 				return true;
 			}
 		}
@@ -232,8 +231,8 @@ bool signup(user& temp, user users[], int& totalusers)
 	}
 
 	cout << "Enter your phone number:\n";
-	cin >> temp.phoneNumber;
-	if (findphonenumber(temp.phoneNumber, users, totalusers)) {
+	cin >> temp.userAccount.phoneNumber;
+	if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
 		cout << "phone number already used" << endl;
 		return false;
 	}
@@ -322,6 +321,7 @@ void outputToFile(user users[], int totalUsers)
 	}
 
 }
+
 /*
 void loadFromFile(user users[], int totalUsers, int userIndex)
 {
@@ -339,3 +339,80 @@ void loadFromFile(user users[], int totalUsers, int userIndex)
         
 	}
 }*/
+
+//function Is the year leap or not?
+bool isLeap(int year) {
+	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+// دالة بتحوّل التاريخ لعدد الأيام 
+int dateToDays(Date d) {
+	int days = d.year * 365 + d.day;
+
+	// نضيف الأيام بتاعت الشهور اللي فاتت في نفس السنة
+	for (int i = 0; i < d.month - 1; ++i) {
+		days += daysInMonth[i];
+	}
+
+	// لو السنة كبيسة و الشهر بعد فبراير، نضيف يوم
+	if (d.month > 2 && isLeap(d.year))
+		days += 1;
+
+	// نضيف عدد السنوات الكبيسة اللي فاتت
+	days += (d.year / 4) - (d.year / 100) + (d.year / 400);
+
+	return days;
+}
+
+// نحسب الفرق بين تاريخين
+int daysBetween(Date rentday, Date currentday) {
+	return abs(dateToDays(currentday) - dateToDays(rentday));
+}
+
+//function list of overdue clients
+void Overdue_clients() {
+	for (int i = 0, j = 0; i < 20; i++) {
+		int Number_of_days = 0;
+		Number_of_days = daysBetween(users[i].rentday, currentday);
+		if (Number_of_days > duedate) {
+			Overdue[j] = users[i];
+			users[i].frozen = true;
+			cout << users[i].userAccount.accountNumber << "." << users[i].userAccount.username << "\n";
+			j++;
+		}
+	};
+}
+
+void ListofDaysLeft() {
+	for (int i = 0;i < 20;i++) {
+		int Number_of_days = 0;
+		Number_of_days = daysBetween(users[i].rentday, currentday);
+		cout << "Number of days: " << Number_of_days << endl;
+	}
+}
+
+//if user want to rent movie (renting function)
+void Renting() {
+	int num;
+	cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT";
+	for (int i = 0; i < number_of_movies; i++) {
+		cout << i + 1 << ". " << movie[i].name_of_movie;
+	}
+	cout << "Enter a number of movie you want: ";
+	cin >> num;
+	if (num < 1 || num>number_of_movies) {
+		cout << "Invalid number!!!\n";
+	}
+	else {
+		for (int i = 0; i < number_of_movies; i++) {
+			if (num - 1 == i) {
+				if (movie[i].Quantity == 0)
+					cout << "Sorry,This movie is not available now ...\n";
+				else {
+					movie[i].Quantity - 1;
+					cout << "\t\trented successfully\n";
+				}
+			}
+		}
+	}
+}

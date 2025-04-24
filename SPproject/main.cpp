@@ -1,34 +1,8 @@
-﻿#include<iostream>
-#define duedate 7
+﻿#include "master.h"
+#include<iostream>
 using namespace std;
 
 
-struct Date {
-	int day;
-	int month;
-	int year;
-}currentday;
-
-
-struct CLIENT {
-	char name[50];
-	int ID;
-	string email;
-	int telephone_number;
-	Date rentday;
-
-}client[20], Overdue[20];
-
-struct MOVIES {
-	char name[50];
-	int ID;
-	int Quantity;
-
-}movie[10];
-
-
-//number of days of months if the year is not leap
-int daysInMonth[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 
 //function Is the year leap or not?
 bool isLeap(int year) {
@@ -62,11 +36,13 @@ int daysBetween(Date rentday, Date currentday) {
 //function list of overdue clients
 void Overdue_clients() {
 	for (int i = 0, int j = 0; i < 20; i++) {
-		int Number_of_days = daysBetween(client[i].rentday, currentday);
+		int Number_of_days = daysBetween(users[i].rentday, currentday);
 		cout << "Number of days: " << Number_of_days << endl;
 
 		if (Number_of_days > duedate) {
-			Overdue[j] = client[i];
+			Overdue[j] = users[i];
+			users[i].frozen = true;
+			cout << users[i].userAccount.accountNumber << "." << users[i].userAccount.username << "\n";
 			j++;
 		}
 	};
@@ -76,16 +52,16 @@ void Overdue_clients() {
 void Renting() {
 	int num;
 	cout << "            PLEASE CHOOSE MOVIE THAT YOU WANT TO RENT               ";
-	for (int i = 0; i < 10; i++) {
-		cout << i + 1 << ". " << movie[i].name;
+	for (int i = 0; i < number_of_movies; i++) {
+		cout << i + 1 << ". " << movie[i].name_of_movie;
 	}
 	cout << "Enter a number of movie you want: ";
 	cin >> num;
-	if (num < 1 || num>10) {
+	if (num < 1 || num>number_of_movies) {
 		cout << "Invalid number!!!\n";
 	}
 	else {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < number_of_movies; i++) {
 			if (num - 1 == i) {
 				if (movie[i].Quantity == 0)
 					cout << "Sorry,This movie is not available now ...\n";

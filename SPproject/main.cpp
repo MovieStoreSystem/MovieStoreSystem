@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-int main() {
+int main()jh \{
 	cout << "renting in movie store system:))";
 	return 0;
 }

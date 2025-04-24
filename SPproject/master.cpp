@@ -375,8 +375,8 @@ void Overdue_clients() {
 		int Number_of_days = 0;
 		Number_of_days = daysBetween(users[i].rentday, currentday);
 		if (Number_of_days > duedate) {
-			Overdue[j] = users[i];
 			users[i].frozen = true;
+			Overdue[j] = users[i];
 			cout << users[i].userAccount.accountNumber << "." << users[i].userAccount.username << "\n";
 			j++;
 		}

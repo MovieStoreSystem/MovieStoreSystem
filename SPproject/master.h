@@ -66,3 +66,4 @@ int daysBetween(Date rentday, Date currentday);
 void Overdue_clients();
 void ListofDaysLeft();
 void Renting();
+void MostandLeastRentedMovies();

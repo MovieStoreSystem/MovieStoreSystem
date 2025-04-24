@@ -52,7 +52,7 @@ int main() {
 				break;
 
 			case '5':
-				//
+				MostandLeastRentedMovies();
 				break;
 			case '6':
 				Overdue_clients();
@@ -76,6 +76,7 @@ int main() {
 			{
 			case '1':
 				//
+				MostandLeastRentedMovies();
 				break;
 
 			case '2':
@@ -156,15 +157,16 @@ char employeermenu()
 	cout << "2.Remove a Movie\n";
 	cout << "3.List all Movies\n";
 	cout << "4.List Customers\n";
-	cout << "5.Rental History\n";
+	cout << "5.Most rented movies\n";
 	cout << "6.Show Freezed Customers\n";
-	cout << "7. Edit Movie Information\n";
+	cout << "7.Edit Movie Information\n";
 	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
 	cin >> choice;
 	return choice;
 }
 
+// Functions for checking the true identity
 bool findemail(string email, user users[], int& totalusers)
 {
 	for (int i = 0; i < totalusers; i++) {
@@ -174,7 +176,6 @@ bool findemail(string email, user users[], int& totalusers)
 	}
 	return false;
 }
-
 bool findphonenumber(string phonenum, user users[], int& totalusers) {
 	{
 		for (int i = 0; i < totalusers; i++) {
@@ -185,7 +186,6 @@ bool findphonenumber(string phonenum, user users[], int& totalusers) {
 		return false;
 	}
 }
-
 bool findaccountnum(int accountnum, user users[], int& totalusers) {
 	{
 		for (int i = 0; i < totalusers; i++) {
@@ -196,7 +196,6 @@ bool findaccountnum(int accountnum, user users[], int& totalusers) {
 		return false;
 	}
 }
-
 bool findtrueinfo(string email, string password, user users[], int& totalusers) {
 	for (int i = 0;i < totalusers;i++) {
 		if (email == users[i].userAccount.email && password == users[i].userAccount.password)
@@ -205,6 +204,7 @@ bool findtrueinfo(string email, string password, user users[], int& totalusers) 
 	return false;
 }
 
+// Signing
 bool signup(user& temp, user users[], int& totalusers)
 {
 	char role;
@@ -254,7 +254,6 @@ bool signup(user& temp, user users[], int& totalusers)
 	}
 	return true;
 }
-
 int signin(user users[], int totalusers) {
 	string email, password;
 	cout << "Enter your email: ";
@@ -273,6 +272,7 @@ int signin(user users[], int totalusers) {
 	return -1;
 }
 
+// Rating Movies
 void movierate(movieinfo movie[]) {
 	string title;
 	int temp_rate;
@@ -410,9 +410,28 @@ void Renting() {
 					cout << "Sorry,This movie is not available now ...\n";
 				else {
 					movie[i].Quantity - 1;
+					movie[i].rentingCount++;
 					cout << "\t\trented successfully\n";
 				}
 			}
 		}
 	}
+}
+
+void MostandLeastRentedMovies() {
+	int maxrented = movie[0].rentingCount;
+	int minrented = movie[0].rentingCount;
+	int maxindex = 0, minindex = 0;
+	for (int i = 1;i < number_of_movies;i++) {
+		if (movie[i].rentingCount > maxrented) {
+			maxrented = movie[i].rentingCount;
+			maxindex = i;
+		}
+		else if (movie[i].rentingCount < minrented) {
+			minrented = movie[i].rentingCount;
+			minindex=i;
+		}
+	}
+	cout << "The maximum rented movie is " << movie[maxindex].name_of_movie 
+		<< " and the min rented movie is "<< movie[minindex].name_of_movie;
 }

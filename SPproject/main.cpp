@@ -3,6 +3,7 @@ using namespace std;
 struct movies {
 	string name[100];
 	char avlb;
+	int count;
 };
 void rentcount(int count)
 {
@@ -15,9 +16,17 @@ void name(int count, string m[])
 		cin >> m[i];
 
 }
-void av(char avlb, string m[])
+void av(int count ,char avlb, string m[])
 {
-
+	movies v;
+	for (int i = 0;i < count;i++)
+	{
+		if (m[i] == v.name[i])
+			cout << "This movie is available in our websit" << '\n';
+		else
+			cout << "this movie is unavailable in our websit" << '\n';
+	}
+	
 }
 void main()
 {
@@ -28,6 +37,6 @@ void main()
 	cout << "Enter the count of movies you want to rent" << '\n';
 	cin >> count;
 	name(count, names);
-	av(avlb, names);
+	av(count ,avlb, names);
 	
 }

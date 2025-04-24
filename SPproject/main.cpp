@@ -1,11 +1,28 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-int main() {
+struct movies {
+	string name[100];
+	char avlb;
+};
+void rentcount(int count)
+{
+	count++;
+}
+void name(int count, string m[])
+{
+	cout << "Enter the movie name" << '\n';
+	for (int i = 0;i < count;i++)
+		cin >> m[i];
 
-	int x, y;
-	cout << "hi sara, I am sara version 2 \n";
-	cout << "the sum is: " << x + y << "\n";
-	cout << "the division is: " << x / y<<"\n";
-	cout << "happy eid 2025\n";
-	return 0;
+}
+void main()
+{
+	movies m;
+	string names[100];
+	char avlb;
+	int count;
+	cout << "Enter the count of movies you want to rent" << '\n';
+	cin >> count;
+	name(count, names);
+
 }

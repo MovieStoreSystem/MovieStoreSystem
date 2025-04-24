@@ -1,57 +1,16 @@
-﻿#include <iostream>
-#include<string>
+﻿#include "master.h"
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <iostream>
 using namespace std;
 
-//structs and variables
-const int number_of_movies = 20;
-struct accountinfo
-{
-	string username;
-	string email;
-	string password;
-	int movieNumber = 0;
-	int accountNumber = 0;
-};
-
-struct user
-{
-	accountinfo userAccount;
-	int age = 0;
-	string phoneNumber;
-	string rentedMovies[10];
-	bool frozen = false;
-	bool isEmployee = false;
-};
-
-struct movieinfo {
-	string name_of_movie;
-	float price = 0;
-	int rentingCount = 0;
-	float average_rate = 0;
-	int final_score_of_movie = 0;
-	int total_ratings = 0;
-}movie[number_of_movies];
-
-//functions
-char customermenu();
-char employeermenu();
-bool findemail(string email, user users[], int& totalusers);
-bool findphonenumber(string phonenum, user users[], int& totalusers);
-bool findaccountnum(int accountnum, user users[], int& totalusers);
-bool findtrueinfo(string email, string password, user users[], int& totalusers);
-int signin(user users[], int totalusers);
-bool signup(user& temp, user users[], int& totalusers);
-void movierate(movieinfo movies[]);
-void outputToFile(user users[], int totalUsers);
-
-
-
 int main() {
+
 	int total_users = 0, logged_in_index = -1;
 	char ch = 'y', choice;
 	user users[20];
+
 	cout << "1.Sign up \n2.Sign in\n";
 	cin >> choice;
 	switch (choice)
@@ -70,7 +29,6 @@ int main() {
 		cout << "invalid choice";
 		break;
 	}
-	bool isExiting{ false };
 	do {
 
 		if (users[logged_in_index].isEmployee)
@@ -105,7 +63,7 @@ int main() {
 
 			case '8':
 				cout << "Exiting :)\n";
-				isExiting = true;
+				ch = 'n';
 				break;
 			default:
 				cout << "Sorry, Invalid choice!";
@@ -146,7 +104,7 @@ int main() {
 
 			case '8':
 				cout << "Exiting :)\n";
-				isExiting = true;
+				ch = 'n';
 				break;
 
 			default:
@@ -155,15 +113,18 @@ int main() {
 			}
 		}
 
-		if (isExiting)
-		{
-			ch = 'n';
-		}
-		else if (!isExiting) {
+
+		if (ch != 'n') {
 			cout << "Do you want to continue(y/n)\n";
 			cin >> ch;
 		}
 	} while (ch == 'y' || ch == 'Y');
+
+	/*
+	for (int i{ 0 }; i < total_users; i++)
+	{
+		loadFromFile(users, total_users, i);
+	}*/
 
 	outputToFile(users, total_users);
 
@@ -351,9 +312,9 @@ void outputToFile(user users[], int totalUsers)
 		{
 			outFile << users[i].userAccount.accountNumber << '|'
 				<< users[i].userAccount.username << '|'; //output user ID & username to file
-			for (int i{ 0 }, j{ 0 }; i < users[i].userAccount.movieNumber; i++) //output rented movies to file 
+			for (int j{ 0 }; i < users[i].userAccount.movieNumber; j++) //output rented movies to file 
 			{
-				outFile << users[i].rentedMovies[j++] << '|';
+				outFile << users[i].rentedMovies[j] << '|';
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
 		}
@@ -361,3 +322,20 @@ void outputToFile(user users[], int totalUsers)
 	}
 
 }
+/*
+void loadFromFile(user users[], int totalUsers, int userIndex)
+{
+	string line{}, id{}, username{}, frozen{};
+	ifstream myFile("savedData.txt");
+	while (getline(myFile, line))
+	{
+		stringstream ssLine(line);
+		getline(ssLine, id, '|');
+		getline(ssLine, users[userIndex].userAccount.username, '|');
+		getline(ssLine, frozen, '|');
+
+		users[userIndex].userAccount.accountNumber = stoi(id);
+		users[userIndex].frozen = (frozen == "true") ? true : false;
+        
+	}
+}*/

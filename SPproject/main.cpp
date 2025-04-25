@@ -2,8 +2,6 @@
 #include<iostream>
 using namespace std;
 
-int totalnumofmovies = 0;
-
 //function Is the year leap or not?
 bool isLeap(int year) {
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);

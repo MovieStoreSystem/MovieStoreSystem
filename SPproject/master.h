@@ -1,15 +1,14 @@
 #pragma once
 #include <string>
-#define duedate 7
 using namespace std;
 
-//structs and variables!
-
+//Variables!
+const int duedate = 7;
 const int number_of_movies = 20;
 //number of days of months if the year is not leap
 int daysInMonth[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 
-
+//Stucts
 struct Date {
 	int day;
 	int month;
@@ -58,7 +57,8 @@ int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);
 void movierate(movieinfo movies[]);
 void outputToFile(user users[], int totalUsers);
-void loadFromFile(user users[], int totalUsers, int userIndex);
+//void loadFromFile(user users[], int totalUsers, int userIndex);
+
 //RentingSystem
 bool isLeap(int year);
 int dateToDays(Date d);
@@ -66,4 +66,4 @@ int daysBetween(Date rentday, Date currentday);
 void Overdue_clients();
 void ListofDaysLeft();
 void Renting();
-void MostandLeastRentedMovies();
+void sortMoviesByCount();

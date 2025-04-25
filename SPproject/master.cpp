@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 int main() {
@@ -52,7 +53,7 @@ int main() {
 				break;
 
 			case '5':
-				MostandLeastRentedMovies();
+				sortMoviesByCount();
 				break;
 			case '6':
 				Overdue_clients();
@@ -76,7 +77,7 @@ int main() {
 			{
 			case '1':
 				//
-				MostandLeastRentedMovies();
+				sortMoviesByCount();
 				break;
 
 			case '2':
@@ -418,20 +419,21 @@ void Renting() {
 	}
 }
 
-void MostandLeastRentedMovies() {
-	int maxrented = movie[0].rentingCount;
-	int minrented = movie[0].rentingCount;
-	int maxindex = 0, minindex = 0;
-	for (int i = 1;i < number_of_movies;i++) {
-		if (movie[i].rentingCount > maxrented) {
-			maxrented = movie[i].rentingCount;
-			maxindex = i;
-		}
-		else if (movie[i].rentingCount < minrented) {
-			minrented = movie[i].rentingCount;
-			minindex=i;
+void sortMoviesByCount() {
+	// ترتيب بالأكبر count
+	for (int i = 0; i < number_of_movies - 1; i++) {
+		for (int j = i + 1; j < number_of_movies; j++) {
+			if (movie[i].rentingCount < movie[j].rentingCount) {
+				// تبادل العناصر
+				swap(movie[i], movie[j]);
+			}
 		}
 	}
-	cout << "The maximum rented movie is " << movie[maxindex].name_of_movie 
-		<< " and the min rented movie is "<< movie[minindex].name_of_movie;
+}
+
+void displayMovies() {
+	for (int i = 0; i < number_of_movies; i++) {
+		cout << movie[i].name_of_movie << " - Rentals: " << movie[i].rentingCount << endl;
+	}
+
 }

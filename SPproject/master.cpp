@@ -311,7 +311,10 @@ void outputToFile(user users[], int totalUsers)
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
 			outFile << users[i].userAccount.accountNumber << '|'
-				<< users[i].userAccount.username << '|'; //output user ID & username to file
+				<< users[i].userAccount.username << '|' //output user ID & username to file
+				<< users[i].userAccount.email << '|'
+				<< users[i].userAccount.phoneNumber << '|';
+
 			for (int j{ 0 }; i < users[i].userAccount.movieNumber; j++) //output rented movies to file 
 			{
 				outFile << users[i].rentedMovies[j] << '|';

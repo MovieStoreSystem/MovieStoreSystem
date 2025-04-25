@@ -37,7 +37,7 @@ int main() {
 			switch (employeermenu())
 			{
 			case '1':
-				//
+				moviemanagment();
 				break;
 
 			case '2':
@@ -497,4 +497,31 @@ void displayMovies() {
 		cout << movie[i].name_of_movie;
 		cout << endl;
 	}
+}
+
+//Menna
+void addingMovies(int count)
+{
+	for (int i = 0;i < count;i++) {
+		cout << "Enter the movie name\n";
+		cin >> movie[totalnumofmovies].name_of_movie;
+		totalnumofmovies++;
+	}
+}
+void addcount(int count)
+{
+	for (int i = 0;i < count;i++)
+	{
+		cout << "Enter the count of the movie" << '\n';
+		cin >> movie[totalnumofmovies].Quantity;
+		totalnumofmovies++;
+	}
+}
+void moviemanagment()
+{
+	int count;
+	cout << "Enter the count of movies you want to input\n";
+	cin >> count;
+	addingMovies(count);
+	addcount(count);
 }

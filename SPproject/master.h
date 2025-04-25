@@ -86,6 +86,7 @@ void moviemanagment();
 //display
 void displayCustomers();
 void displayMovies();
+void displayRentedMovies();
 
 void addingMovies(int count);
 void moviemanagment();

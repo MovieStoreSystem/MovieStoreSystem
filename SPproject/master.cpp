@@ -96,7 +96,7 @@ int main() {
 				break;
 
 			case '3':
-				//
+				returnfees();
 				break;
 
 			case '4':
@@ -112,7 +112,7 @@ int main() {
 				break;
 
 			case '7':
-				//
+				displayRentedMovies();
 				break;
 
 			case '8':
@@ -145,11 +145,11 @@ char customermenu()
 	cout << "\t\tWelcome to our Movie Store\n";
 	cout << "1.View Movies\n";
 	cout << "2.Rent a Movie\n";
-	cout << "3.Return a Movie\n";  //Missing
+	cout << "3.Return a Movie\n";  
 	cout << "4.Rental History\n";  //Missing
 	cout << "5.View Account Information\n";  //Missing
 	cout << "6.Rate a Movie / Leave a Review\n";  
-	cout << "7.View Currently Rented Movies\n";  //Missing
+	cout << "7.View Currently Rented Movies\n";  
 	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
 	cin >> choice;
@@ -477,6 +477,14 @@ void displayMovies() {
 	{
 		cout << movie[i].name_of_movie;
 		cout << endl;
+	}
+}
+
+void displayRentedMovies() {
+	for (int i = 0; i < totalnumofmovies; i++) 
+	{
+		if (users[logged_in_index].usersmovie[i].rentingCount>0)
+			cout << movie[i].name_of_movie << "\n";
 	}
 }
 

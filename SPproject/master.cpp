@@ -229,16 +229,21 @@ bool signup(user& temp, user users[], int& totalusers)
 	cin.ignore();
 	getline(cin, temp.userAccount.username);
 
-	cout << "Enter your age:\n";
-	cin >> temp.age;
-	if (cin.fail()) {
-		cout << "The age must be an integer number\n";
-		cin.clear(); 
-		return -1;
-	}
-	if (temp.age < 16) {
-		cout << "Invalid age:)\n";
-		return false;
+	while (true) {
+		cout << "Enter your age:\n";
+		cin >> temp.age;
+		if (cin.fail()) {
+			cout << "The age must be an integer number\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+			return -1;
+		}
+		else if (temp.age < 16) {
+			cout << "Invalid age:)\n";
+			return false;
+		}
+		else
+			break;
 	}
 
 	cout << "Enter your phone number:\n";

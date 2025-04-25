@@ -64,7 +64,8 @@ int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);
 void movierate(movieinfo movies[]);
 void outputToFile(user users[], int totalUsers);
-//void loadFromFile(user users[], int totalUsers, int userIndex);
+void loadFromFile(user users[], int userIndex, int& totalUsers);
+int getNumberOfUsersFromFile();
 
 //Renting and ReturnSystems
 bool isLeap(int year);

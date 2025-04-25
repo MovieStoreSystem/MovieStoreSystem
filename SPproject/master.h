@@ -91,3 +91,4 @@ void returnfees();
 
 void Rentday(int index);
 void Currentday(int index);
+void ViewAccountInfo();

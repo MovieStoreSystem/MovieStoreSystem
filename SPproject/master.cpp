@@ -15,7 +15,7 @@ int main() {
 	{
 		loadFromFile(users, i, total_users);
 	}
-	int total_users = 0;
+	
 	int logged_in_index = -1;
 	char ch = 'y', choice;
 
@@ -104,7 +104,7 @@ int main() {
 				break;
 
 			case '5':
-				//
+				ViewAccountInfo();
 				break;
 
 			case '6':
@@ -147,7 +147,7 @@ char customermenu()
 	cout << "2.Rent a Movie\n";
 	cout << "3.Return a Movie\n";  
 	cout << "4.Rental History\n";  //Missing
-	cout << "5.View Account Information\n";  //Missing
+	cout << "5.View Account Information\n";  
 	cout << "6.Rate a Movie / Leave a Review\n";  
 	cout << "7.View Currently Rented Movies\n";  
 	cout << "8.Exit\n";
@@ -422,11 +422,11 @@ void ListofDaysLeft() {
 //if user want to rent movie (renting function)
 void Renting() {
 	int num;
-	cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT";
+	cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT\n";
 	for (int i = 0; i < number_of_movies; i++) {
-		cout << i + 1 << "." << movie[i].name_of_movie;
+		cout << i + 1 << "." << movie[i].name_of_movie << endl;
 	}
-	cout << "Enter a number of movie you want: ";
+	cout << "Enter a number of movie you want: \n";
 	cin >> num;
 	if (num < 1 || num>number_of_movies) {
 		cout << "Invalid number!!!\n";
@@ -572,4 +572,21 @@ void Currentday(int index) {
 	cin >> users[logged_in_index].usersmovie[index].currentday.month;
 	cout << "Enter the current year\n";
 	cin >> users[logged_in_index].usersmovie[index].currentday.year;
+}
+
+void ViewAccountInfo() {
+	cout << "Username:\t" << users[logged_in_index].userAccount.username << "\n";
+	cout << "Email:\t" << users[logged_in_index].userAccount.email << "\n";
+	cout << "Password:\t" << users[logged_in_index].userAccount.password << "\n";
+	cout << "PhoneNumber:\t" << users[logged_in_index].userAccount.phoneNumber << "\n";
+	if (users[logged_in_index].frozen) {
+		cout << "Your account is blocked\n";
+	}
+	else cout << "Your account is not blocked\n";
+}
+void EditMovieInfo() {
+	int tempindex;
+	displayMovies();
+	cin >> tempindex;
+	cout<<""
 }

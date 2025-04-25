@@ -2,7 +2,7 @@
 #include<iostream>
 using namespace std;
 
-
+int totalnumofmovies = 0;
 
 //function Is the year leap or not?
 bool isLeap(int year) {
@@ -127,3 +127,51 @@ int main()
 	return 0;
 }
 
+//SARA
+void availability(int count)
+{
+	for (int i = 0;i < count;i++) {
+		int amount = 0;
+		cout << "Enter the quantity of " << movie[totalnumofmovies].name_of_movie << " you want to add";
+		cin >> amount;
+		movie[totalnumofmovies].Quantity += amount;
+	}
+
+}
+
+void rentcount(int count)
+{
+	for (int j = 0;j < count; j++)
+	{
+		count = 0;
+		cout << "Enter the amount of " << movie[totalnumofmovies].Quantity;
+		cin >> count;
+		movie[totalnumofmovies].Quantity += count;
+		totalnumofmovies++
+	}
+}
+void name(int count)
+{
+	for (int i = 0;i < count;i++) {
+		cout << "Enter the movie name of movie number " << totalnumofmovies + 1 << "\n";
+		cin.ignore();
+		getline(cin, movie[i].name_of_movie);
+	}
+}
+
+void moviemanagment()
+{
+	// movie[number_of_movies] globlal variable
+	// string names[100]; names of movies are already included in the struct
+	// char avlb; i don't see why we need it
+
+	int count = 0;
+	cout << "Enter the count of movies you want to add" << '\n';
+	cin >> count;
+	name(count); // to add the movie names
+	av(count); // to add the quantities of each movie;
+	rentcount(count, names);
+	totalnumofmovies += count;
+	if (totalnumofmovies <= 20)
+		cout << "We have reached the maximum amount of movies\n";
+}

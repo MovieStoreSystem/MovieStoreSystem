@@ -59,7 +59,7 @@ void movierate(movieinfo movies[]);
 void outputToFile(user users[], int totalUsers);
 //void loadFromFile(user users[], int totalUsers, int userIndex);
 
-//RentingSystem
+//Renting and ReturnSystems
 bool isLeap(int year);
 int dateToDays(Date d);
 int daysBetween(Date rentday, Date currentday);
@@ -67,3 +67,5 @@ void Overdue_clients();
 void ListofDaysLeft();
 void Renting();
 void sortMoviesByCount();
+int Days_Between(Date Return_Date, Date Due_Day);
+double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);

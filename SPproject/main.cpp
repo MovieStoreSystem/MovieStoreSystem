@@ -77,6 +77,15 @@ void Renting() {
 
 // Nejar 
 
+int Days_Between(Date Return_Date, Date Due_Day)
+{
+	return (Date_to_days(Due_Day) - Date_to_days(Return_Date));
+}
+int DaysBetween(Date Rent_Day, Date Due_Day)
+{
+	return  (Date_to_days(Due_Day) - Date_to_days(Rent_Day));
+}
+
 double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
 {
 	double fees = total_days * price_of_day;

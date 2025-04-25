@@ -70,3 +70,8 @@ void Renting();
 void sortMoviesByCount();
 int Days_Between(Date Return_Date, Date Due_Day);
 double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
+
+void availability(int count);
+void rentcount(int count);
+void name(int count);
+void moviemanagment();

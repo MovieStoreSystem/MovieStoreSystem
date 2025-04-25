@@ -15,7 +15,7 @@ int main() {
 	{
 		loadFromFile(users, i, total_users);
 	}
-
+	int total_users = 0;
 	int logged_in_index = -1;
 	char ch = 'y', choice;
 
@@ -424,7 +424,7 @@ void Renting() {
 	int num;
 	cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT";
 	for (int i = 0; i < number_of_movies; i++) {
-		cout << i + 1 << ". " << movie[i].name_of_movie;
+		cout << i + 1 << "." << movie[i].name_of_movie;
 	}
 	cout << "Enter a number of movie you want: ";
 	cin >> num;
@@ -437,7 +437,7 @@ void Renting() {
 				if (movie[i].Quantity == 0)
 					cout << "Sorry,This movie is not available now ...\n";
 				else {
-					movie[i].Quantity - 1;
+					movie[i].Quantity --;
 					movie[i].rentingCount++;
 					Rentday(i);
 					cout << "\t\trented successfully\n";
@@ -493,7 +493,8 @@ void addingMovies(int count)
 {
 	for (int i = 0;i < count;i++) {
 		cout << "Enter the movie name:\n";
-		cin >> movie[totalnumofmovies].name_of_movie;
+		cin.ignore();
+		getline(cin, movie[totalnumofmovies].name_of_movie);
 		cout << "Enter the price of the movie for a day:\n";
 		cin >> movie[totalnumofmovies].price;
 		cout << "Enter the overdue price of the movie:\n";
@@ -503,7 +504,6 @@ void addingMovies(int count)
 		totalnumofmovies++;
 	}
 }
-
 void moviemanagment()
 {
 	int count;
@@ -511,7 +511,7 @@ void moviemanagment()
 	cin >> count;
 	addingMovies(count);
 }
-
+//Nejar
 double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
 {
 	double fees = total_days * price_of_day;
@@ -523,7 +523,6 @@ double rental_fees(int total_days, float price_of_day, int overdue_days, int ove
 	else
 		return fees;
 }
-
 void returnfees() {
 	Date Rent_Day = { 1, 1, 2024 };
 	Date Due_Day = { 23, 4, 2025 };

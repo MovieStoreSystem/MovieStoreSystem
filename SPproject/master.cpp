@@ -362,7 +362,10 @@ void loadFromFile(user users[])
 	{
 		stringstream ssLine(line);
 
-		getline(ssLine, value, '|');
+		if (currentIndex == 0)
+		{
+			getline(ssLine, value, '|');
+		}
 		//users[currentIndex].userAccount.accountNumber = stoi(value);
 
 		getline(ssLine, users[currentIndex].userAccount.username, '|');
@@ -592,9 +595,10 @@ void ViewAccountInfo() {
 	}
 	else cout << "Your account is not blocked\n";
 }
+/*
 void EditMovieInfo() {
 	int tempindex;
 	displayMovies();
 	cin >> tempindex;
 	cout<<""
-}
+}*/

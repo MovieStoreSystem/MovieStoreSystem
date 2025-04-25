@@ -234,8 +234,7 @@ bool signup(user& temp, user users[], int& totalusers)
 	if (cin.fail()) {
 		cout << "The age must be an integer number\n";
 		cin.clear(); 
-		cin.ignore(10000, '\n');
-		return false;
+		return -1;
 	}
 	if (temp.age < 16) {
 		cout << "Invalid age:)\n";

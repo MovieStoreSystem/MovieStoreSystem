@@ -44,7 +44,6 @@ struct user
 	accountinfo userAccount;
 	int age = 0;
 	string rentedMovies[10];
-	Date rentday, currentday;
 	bool frozen = false;
 	bool isEmployee = false;
 	movieinfo usersmovie[number_of_movies];

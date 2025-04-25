@@ -234,7 +234,12 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	cout << "Enter your age:\n";
 	cin >> temp.age;
-
+	if (cin.fail()) {
+		cout << "The age must be an integer number\n";
+		cin.clear(); 
+		cin.ignore(10000, '\n');
+		return false;
+	}
 	if (temp.age < 16) {
 		cout << "Invalid age:)\n";
 		return false;
@@ -595,8 +600,7 @@ void ViewAccountInfo() {
 	}
 	else cout << "Your account is not blocked\n";
 }
-/*
-void EditMovieInfo() {
+/*void EditMovieInfo() {
 	int tempindex;
 	displayMovies();
 	cin >> tempindex;

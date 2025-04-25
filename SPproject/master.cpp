@@ -9,11 +9,14 @@ using namespace std;
 int main() {
 
 
-	int total_users{getNumberOfUsersFromFile()};
+	int total_users{ getNumberOfUsersFromFile() };
 
-	for (int i{ 0 }; i < total_users; i++)
+	if (total_users != 0)
 	{
-		loadFromFile(users, i, total_users);
+		for (int i{ 0 }; i < total_users; i++)
+		{
+			loadFromFile(users);
+		}
 	}
 	
 	int logged_in_index = -1;
@@ -320,23 +323,25 @@ void movierate(movieinfo movie[]) {
 
 void outputToFile(user users[], int totalUsers)
 {
-	ofstream outFile("savedData.txt", ios::app);
-	while (outFile.is_open())
+	ofstream outFile("savedData.txt");
+    outFile << totalUsers << '|';
+
+	if (outFile.is_open())
 	{
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
-			outFile << totalUsers << '|'
-				<< users[i].userAccount.accountNumber << '|'
+			outFile 
+				// << users[i].userAccount.accountNumber << '|'
 				<< users[i].userAccount.username << '|' //output user ID & username to file
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|';
-
-			for (int j{ 0 }; i < users[i].userAccount.movieNumber; j++) //output rented movies to file 
+			/*
+			for (int j{ 0 }; j < users[i].userAccount.movieNumber; j++) //output rented movies to file 
 			{
 				outFile << users[i].rentedMovies[j] << '|';
-			}
-			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
+			}*/
+			outFile << boolalpha << users[i].frozen << '\n'; //output frozen status to file
 		}
 		outFile.close();
 	}
@@ -345,35 +350,41 @@ void outputToFile(user users[], int totalUsers)
 
 int getNumberOfUsersFromFile()
 {
-	string line{}, nUsers{};
+	string nUsers{};
 	ifstream myFile("savedData.txt");
-	while (getline(myFile, line))
-	{
-		stringstream ssLine(line);
-		getline(ssLine, nUsers, '|');
+	if (!myFile) return 0;
 
-	}
-	return stoi(nUsers);
+	getline(myFile, nUsers, '\n');
+	if (myFile.eof())
+		return 0;
+	else
+        return stoi(nUsers);
 }
 
-void loadFromFile(user users[], int userIndex, int& totalUsers)
+void loadFromFile(user users[])
 {
-	string line{}, nUsers{}, id{}, frozen{};
+	string line{}, value{};
 	ifstream myFile("savedData.txt");
-	while (getline(myFile, line))
+
+	int currentIndex{ 0 };
+	while(getline(myFile, line))
 	{
 		stringstream ssLine(line);
-		getline(ssLine, nUsers, '|');
-		getline(ssLine, id, '|');
-		getline(ssLine, users[userIndex].userAccount.username, '|');
-		getline(ssLine, users[userIndex].userAccount.phoneNumber, '|');
-		getline(ssLine, users[userIndex].userAccount.email, '|');
-		getline(ssLine, users[userIndex].userAccount.password, '|');
-		getline(ssLine, frozen, '|');
 
-		totalUsers = stoi(nUsers);
-		users[userIndex].userAccount.accountNumber = stoi(id);
-		users[userIndex].frozen = (frozen == "true") ? true : false;
+		if (currentIndex == 0)
+		{
+			getline(ssLine, value, '|');
+		}
+		//users[currentIndex].userAccount.accountNumber = stoi(value);
+
+		getline(ssLine, users[currentIndex].userAccount.username, '|');
+		getline(ssLine, users[currentIndex].userAccount.phoneNumber, '|');
+		getline(ssLine, users[currentIndex].userAccount.email, '|');
+		getline(ssLine, users[currentIndex].userAccount.password, '|');
+		
+		getline(ssLine, value, '|');
+		users[currentIndex].frozen = (value == "true") ? true : false;
+		currentIndex++;
 	}
 }
 

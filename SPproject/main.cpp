@@ -173,3 +173,29 @@ void moviemanagment()
 	if (totalnumofmovies <= 20)
 		cout << "We have reached the maximum amount of movies\n";
 }
+
+void addingMovies(int count)
+{
+	for (int i = 0;i < count;i++) {
+		cout << "Enter the movie name\n";
+		cin >> movie.name_of_movie[totalnumofmovies];
+		totalnumofmovies++;
+	}
+}
+void addcount(int count)
+{
+	for (int i = 0;i < count;i++)
+	{
+		cout << "Enter the count of the movie" << '\n';
+		cin >> movie[totalnumofmovies].Quantity;
+		totalnumofmovies++;
+	}
+}
+void moviemanagment()
+{
+	int count;
+	cout << "Enter the count of movies you want to input\n";
+	cin >> count;
+	name(count);
+	addcount(count);
+}

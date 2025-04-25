@@ -47,7 +47,7 @@ int main() {
 			switch (employeermenu())
 			{
 			case '1':
-				//
+				moviemanagment();
 				break;
 
 			case '2':
@@ -55,10 +55,11 @@ int main() {
 				break;
 
 			case '3':
-				//
+				displayMovies();
 				break;
 
 			case '4':
+				displayCustomers();
 				ListofDaysLeft();
 				break;
 
@@ -86,7 +87,7 @@ int main() {
 			switch (customermenu())
 			{
 			case '1':
-				//
+				displayMovies();
 				sortMoviesByCount();
 				break;
 
@@ -144,11 +145,11 @@ char customermenu()
 	cout << "\t\tWelcome to our Movie Store\n";
 	cout << "1.View Movies\n";
 	cout << "2.Rent a Movie\n";
-	cout << "3.Return a Movie\n";
-	cout << "4.Rental History\n";
-	cout << "5. View Account Information\n";
-	cout << "6. Rate a Movie / Leave a Review\n";
-	cout << "7.View Currently Rented Movies\n";
+	cout << "3.Return a Movie\n";  //Missing
+	cout << "4.Rental History\n";  //Missing
+	cout << "5. View Account Information\n";  //Missing
+	cout << "6. Rate a Movie / Leave a Review\n";  
+	cout << "7.View Currently Rented Movies\n";  //Missing
 	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
 	cin >> choice;
@@ -160,12 +161,12 @@ char employeermenu()
 	char choice;
 	cout << "\t\tWelcome to our Movie Store\n";
 	cout << "1.Add a Movie\n";
-	cout << "2.Remove a Movie\n";
+	cout << "2.Remove a Movie\n"; // Missing
 	cout << "3.List all Movies\n";
 	cout << "4.List Customers\n";
 	cout << "5.Most rented movies\n";
 	cout << "6.Show Freezed Customers\n";
-	cout << "7.Edit Movie Information\n";
+	cout << "7.Edit Movie Information\n";  //Missing
 	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
 	cin >> choice;
@@ -455,15 +456,10 @@ void sortMoviesByCount() {
 			}
 		}
 	}
-}
-
-void displayMovies() {
 	for (int i = 0; i < number_of_movies; i++) {
 		cout << movie[i].name_of_movie << " - Rentals: " << movie[i].rentingCount << endl;
 	}
-
 }
-
 
 void availability(int count)
 {
@@ -511,4 +507,47 @@ void moviemanagment()
 	totalnumofmovies += count;
 	if (totalnumofmovies <= 20)
 		cout << "We have reached the maximum amount of movies\n";
+}
+// Displaying information
+void displayCustomers() {
+	for (int i = 0; i < 20; i++)
+	{
+		cout << users[i].userAccount.accountNumber << '\t';
+		cout << users[i].userAccount.username << '\n';
+	}
+}
+
+void displayMovies() {
+	for (int i = 0; i < totalnumofmovies; i++)
+	{
+		cout << movie[i].name_of_movie;
+		cout << endl;
+	}
+}
+
+//Menna
+void addingMovies(int count)
+{
+	for (int i = 0;i < count;i++) {
+		cout << "Enter the movie name\n";
+		cin >> movie[totalnumofmovies].name_of_movie;
+		totalnumofmovies++;
+	}
+}
+void addcount(int count)
+{
+	for (int i = 0;i < count;i++)
+	{
+		cout << "Enter the count of the movie" << '\n';
+		cin >> movie[totalnumofmovies].Quantity;
+		totalnumofmovies++;
+	}
+}
+void moviemanagment()
+{
+	int count;
+	cout << "Enter the count of movies you want to input\n";
+	cin >> count;
+	addingMovies(count);
+	addcount(count);
 }

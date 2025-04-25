@@ -76,3 +76,11 @@ void availability(int count);
 void rentcount(int count);
 void name(int count);
 void moviemanagment();
+
+//display
+void displayCustomers();
+void displayMovies();
+
+void addingMovies(int count);
+void addcount(int count);
+void moviemanagment();

@@ -1,19 +1,29 @@
 ﻿#include "master.h"
+#include <cmath>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 int main() {
 
-	int total_users = 0, logged_in_index = -1;
+
+	int total_users{getNumberOfUsersFromFile()};
+
+	for (int i{ 0 }; i < total_users; i++)
+	{
+		loadFromFile(users, i, total_users);
+	}
+
+	int logged_in_index = -1;
 	char ch = 'y', choice;
-	user users[20];
 
 	cout << "1.Sign up \n2.Sign in\n";
 	cin >> choice;
+	
+
+	
 	switch (choice)
 	{
 	case '1':
@@ -122,11 +132,6 @@ int main() {
 		}
 	} while (ch == 'y' || ch == 'Y');
 
-	/*
-	for (int i{ 0 }; i < total_users; i++)
-	{
-		loadFromFile(users, total_users, i);
-	}*/
 
 	outputToFile(users, total_users);
 
@@ -310,10 +315,12 @@ void outputToFile(user users[], int totalUsers)
 	{
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
-			outFile << users[i].userAccount.accountNumber << '|'
+			outFile << totalUsers << '|'
+				<< users[i].userAccount.accountNumber << '|'
 				<< users[i].userAccount.username << '|' //output user ID & username to file
+				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
-				<< users[i].userAccount.phoneNumber << '|';
+				<< users[i].userAccount.password << '|';
 
 			for (int j{ 0 }; i < users[i].userAccount.movieNumber; j++) //output rented movies to file 
 			{
@@ -326,23 +333,39 @@ void outputToFile(user users[], int totalUsers)
 
 }
 
-/*
-void loadFromFile(user users[], int totalUsers, int userIndex)
+int getNumberOfUsersFromFile()
 {
-	string line{}, id{}, username{}, frozen{};
+	string line{}, nUsers{};
 	ifstream myFile("savedData.txt");
 	while (getline(myFile, line))
 	{
 		stringstream ssLine(line);
+		getline(ssLine, nUsers, '|');
+
+	}
+	return stoi(nUsers);
+}
+
+void loadFromFile(user users[], int userIndex, int& totalUsers)
+{
+	string line{}, nUsers{}, id{}, frozen{};
+	ifstream myFile("savedData.txt");
+	while (getline(myFile, line))
+	{
+		stringstream ssLine(line);
+		getline(ssLine, nUsers, '|');
 		getline(ssLine, id, '|');
 		getline(ssLine, users[userIndex].userAccount.username, '|');
+		getline(ssLine, users[userIndex].userAccount.phoneNumber, '|');
+		getline(ssLine, users[userIndex].userAccount.email, '|');
+		getline(ssLine, users[userIndex].userAccount.password, '|');
 		getline(ssLine, frozen, '|');
 
+		totalUsers = stoi(nUsers);
 		users[userIndex].userAccount.accountNumber = stoi(id);
 		users[userIndex].frozen = (frozen == "true") ? true : false;
-        
 	}
-}*/
+}
 
 //function Is the year leap or not?
 bool isLeap(int year) {
@@ -461,7 +484,7 @@ void rentcount(int count)
 		cout << "Enter the amount of " << movie[totalnumofmovies].Quantity;
 		cin >> count;
 		movie[totalnumofmovies].Quantity += count;
-		totalnumofmovies++
+		totalnumofmovies++;
 	}
 }
 void name(int count)

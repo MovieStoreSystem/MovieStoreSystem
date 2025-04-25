@@ -10,22 +10,22 @@ bool isLeap(int year) {
 }
 
 // دالة بتحوّل التاريخ لعدد الأيام 
-int dateToDays(Date d) {
-	int days = d.year * 365 + d.day;
+int dateToDays(Date date) {
+	int nDays = date.year * 365 + date.day;
 
 	// نضيف الأيام بتاعت الشهور اللي فاتت في نفس السنة
 	for (int i = 0; i < d.month - 1; ++i) {
-		days += daysInMonth[i];
+		nDays += daysInMonth[i];
 	}
 
 	// لو السنة كبيسة و الشهر بعد فبراير، نضيف يوم
-	if (d.month > 2 && isLeap(d.year))
-		days += 1;
+	if (date.month > 2 && isLeap(date.year))
+		nDays += 1;
 
 	// نضيف عدد السنوات الكبيسة اللي فاتت
-	days += (d.year / 4) - (d.year / 100) + (d.year / 400);
+	nDays += (date.year / 4) - (date.year / 100) + (date.year / 400);
 
-	return days;
+	return nDays;
 }
 
 // نحسب الفرق بين تاريخين
@@ -74,8 +74,47 @@ void Renting() {
 	}
 }
 
-int main() {
 
+// Nejar 
 
-	return 0;
+double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
+{
+	double fees = total_days * price_of_day;
+	if (overdue_value > 0)
+	{
+		fees = fees + (overdue_days * overdue_value);
+		return fees;
+	}
+	else
+		return fees;
 }
+int main()
+{
+	Date Rent_Day = { 1, 1, 2024 };
+	Date Due_Day = { 23, 4, 2025 };
+	Date Return_Date = { 23,5,2025 };
+	int overdue_days;
+	int Total_Days;
+	int price_day, overdue_value;
+	cout << "Enter the price of the day: ";
+	cin >> price_day;
+	cout << "Enter the overdue value: ";
+	cin >> overdue_value;
+	int days_of_return_date = dateToDays(Return_Date);
+	int days_of_current_day = dateToDays(Due_Day);
+	if (days_of_return_date <= days_of_current_day)
+	{
+		Total_Days = daysBetween(Rent_Day, Due_Day);
+		overdue_days = 0;
+	}
+	else
+	{
+		Total_Days = daysBetween(Rent_Day, Due_Day);
+		overdue_days = daysBetween(Return_Date, Due_Day);
+	}
+
+	double Total_fees = rental_fees(Total_Days, price_day, overdue_days, overdue_value);
+	cout << "Total fees are: " << Total_fees;
+	return 0;
+}
+

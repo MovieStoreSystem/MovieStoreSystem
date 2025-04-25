@@ -5,9 +5,16 @@ struct movies {
 	char avlb;
 	int count;
 };
-void rentcount(int count)
+void rentcount(int count,string m[])
 {
-	count++;
+	for (int j = 0;j < count; j++)
+	{
+		movies mv;
+		count = 0;
+		if (m[j] == mv.name[j])
+			count++;
+
+	}
 }
 void name(int count, string m[])
 {
@@ -28,7 +35,7 @@ void av(int count ,char avlb, string m[])
 	}
 	
 }
-void main()
+void moviemanagment(string m[], char avlb, int count)
 {
 	movies m;
 	string names[100];
@@ -37,6 +44,11 @@ void main()
 	cout << "Enter the count of movies you want to rent" << '\n';
 	cin >> count;
 	name(count, names);
-	av(count ,avlb, names);
+	av(count, avlb, names);
+	rentcount(count, names);
+
+}
+void main()
+{
 	
 }

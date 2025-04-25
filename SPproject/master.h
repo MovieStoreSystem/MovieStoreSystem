@@ -6,6 +6,7 @@ using namespace std;
 const int duedate = 7;
 const int number_of_movies = 20;
 int totalnumofmovies = 0;
+int logged_in_index = -1;
 //number of days of months if the year is not leap
 int daysInMonth[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 
@@ -26,25 +27,30 @@ struct accountinfo
 	int accountNumber = 0;
 };
 
-struct user
-{
-	accountinfo userAccount;
-	int age = 0;
-	string rentedMovies[10];
-	Date rentday ;
-	bool frozen = false;
-	bool isEmployee = false;
-}users[20], Overdue[20];
-
 struct movieinfo {
 	string name_of_movie;
+	Date rentday,currentday;
 	float price = 0;
+	float overdue_price = 0;
 	int rentingCount = 0;
 	int Quantity;
 	float average_rate = 0;
 	int final_score_of_movie = 0;
 	int total_ratings = 0;
 }movie[number_of_movies];
+
+struct user
+{
+	accountinfo userAccount;
+	int age = 0;
+	string rentedMovies[10];
+	Date rentday, currentday;
+	bool frozen = false;
+	bool isEmployee = false;
+	movieinfo usersmovie[number_of_movies];
+}users[20], Overdue[20];
+
+
 
 //functions
 //sign in/up
@@ -82,5 +88,10 @@ void displayCustomers();
 void displayMovies();
 
 void addingMovies(int count);
-void addcount(int count);
 void moviemanagment();
+
+double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
+void returnfees();
+
+void Rentday(int index);
+void Currentday(int index);

@@ -150,8 +150,8 @@ char customermenu()
 	cout << "2.Rent a Movie\n";
 	cout << "3.Return a Movie\n";  //Missing
 	cout << "4.Rental History\n";  //Missing
-	cout << "5. View Account Information\n";  //Missing
-	cout << "6. Rate a Movie / Leave a Review\n";  
+	cout << "5.View Account Information\n";  //Missing
+	cout << "6.Rate a Movie / Leave a Review\n";  
 	cout << "7.View Currently Rented Movies\n";  //Missing
 	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
@@ -446,11 +446,13 @@ void Renting() {
 				else {
 					movie[i].Quantity - 1;
 					movie[i].rentingCount++;
+					Rentday(i);
 					cout << "\t\trented successfully\n";
 				}
 			}
 		}
 	}
+	// int num
 }
 
 void sortMoviesByCount() {
@@ -468,53 +470,6 @@ void sortMoviesByCount() {
 	}
 }
 
-void availability(int count)
-{
-	for (int i = 0;i < count;i++) {
-		int amount = 0;
-		cout << "Enter the quantity of " << movie[totalnumofmovies].name_of_movie << " you want to add";
-		cin >> amount;
-		movie[totalnumofmovies].Quantity += amount;
-	}
-
-}
-
-void rentcount(int count)
-{
-	for (int j = 0;j < count; j++)
-	{
-		count = 0;
-		cout << "Enter the amount of " << movie[totalnumofmovies].Quantity;
-		cin >> count;
-		movie[totalnumofmovies].Quantity += count;
-		totalnumofmovies++;
-	}
-}
-void name(int count)
-{
-	for (int i = 0;i < count;i++) {
-		cout << "Enter the movie name of movie number " << totalnumofmovies + 1 << "\n";
-		cin.ignore();
-		getline(cin, movie[i].name_of_movie);
-	}
-}
-
-void moviemanagment()
-{
-	// movie[number_of_movies] globlal variable
-	// string names[100]; names of movies are already included in the struct
-	// char avlb; i don't see why we need it
-
-	int count = 0;
-	cout << "Enter the count of movies you want to add" << '\n';
-	cin >> count;
-	name(count); // to add the movie names
-	availability(count); // to add the quantities of each movie;
-	rentcount(count);
-	totalnumofmovies += count;
-	if (totalnumofmovies <= 20)
-		cout << "We have reached the maximum amount of movies\n";
-}
 // Displaying information
 void displayCustomers() {
 	for (int i = 0; i < 20; i++)
@@ -536,26 +491,85 @@ void displayMovies() {
 void addingMovies(int count)
 {
 	for (int i = 0;i < count;i++) {
-		cout << "Enter the movie name\n";
+		cout << "Enter the movie name:\n";
 		cin >> movie[totalnumofmovies].name_of_movie;
-		totalnumofmovies++;
-	}
-}
-void addcount(int count)
-{
-	for (int i = 0;i < count;i++)
-	{
+		cout << "Enter the price of the movie for a day:\n";
+		cin >> movie[totalnumofmovies].price;
+		cout << "Enter the overdue price of the movie:\n";
+		cin >> movie[totalnumofmovies].overdue_price;
 		cout << "Enter the count of the movie" << '\n';
 		cin >> movie[totalnumofmovies].Quantity;
 		totalnumofmovies++;
 	}
 }
-/*
+
 void moviemanagment()
 {
 	int count;
 	cout << "Enter the count of movies you want to input\n";
 	cin >> count;
 	addingMovies(count);
-	addcount(count);
-}*/
+}
+
+double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
+{
+	double fees = total_days * price_of_day;
+	if (overdue_value > 0)
+	{
+		fees = fees + (overdue_days * overdue_value);
+		return fees;
+	}
+	else
+		return fees;
+}
+
+void returnfees() {
+	Date Rent_Day = { 1, 1, 2024 };
+	Date Due_Day = { 23, 4, 2025 };
+	Date Return_Date = { 23,5,2025 };
+	int overdue_days;
+	int Total_Days;
+	int price_day, overdue_value;
+
+	int movienum;
+	cout << "\t\t List of Movies\n";
+	for (int i = 0; i < totalnumofmovies; i++)
+	{
+		cout << i + 1 << "." << movie[i].name_of_movie;
+		cout << endl;
+	}
+	cin >> movienum;
+	movienum--;
+	int days_of_return_date = dateToDays(Return_Date);
+	int days_of_current_day = dateToDays(Due_Day);
+	if (days_of_return_date <= days_of_current_day)
+	{
+		Total_Days = daysBetween(Rent_Day, Due_Day);
+		overdue_days = 0;
+	}
+	else
+	{
+		Total_Days = daysBetween(Rent_Day, Due_Day);
+		overdue_days = daysBetween(Return_Date, Due_Day);
+	}
+
+	double Total_fees = rental_fees(Total_Days, movie[movienum].price, overdue_days, movie[movienum].overdue_price);
+	cout << "Total fees are: " << Total_fees;
+}
+
+void Rentday(int index) {
+	cout << "Enter the day of renting\n";
+	cin >> users[logged_in_index].usersmovie[index].rentday.day;
+	cout << "Enter the month of renting\n";
+	cin >> users[logged_in_index].usersmovie[index].rentday.month;
+	cout << "Enter the year of renting\n";
+	cin >> users[logged_in_index].usersmovie[index].rentday.year;
+}
+void Currentday(int index) {
+	cout << "Enter the current day\n";
+	cin >> users[logged_in_index].usersmovie[index].currentday.day;
+	cout << "Enter the current month\n";
+	cin >> users[logged_in_index].usersmovie[index].currentday.month;
+	cout << "Enter the current year\n";
+	cin >> users[logged_in_index].usersmovie[index].currentday.year;
+}

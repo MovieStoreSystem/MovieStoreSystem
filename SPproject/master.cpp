@@ -315,13 +315,14 @@ void movierate(movieinfo movie[]) {
 void outputToFile(user users[], int totalUsers)
 {
 	ofstream outFile("savedData.txt");
-    outFile << totalUsers << '\n';
+    outFile << totalUsers << '|';
 
 	if (outFile.is_open())
 	{
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
-			outFile << users[i].userAccount.accountNumber << '|'
+			outFile 
+				// << users[i].userAccount.accountNumber << '|'
 				<< users[i].userAccount.username << '|' //output user ID & username to file
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
@@ -344,7 +345,7 @@ int getNumberOfUsersFromFile()
 	ifstream myFile("savedData.txt");
 	if (!myFile) return 0;
 
-	getline(myFile, nUsers);
+	getline(myFile, nUsers, '\n');
 	if (myFile.eof())
 		return 0;
 	else
@@ -362,7 +363,7 @@ void loadFromFile(user users[])
 		stringstream ssLine(line);
 
 		getline(ssLine, value, '|');
-		users[currentIndex].userAccount.accountNumber = stoi(value);
+		//users[currentIndex].userAccount.accountNumber = stoi(value);
 
 		getline(ssLine, users[currentIndex].userAccount.username, '|');
 		getline(ssLine, users[currentIndex].userAccount.phoneNumber, '|');

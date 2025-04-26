@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <cctype> 
 #include <iostream>
 using namespace std;
 
@@ -248,14 +249,36 @@ bool signup(user& temp, user users[], int& totalusers)
 	}
 
 	while (true) {
-	cout << "Enter your phone number:\n";
-	cin >> temp.userAccount.phoneNumber;
+		cout << "Enter your phone number:\n";
+		cin >> temp.userAccount.phoneNumber;
+		if (temp.userAccount.phoneNumber.length() != 11) {
+			cout << "The phone number must be 11 digits\n";
+			continue;
+		}
+		else {
+			bool allDigits = true;
+			for (char c : temp.userAccount.phoneNumber) {
+				if (!isdigit(c)) {
+					allDigits = false;
+					break;
+				}
+			}
+			if (!allDigits) {
+				cout << "The phone number must contain only digits.\n";
+				continue;
+			}
+			else if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
+				cout << "Phone number already used.\n";
+				continue;
+			}
+			else {
+				break;
+			}
+		}
+	return false;
+	}
 
-	}
-	if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
-		cout << "phone number already used" << '\n';
-		return false;
-	}
+
 
 	cout << "Enter your email:\n";
 	cin >> temp.userAccount.email;

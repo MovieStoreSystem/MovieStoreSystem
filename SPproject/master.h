@@ -29,7 +29,7 @@ struct accountinfo
 
 struct movieinfo {
 	string name_of_movie;
-	Date rentday,currentday;
+	Date rentday,returnday;
 	float price = 0;
 	float overdue_price = 0;
 	int rentingCount = 0;
@@ -44,7 +44,7 @@ struct user
 	accountinfo userAccount;
 	int age = 0;
 	string rentedMovies[10];
-	Date rentday, currentday;
+	Date rentday, returnday;
 	bool frozen = false;
 	bool isEmployee = false;
 	movieinfo usersmovie[number_of_movies];
@@ -90,5 +90,5 @@ double rental_fees(int total_days, float price_of_day, int overdue_days, int ove
 void returnfees();
 
 void Rentday(int index);
-void Currentday(int index);
+void Returnday(int index);
 void ViewAccountInfo();

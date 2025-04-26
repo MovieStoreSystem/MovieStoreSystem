@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <cctype> 
 #include <iostream>
 using namespace std;
 
@@ -247,15 +248,33 @@ bool signup(user& temp, user users[], int& totalusers)
 			break;
 	}
 
-	while (true)
-	{
+	while (true) {
 		cout << "Enter your phone number:\n";
 		cin >> temp.userAccount.phoneNumber;
-		if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
-			cout << "phone number already used" << '\n';
+
+		bool allDigits = true;
+		for (char c : temp.userAccount.phoneNumber) {
+			if (!isdigit(c)) {
+				allDigits = false;
+				break;
+			}
 		}
-		else
+		if (!allDigits) {
+			cout << "The phone number must contain only digits.\n";
+			continue;
+		}
+		else if (temp.userAccount.phoneNumber.length() != 11) {
+			cout << "The phone number must be 11 digits\n";
+			continue;
+		}
+		else if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
+			cout << "Phone number already used.\n";
+			continue;
+		}
+		else {
 			break;
+		}
+		return false;
 	}
 
 	while (true)
@@ -527,7 +546,7 @@ void addingMovies(int count)
 		cin >> movie[totalnumofmovies].price;
 		cout << "Enter the overdue price of the movie:\n";
 		cin >> movie[totalnumofmovies].overdue_price;
-		cout << "Enter the count of the movie" << '\n';
+		cout << "Enter the quantity of the movie\n";
 		cin >> movie[totalnumofmovies].Quantity;
 		totalnumofmovies++;
 	}
@@ -593,13 +612,13 @@ void Rentday(int index) {
 	cout << "Enter the year of renting\n";
 	cin >> users[logged_in_index].usersmovie[index].rentday.year;
 }
-void Currentday(int index) {
+void Returnday(int index) {
 	cout << "Enter the current day\n";
-	cin >> users[logged_in_index].usersmovie[index].currentday.day;
+	cin >> users[logged_in_index].usersmovie[index].returnday.day;
 	cout << "Enter the current month\n";
-	cin >> users[logged_in_index].usersmovie[index].currentday.month;
+	cin >> users[logged_in_index].usersmovie[index].returnday.month;
 	cout << "Enter the current year\n";
-	cin >> users[logged_in_index].usersmovie[index].currentday.year;
+	cin >> users[logged_in_index].usersmovie[index].returnday.year;
 }
 
 void ViewAccountInfo() {

@@ -239,18 +239,19 @@ bool signup(user& temp, user users[], int& totalusers)
 			cout << "The age must be an integer number\n";
 			cin.clear();
 			cin.ignore(10000, '\n');
-			return -1;
 		}
 		else if (temp.age < 16) {
 			cout << "Invalid age:)\n";
-			return false;
 		}
 		else
 			break;
 	}
 
+	while (true) {
 	cout << "Enter your phone number:\n";
 	cin >> temp.userAccount.phoneNumber;
+
+	}
 	if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
 		cout << "phone number already used" << endl;
 		return false;
@@ -519,7 +520,7 @@ void addingMovies(int count)
 		cin >> movie[totalnumofmovies].price;
 		cout << "Enter the overdue price of the movie:\n";
 		cin >> movie[totalnumofmovies].overdue_price;
-		cout << "Enter the count of the movie" << '\n';
+		cout << "Enter the quantity of the movie\n";
 		cin >> movie[totalnumofmovies].Quantity;
 		totalnumofmovies++;
 	}

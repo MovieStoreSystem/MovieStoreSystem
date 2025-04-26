@@ -588,13 +588,13 @@ void Rentday(int index) {
 	cout << "Enter the year of renting\n";
 	cin >> users[logged_in_index].usersmovie[index].rentday.year;
 }
-void Currentday(int index) {
+void Returnday(int index) {
 	cout << "Enter the current day\n";
-	cin >> users[logged_in_index].usersmovie[index].currentday.day;
+	cin >> users[logged_in_index].usersmovie[index].returnday.day;
 	cout << "Enter the current month\n";
-	cin >> users[logged_in_index].usersmovie[index].currentday.month;
+	cin >> users[logged_in_index].usersmovie[index].returnday.month;
 	cout << "Enter the current year\n";
-	cin >> users[logged_in_index].usersmovie[index].currentday.year;
+	cin >> users[logged_in_index].usersmovie[index].returnday.year;
 }
 
 void ViewAccountInfo() {

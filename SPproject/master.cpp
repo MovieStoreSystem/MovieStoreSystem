@@ -232,23 +232,25 @@ bool signup(user& temp, user users[], int& totalusers)
 	cin.ignore();
 	getline(cin, temp.userAccount.username);
 
-	cout << "Enter your age:\n";
-	cin >> temp.age;
-	if (cin.fail()) {
-		cout << "The age must be an integer number\n";
-		cin.clear(); 
-		cin.ignore(10000, '\n');
-		return false;
-	}
-	if (temp.age < 16) {
-		cout << "Invalid age:)\n";
-		return false;
+	while (true) {
+	    cout << "Enter your age:\n";
+		cin >> temp.age;
+		if (cin.fail()) {
+			cout << "The age must be an integer number\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else if (temp.age < 16) {
+			cout << "Invalid age:)\n";
+		}
+		else
+			break;
 	}
 
 	cout << "Enter your phone number:\n";
 	cin >> temp.userAccount.phoneNumber;
 	if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
-		cout << "phone number already used" << endl;
+		cout << "phone number already used" << '\n';
 		return false;
 	}
 
@@ -332,12 +334,14 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|';
-			/*
+	
 			for (int j{ 0 }; j < users[i].userAccount.movieNumber; j++) //output rented movies to file 
 			{
 				outFile << users[i].rentedMovies[j] << '|';
-			}*/
-			outFile << boolalpha << users[i].frozen << '\n'; //output frozen status to file
+
+			}
+			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
+			outFile << movie[totalnumofmovies].name_of_movie << '\n'; 
 		}
 		outFile.close();
 	}
@@ -451,7 +455,7 @@ void Renting() {
 		for (int i = 0; i < number_of_movies; i++) {
 			if (num - 1 == i) {
 				if (movie[i].Quantity == 0)
-					cout << "Sorry,This movie is not available now ...\n";
+					cout << "Sorry, this movie is not available now ...\n";
 				else {
 					movie[i].Quantity --;
 					movie[i].rentingCount++;
@@ -492,7 +496,7 @@ void displayMovies() {
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
 		cout << movie[i].name_of_movie;
-		cout << endl;
+		cout << '\n';
 	}
 }
 

@@ -2,12 +2,9 @@
 #include<iostream>
 using namespace std;
 
-//function Is the year leap or not?
 bool isLeap(int year) {
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
-
-// دالة بتحوّل التاريخ لعدد الأيام 
 int dateToDays(Date date) {
 	int nDays = date.year * 365 + date.day;
 
@@ -25,13 +22,9 @@ int dateToDays(Date date) {
 
 	return nDays;
 }
-
-// نحسب الفرق بين تاريخين
 int daysBetween(Date rentday, Date currentday) {
 	return abs(dateToDays(currentday) - dateToDays(rentday));
 }
-
-//function list of overdue clients
 void Overdue_clients() {
 	for (int i = 0, int j = 0; i < 20; i++) {
 		int Number_of_days = daysBetween(users[i].rentday, currentday);
@@ -45,8 +38,6 @@ void Overdue_clients() {
 		}
 	};
 }
-
-//if user want to rent movie (renting function)
 void Renting() {
 	int num;
 	cout << "            PLEASE CHOOSE MOVIE THAT YOU WANT TO RENT               ";
@@ -72,54 +63,6 @@ void Renting() {
 	}
 }
 
-
-// Nejar 
-
-double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
-{
-	double fees = total_days * price_of_day;
-	if (overdue_value > 0)
-	{
-		fees = fees + (overdue_days * overdue_value);
-		return fees;
-	}
-	else
-		return fees;
-}
-void returnfees() {
-	int overdue_days;
-	int Total_Days;
-	int movienum;
-	cout << "\t\t List of Movies\n";
-	for (int i = 0; i < totalnumofmovies; i++)
-	{
-		cout <<i+1<<"." << movie[i].name_of_movie;
-		cout << endl;
-	}
-	cin >> movienum;
-	movienum--;
-	int days_of_return_date = dateToDays(Return_Date);
-	int days_of_current_day = dateToDays(Due_Day);
-	if (days_of_return_date <= days_of_current_day)
-	{
-		Total_Days = daysBetween(Rent_Day, Due_Day);
-		overdue_days = 0;
-	}
-	else
-	{
-		Total_Days = daysBetween(Rent_Day, Due_Day);
-		overdue_days = daysBetween(Return_Date, Due_Day);
-	}
-
-	double Total_fees = rental_fees(Total_Days, movie[movienum].price, overdue_days, movie[movienum].overdue_price);
-	cout << "Total fees are: " << Total_fees;
-}
-
-int main()
-{
-	
-}
-
 //SARA
 void availability(int count)
 {
@@ -131,7 +74,6 @@ void availability(int count)
 	}
 
 }
-
 void rentcount(int count)
 {
 	for (int j = 0;j < count; j++)
@@ -151,7 +93,6 @@ void name(int count)
 		getline(cin, movie[i].name_of_movie);
 	}
 }
-
 void moviemanagment()
 {
 	// movie[number_of_movies] globlal variable
@@ -168,7 +109,6 @@ void moviemanagment()
 	if (totalnumofmovies <= 20)
 		cout << "We have reached the maximum amount of movies\n";
 }
-
 void addingMovies(int count)
 {
 	for (int i = 0;i < count;i++) {
@@ -194,10 +134,6 @@ void moviemanagment()
 	name(count);
 	addcount(count);
 }
-
-//Shrouk;
-
-
 //Nejar
 double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
 {
@@ -242,4 +178,30 @@ void returnfees() {
 
 	double Total_fees = rental_fees(Total_Days, movie[movienum].price, overdue_days, movie[movienum].overdue_price);
 	cout << "Total fees are: " << Total_fees;
+}
+
+
+
+
+
+
+
+void deleteMovie(movieinfo movies[], int number_of_movies, movieinfo y.Quantity, movieinfo y.name_of_movie) {
+	bool insystem = false;
+	for (int i = 0; i < number_of_movies; i++) {
+		if (movies[i] == y.name_of_movie) {
+			insystem = true;
+			movies[i] == 0;
+			number_of_movies--;
+			cout << "Deleting process was successful\n";
+		}
+		else {
+			insystem = false;
+			cout << "The selected movie isn't found\n";
+		}
+	}
+}
+int main()
+{
+	
 }

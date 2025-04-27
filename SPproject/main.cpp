@@ -194,3 +194,52 @@ void moviemanagment()
 	name(count);
 	addcount(count);
 }
+
+//Shrouk;
+
+
+//Nejar
+double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
+{
+	double fees = total_days * price_of_day;
+	if (overdue_value > 0)
+	{
+		fees = fees + (overdue_days * overdue_value);
+		return fees;
+	}
+	else
+		return fees;
+}
+void returnfees() {
+	Date Rent_Day = { 1, 1, 2024 };
+	Date Due_Day = { 23, 4, 2025 };
+	Date Return_Date = { 23,5,2025 };
+	int overdue_days;
+	int Total_Days;
+	int price_day, overdue_value;
+
+	int movienum;
+	cout << "\t\t List of Movies\n";
+	for (int i = 0; i < totalnumofmovies; i++)
+	{
+		cout << i + 1 << "." << movie[i].names_of_movies;
+		cout << endl;
+	}
+	cin >> movienum;
+	movienum--;
+	int days_of_return_date = dateToDays(Return_Date);
+	int days_of_current_day = dateToDays(Due_Day);
+	if (days_of_return_date <= days_of_current_day)
+	{
+		Total_Days = daysBetween(Rent_Day, Due_Day);
+		overdue_days = 0;
+	}
+	else
+	{
+		Total_Days = daysBetween(Rent_Day, Due_Day);
+		overdue_days = daysBetween(Return_Date, Due_Day);
+	}
+
+	double Total_fees = rental_fees(Total_Days, movie[movienum].price, overdue_days, movie[movienum].overdue_price);
+	cout << "Total fees are: " << Total_fees;
+}

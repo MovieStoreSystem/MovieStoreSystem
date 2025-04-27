@@ -63,8 +63,8 @@ int main() {
 				break;
 
 			case '4':
-				displayCustomers();
-				ListofDaysLeft();
+				displayCustomers(total_users);
+				//ListofDaysLeft();
 				break;
 
 			case '5':
@@ -97,11 +97,10 @@ int main() {
 
 			case '2':
 				Renting();
-				users[logged_in_index].usersmovie++;
 				break;
 
 			case '3':
-				returnfees();
+				Calculate_totalPrice();
 				break;
 
 			case '4':
@@ -355,16 +354,16 @@ void outputToFile(user users[], int totalUsers)
 	{
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
-			outFile 
+			outFile
 				// << users[i].userAccount.accountNumber << '|'
 				<< users[i].userAccount.username << '|' //output user ID & username to file
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|';
-	
-			for (int j{ 0 }; j < users[i].userAccount.movieNumber; j++) //output rented movies to file 
+
+			for (int j{ 0 }; j < users[i].rentedInfo.nMovies; j++) //output rented movies to file 
 			{
-				outFile << users[i].rentedMovies[j] << '|';
+				outFile << users[i].rentedInfo.namesofRentedmovies[users[i].rentedInfo.nMovies] << '|';
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
@@ -462,7 +461,7 @@ void ListofDaysLeft() {
 	}
 }
 
-//if user want to rent movie (renting function)
+//if user want to rent movie (renting function) //
 void Renting() {
 
 	int num = 0;
@@ -470,10 +469,15 @@ void Renting() {
 	displayMovies();
 	cout << "Enter a number of movie you want: \n";
 	cin >> num;
+
+
 	if (num < 1 || num>number_of_movies) {
 		cout << "Invalid number!!!\n";
 	}
 	else {
+		for (int i = 0;i < number_of_movies;i++) {
+			users[logged_in_index].rentedInfo.namesofRentedmovies[users[logged_in_index].rentedInfo.nMovies] == movie[num].names_of_movies;
+		}
 		for (int i = 0; i < number_of_movies; i++) {
 			if (num - 1 == i) {
 				if (movie[i].Quantity == 0)
@@ -481,11 +485,12 @@ void Renting() {
 				else {
 					movie[i].Quantity--;
 					movie[i].rentingCount++;
-					Rentday(i);
+					Rentday(users[logged_in_index].rentedInfo.nMovies);
 					cout << "\t\trented successfully\n";
 				}
 			}
 		}
+		users[logged_in_index].rentedInfo.nMovies++;
 	}
 
 	// int num
@@ -507,8 +512,8 @@ void sortMoviesByCount() {
 }
 
 // Displaying information
-void displayCustomers() {
-	for (int i = 0; i < 20; i++)
+void displayCustomers(int totalusers) {
+	for (int i = 0; i < totalusers; i++)
 	{
 		cout << users[i].userAccount.accountNumber << '\t';
 		cout << users[i].userAccount.username << '\n';
@@ -526,7 +531,7 @@ void displayMovies() {
 void displayRentedMovies() {
 	for (int i = 0; i < totalnumofmovies; i++) 
 	{
-		if (users[logged_in_index].usersmovie[i].rentingCount>0)
+		if (users[logged_in_index].movieInfo.rentingCount>0)
 			cout << movie[i].names_of_movies << "\n";
 	}
 }
@@ -552,67 +557,48 @@ void moviemanagment()
 	cin >> count;
 	addingMovies(count);
 }
-//Nejar
-double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value)
-{
-	double fees = total_days * price_of_day;
-	if (overdue_value > 0)
-	{
-		fees = fees + (overdue_days * overdue_value);
-		return fees;
-	}
-	else
-		return fees;
-}
-void returnfees() {
-	Date Rent_Day = { 1, 1, 2024 };
-	Date Due_Day = { 23, 4, 2025 };
-	Date Return_Date = { 23,5,2025 };
-	int overdue_days;
-	int Total_Days;
-	int price_day, overdue_value;
 
-	int movienum;
-	cout << "\t\t List of Movies\n";
-	for (int i = 0; i < totalnumofmovies; i++)
-	{
-		cout << i + 1 << "." << movie[i].names_of_movies;
-		cout << endl;
-	}
-	cin >> movienum;
-	movienum--;
-	int days_of_return_date = dateToDays(Return_Date);
-	int days_of_current_day = dateToDays(Due_Day);
-	if (days_of_return_date <= days_of_current_day)
-	{
-		Total_Days = daysBetween(Rent_Day, Due_Day);
-		overdue_days = 0;
-	}
-	else
-	{
-		Total_Days = daysBetween(Rent_Day, Due_Day);
-		overdue_days = daysBetween(Return_Date, Due_Day);
+//shrouk
+void Calculate_totalPrice() {
+	int Nom_of_days;
+	float TotalPrice = 0;
+	for (int k = 0; k < number_of_movies; k++) {
+		for (int j = 0; j < number_of_movies; j++) { // for every movie
+			if (users[logged_in_index].rentedInfo.namesofRentedmovies[k] == movie[j].names_of_movies) {
+
+				Nom_of_days = daysBetween(users[logged_in_index].rentedInfo.rentday[k], returnday);
+
+				if (Nom_of_days <= duedate) {
+					TotalPrice = movie[j].price;
+					cout << "You have to pay: " << TotalPrice << "Pounds.";
+				}
+				else
+				{
+
+					TotalPrice = movie[j].price + ((Nom_of_days - 7) * (0.05 * movie[j].price));
+					cout << "You have delayed to return the movie for " << (Nom_of_days - 7) << "days.\n"
+						<< "You have to pay: " << TotalPrice << "Pounds.\n"
+						<< "\t\tNOTE:You have to pay 5% of the movie price for each day you have delayed.";
+
+				}
+
+
+			}
+		}
 	}
 
-	double Total_fees = rental_fees(Total_Days, movie[movienum].price, overdue_days, movie[movienum].overdue_price);
-	cout << "Total fees are: " << Total_fees;
 }
 
 void Rentday(int index) {
-	cout << "Enter the day of renting\n";
-	cin >> users[logged_in_index].userAccount.rented[index].day;
-	cout << "Enter the month of renting\n";
-	cin >> users[logged_in_index].userAccount.rented[index].month;
-	cout << "Enter the year of renting\n";
-	cin >> users[logged_in_index].userAccount.rented[index].rentday.year;
+   cout << "Enter the day of renting\n";
+   cin >> users[logged_in_index].rentedInfo.rentday[index].day;
+   cout << "Enter the month of renting\n";
+   cin >> users[logged_in_index].rentedInfo.rentday[index].month;
+   cout << "Enter the year of renting\n";
+   cin >> users[logged_in_index].rentedInfo.rentday[index].year;
 }
 void Returnday(int index) {
-	cout << "Enter the current day\n";
-	cin >> users[logged_in_index].usersmovie[index].returnday.day;
-	cout << "Enter the current month\n";
-	cin >> users[logged_in_index].usersmovie[index].returnday.month;
-	cout << "Enter the current year\n";
-	cin >> users[logged_in_index].usersmovie[index].returnday.year;
+	
 }
 
 void ViewAccountInfo() {
@@ -625,9 +611,3 @@ void ViewAccountInfo() {
 	}
 	else cout << "Your account is not blocked\n";
 }
-/*void EditMovieInfo() {
-	int tempindex;
-	displayMovies();
-	cin >> tempindex;
-	cout<<""
-}*/

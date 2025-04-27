@@ -17,7 +17,6 @@ struct Date {
 	int year;
 }currentday,returnday;
 
-
 struct accountinfo
 {
 	string username;
@@ -25,36 +24,42 @@ struct accountinfo
 	string password;
 	string phoneNumber;
 	int accountNumber = 0;
+	//rentedMOVIE_INFO rented[number_of_movies];
 	//int movieNumber[number_of_movies]; 
-	rentedMOVIE_INFO rented[number_of_movies]; //
 };
 
 struct movieinfo {
 	string names_of_movies;
-	float price = 0;
+	float price = 0,overdue_price=0;
 	int rentingCount = 0;
-	int Quantity;
+	int Quantity; 
 	float average_rate = 0;
 	int final_score_of_movie = 0;
 	int total_ratings = 0;
+	Date rentday;     //, returnday;
 }movie[number_of_movies];
+
+struct rentedMOVIE_INFO {
+	string namesofRentedmovies[20];
+	int nMovies = 0;
+	Date rentday[number_of_movies];   //, returnday;
+	//string movieNAME;
+	//int numberofmovies=0;
+};
 
 struct user
 {
-	accountinfo userAccount;
 	int age = 0;
-	string rentedMovies[10];
-	Date rentday, returnday;
-	bool frozen = false;
 	bool isEmployee = false;
-	int usersmovie[number_of_movies];
+	bool frozen = false;
+	accountinfo userAccount;
+	rentedMOVIE_INFO rentedInfo;
+	movieinfo movieInfo;
+	Date rentday;          //, returnday;
+	//string rentedMovies[10];
+	//int usersmovie[number_of_movies];
 }users[20], Overdue[20];
 
-struct rentedMOVIE_INFO {
-
-	string movieNAME;
-	Date rentday,returnday;
-};
 
 
 //functions
@@ -84,15 +89,16 @@ int Days_Between(Date Return_Date, Date Due_Day);
 double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
 
 //display
-void displayCustomers();
+void displayCustomers(int totalusers);
 void displayMovies();
 void displayRentedMovies();
 
 void addingMovies(int count);
 void moviemanagment();
 
-double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
-void returnfees();
+//double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
+//void returnfees();
+void Calculate_totalPrice();
 
 void Rentday(int index);
 void Returnday(int index);

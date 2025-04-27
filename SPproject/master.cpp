@@ -277,12 +277,16 @@ bool signup(user& temp, user users[], int& totalusers)
 		return false;
 	}
 
-	cout << "Enter your email:\n";
-	cin >> temp.userAccount.email;
+	while (true)
+	{
+		cout << "Enter your email:\n";
+		cin >> temp.userAccount.email;
 
-	if (findemail(temp.userAccount.email, users, totalusers)) {
-		cout << "This email already exists!\n";
-		return false;
+		if (findemail(temp.userAccount.email, users, totalusers)) {
+			cout << "This email already exists!\n";
+		}
+		else
+			break;
 	}
 
 	cout << "Enter your password:\n";

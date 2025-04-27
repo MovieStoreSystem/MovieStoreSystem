@@ -97,6 +97,7 @@ int main() {
 
 			case '2':
 				Renting();
+				users[logged_in_index].usersmovie++;
 				break;
 
 			case '3':
@@ -159,7 +160,6 @@ char customermenu()
 	cin >> choice;
 	return choice;
 }
-
 char employeermenu()
 {
 	char choice;
@@ -322,7 +322,7 @@ void movierate(movieinfo movie[]) {
 
 	for (int i = 0;i < number_of_movies;i++)
 	{
-		if (movie[i].name_of_movie == title)
+		if (movie[i].names_of_movies == title)
 		{
 			cout << "Please enter a rating from 1 to 5\n";
 			cin >> temp_rate;
@@ -364,7 +364,7 @@ void outputToFile(user users[], int totalUsers)
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
-			outFile << movie[totalnumofmovies].name_of_movie << '\n'; 
+			outFile << movie[totalnumofmovies].names_of_movies << '\n'; 
 		}
 		outFile.close();
 	}
@@ -411,12 +411,10 @@ void loadFromFile(user users[])
 	}
 }
 
-//function Is the year leap or not?
 bool isLeap(int year) {
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-// دالة بتحوّل التاريخ لعدد الأيام 
 int dateToDays(Date d) {
 	int days = d.year * 365 + d.day;
 
@@ -435,12 +433,10 @@ int dateToDays(Date d) {
 	return days;
 }
 
-// نحسب الفرق بين تاريخين
 int daysBetween(Date rentday, Date currentday) {
 	return abs(dateToDays(currentday) - dateToDays(rentday));
 }
 
-//function list of overdue clients
 void Overdue_clients() {
 	for (int i = 0, j = 0; i < 20; i++) {
 		int Number_of_days = 0;
@@ -464,11 +460,10 @@ void ListofDaysLeft() {
 
 //if user want to rent movie (renting function)
 void Renting() {
-	int num;
+
+	int num = 0;
 	cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT\n";
-	for (int i = 0; i < number_of_movies; i++) {
-		cout << i + 1 << "." << movie[i].name_of_movie << endl;
-	}
+	displayMovies();
 	cout << "Enter a number of movie you want: \n";
 	cin >> num;
 	if (num < 1 || num>number_of_movies) {
@@ -480,7 +475,7 @@ void Renting() {
 				if (movie[i].Quantity == 0)
 					cout << "Sorry, this movie is not available now ...\n";
 				else {
-					movie[i].Quantity --;
+					movie[i].Quantity--;
 					movie[i].rentingCount++;
 					Rentday(i);
 					cout << "\t\trented successfully\n";
@@ -488,6 +483,7 @@ void Renting() {
 			}
 		}
 	}
+
 	// int num
 }
 
@@ -502,7 +498,7 @@ void sortMoviesByCount() {
 		}
 	}
 	for (int i = 0; i < number_of_movies; i++) {
-		cout << movie[i].name_of_movie << " - Rentals: " << movie[i].rentingCount << endl;
+		cout << movie[i].names_of_movies << " - Rentals: " << movie[i].rentingCount << endl;
 	}
 }
 
@@ -518,7 +514,7 @@ void displayCustomers() {
 void displayMovies() {
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
-		cout << movie[i].name_of_movie;
+		cout <<i+1<<". " << movie[i].names_of_movies;
 		cout << '\n';
 	}
 }
@@ -527,7 +523,7 @@ void displayRentedMovies() {
 	for (int i = 0; i < totalnumofmovies; i++) 
 	{
 		if (users[logged_in_index].usersmovie[i].rentingCount>0)
-			cout << movie[i].name_of_movie << "\n";
+			cout << movie[i].names_of_movies << "\n";
 	}
 }
 
@@ -537,11 +533,9 @@ void addingMovies(int count)
 	for (int i = 0;i < count;i++) {
 		cout << "Enter the movie name:\n";
 		cin.ignore();
-		getline(cin, movie[totalnumofmovies].name_of_movie);
+		getline(cin, movie[totalnumofmovies].names_of_movies);
 		cout << "Enter the price of the movie for a day:\n";
 		cin >> movie[totalnumofmovies].price;
-		cout << "Enter the overdue price of the movie:\n";
-		cin >> movie[totalnumofmovies].overdue_price;
 		cout << "Enter the quantity of the movie\n";
 		cin >> movie[totalnumofmovies].Quantity;
 		totalnumofmovies++;
@@ -578,7 +572,7 @@ void returnfees() {
 	cout << "\t\t List of Movies\n";
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
-		cout << i + 1 << "." << movie[i].name_of_movie;
+		cout << i + 1 << "." << movie[i].names_of_movies;
 		cout << endl;
 	}
 	cin >> movienum;
@@ -602,11 +596,11 @@ void returnfees() {
 
 void Rentday(int index) {
 	cout << "Enter the day of renting\n";
-	cin >> users[logged_in_index].usersmovie[index].rentday.day;
+	cin >> users[logged_in_index].userAccount.rented[index].day;
 	cout << "Enter the month of renting\n";
-	cin >> users[logged_in_index].usersmovie[index].rentday.month;
+	cin >> users[logged_in_index].userAccount.rented[index].month;
 	cout << "Enter the year of renting\n";
-	cin >> users[logged_in_index].usersmovie[index].rentday.year;
+	cin >> users[logged_in_index].userAccount.rented[index].rentday.year;
 }
 void Returnday(int index) {
 	cout << "Enter the current day\n";

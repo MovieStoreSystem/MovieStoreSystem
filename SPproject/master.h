@@ -15,7 +15,8 @@ struct Date {
 	int day;
 	int month;
 	int year;
-}currentday;
+}currentday,returnday;
+
 
 struct accountinfo
 {
@@ -23,15 +24,14 @@ struct accountinfo
 	string email;
 	string password;
 	string phoneNumber;
-	int movieNumber = 0;
 	int accountNumber = 0;
+	//int movieNumber[number_of_movies]; 
+	rentedMOVIE_INFO rented[number_of_movies]; //
 };
 
 struct movieinfo {
-	string name_of_movie;
-	Date rentday,returnday;
+	string names_of_movies;
 	float price = 0;
-	float overdue_price = 0;
 	int rentingCount = 0;
 	int Quantity;
 	float average_rate = 0;
@@ -47,9 +47,14 @@ struct user
 	Date rentday, returnday;
 	bool frozen = false;
 	bool isEmployee = false;
-	movieinfo usersmovie[number_of_movies];
+	int usersmovie[number_of_movies];
 }users[20], Overdue[20];
 
+struct rentedMOVIE_INFO {
+
+	string movieNAME;
+	Date rentday,returnday;
+};
 
 
 //functions

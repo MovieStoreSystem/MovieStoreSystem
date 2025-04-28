@@ -689,7 +689,7 @@ void Calculate_totalPrice() {
 
 				if (Nom_of_days <= duedate) {
 					TotalPrice = movie[k].price*Nom_of_days;
-					cout << "You have to pay: " << TotalPrice << "Pounds.";
+					cout << "You have to pay: " << TotalPrice << " Pounds.\n";
 					movie[k].Quantity++;
 					return;
 				}
@@ -699,8 +699,8 @@ void Calculate_totalPrice() {
 					TotalPrice = movie[k].price + ((Nom_of_days - 7) * (0.05 * movie[k].price));
 					cout << "You have delayed to return the movie for " << (Nom_of_days - 7) << "days.\n"
 						<< "You have to pay: " << TotalPrice << "Pounds.\n"
-						<< "\t\tNOTE:You have to pay 5% of the movie price for each day you have delayed.";
-					movie[j].Quantity++;
+						<< "\t\tNOTE:You have to pay 5% of the movie price for each day you have delayed.\n";
+					movie[k].Quantity++;
 					return;
 				}
 				break;

@@ -23,7 +23,7 @@ struct accountinfo
 	string email;
 	string password;
 	string phoneNumber;
-	int accountNumber = 0;
+	int accountNumber{0};
 	//rentedMOVIE_INFO rented[number_of_movies];
 	//int movieNumber[number_of_movies]; 
 };

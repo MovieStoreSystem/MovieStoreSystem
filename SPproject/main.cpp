@@ -205,3 +205,61 @@ int main()
 {
 	
 }
+
+//shrouk
+void Calculate_totalPrice() {
+	int Nom_of_days;
+	float TotalPrice = 0;
+	bool found{ false };
+	string tempNameOfMovie;
+	cout << "Enter the name of movie you want to return\n";
+	cin >> tempNameOfMovie;
+	for (int j = 0; j < users[logged_in_index].userRentals.nMovies; j++) {
+		for (int k = 0; k < number_of_movies; k++) { // for every movie
+			if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == tempNameOfMovie) {
+				if (users[logged_in_index].userRentals.rentedMovies[j].rentDay.day == 0 &&
+					users[logged_in_index].userRentals.rentedMovies[j].rentDay.month == 0 &&
+					users[logged_in_index].userRentals.rentedMovies[j].rentDay.year == 0) {
+					cout << "You haven't rented the movie yet\n";
+					return;
+				}
+				else {
+					found = true;
+					Currentday();
+					Nom_of_days = daysBetween(users[logged_in_index].userRentals.rentedMovies[j].rentDay, currentday);
+
+					if (Nom_of_days <= duedate) {
+						TotalPrice = movie[k].price * Nom_of_days;
+						cout << "You have to pay: " << TotalPrice << " Pounds.\n";
+						movie[k].Quantity++;
+						TotalPrice = 0;
+						users[logged_in_index].userRentals.rentedMovies[j].rentDay = { 0 };
+						return;
+					}
+					else
+					{
+
+						TotalPrice = movie[k].price + ((Nom_of_days - 7) * (0.05 * movie[k].price));
+						cout << "You have delayed to return the movie for " << (Nom_of_days - 7) << "days.\n"
+							<< "You have to pay: " << TotalPrice << "Pounds.\n"
+							<< "\t\tNOTE:You have to pay 5% of the movie price for each day you have delayed.\n";
+						movie[k].Quantity++;
+						TotalPrice = 0;
+						users[logged_in_index].userRentals.rentedMovies[j].rentDay = { 0 };
+						return;
+					}
+					break;
+
+				}
+			}
+			if (found) break;
+		}
+		if (!found)
+			cout << "User hasn't rented any movies.";
+	}
+
+}
+if (ch != 'n') {
+	cout << "Do you want to continue(y/n)\n";
+	cin >> ch;
+}

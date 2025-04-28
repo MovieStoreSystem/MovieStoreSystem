@@ -10,7 +10,6 @@ using namespace std;
 
 int main() {
 
-
 	int total_users{ getNumberOfUsersFromFile() };
 
 	if (total_users != 0)
@@ -22,10 +21,10 @@ int main() {
 	
 	int logged_in_index = -1;
 	char ch = 'y', choice;
+	bool open = true;
 
 	cout << "1.Sign up \n2.Sign in\n";
 	cin >> choice;
-	
 
 	
 	switch (choice)
@@ -44,7 +43,8 @@ int main() {
 		cout << "invalid choice";
 		break;
 	}
-	do {
+	while(open) {
+		cout << "\t\tWelcome to our Movie Store\n";
 
 		if (users[logged_in_index].isEmployee)
 		{
@@ -78,7 +78,7 @@ int main() {
 
 			case '8':
 				cout << "Exiting :)\n";
-				ch = 'n';
+				open = false;
 				break;
 			default:
 				cout << "Sorry, Invalid choice!";
@@ -115,7 +115,7 @@ int main() {
 
 			case '7':
 				cout << "Exiting :)\n";
-				ch = 'n';
+				open = false;
 				break;
 
 			default:
@@ -123,14 +123,8 @@ int main() {
 				break;
 			}
 		}
-
-
-		if (ch != 'n') {
-			cout << "Do you want to continue(y/n)\n";
-			cin >> ch;
-		}
-	} while (ch == 'y' || ch == 'Y');
-
+	
+	}
 
 	outputToFile(users, total_users);
 
@@ -140,7 +134,6 @@ int main() {
 char customermenu()
 {
 	char choice;
-	cout << "\t\tWelcome to our Movie Store\n";
 	cout << "1.View Movies\n";
 	cout << "2.Rent a Movie\n";
 	cout << "3.Return a Movie\n";  
@@ -155,7 +148,6 @@ char customermenu()
 char employeermenu()
 {
 	char choice;
-	cout << "\t\tWelcome to our Movie Store\n";
 	cout << "1.Add a Movie\n";
 	cout << "2.List all Movies\n";
 	cout << "3.List all Customers\n";
@@ -598,7 +590,7 @@ void Renting() {
 			if (num - 1 == i) {
 				if (movie[i].Quantity == 0)
 				{
-					cout << "Sorry, this movie is not available now ...\n";
+					cout << "Sorry, this movie is not available right now ...\n";
 					movieRented = false;
 					break;
 				}
@@ -707,38 +699,51 @@ void Calculate_totalPrice() {
 	int Nom_of_days;
 	float TotalPrice = 0;
 	bool found{ false };
+	string tempNameOfMovie;
+
+	cout << "Enter the name of movie you want to return:\n";
+	cin >> tempNameOfMovie;
+
 	for (int j = 0; j < users[logged_in_index].userRentals.nMovies; j++) {
-		for (int k = 0; k < number_of_movies; k++) { // for every movie
-			if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie== movie[k].name_of_movie) {
-				found = true;
-				Currentday();
-				Nom_of_days = daysBetween(users[logged_in_index].userRentals.rentedMovies[j].rentDay, currentday);
+		if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == tempNameOfMovie) {
 
-				if (Nom_of_days <= duedate) {
-					TotalPrice = movie[k].price*Nom_of_days;
-					cout << "You have to pay: " << TotalPrice << " Pounds.\n";
-					movie[k].Quantity++;
-					return;
-				}
-				else
-				{
-
-					TotalPrice = movie[k].price + ((Nom_of_days - 7) * (0.05 * movie[k].price));
-					cout << "You have delayed to return the movie for " << (Nom_of_days - 7) << "days.\n"
-						<< "You have to pay: " << TotalPrice << "Pounds.\n"
-						<< "\t\tNOTE:You have to pay 5% of the movie price for each day you have delayed.\n";
-					movie[k].Quantity++;
-					return;
-				}
-				break;
-
+			if (users[logged_in_index].userRentals.rentedMovies[j].rentDay.day == 0 &&
+				users[logged_in_index].userRentals.rentedMovies[j].rentDay.month == 0 &&
+				users[logged_in_index].userRentals.rentedMovies[j].rentDay.year == 0) {
+				cout << "You haven't rented this movie yet.\n";
+				return;
 			}
-			if (found) break;
+
+			found = true;
+			Currentday();  // sets the currentday variable
+			Nom_of_days = daysBetween(users[logged_in_index].userRentals.rentedMovies[j].rentDay, currentday);
+
+			// Find the movie in the movies list
+			for (int k = 0; k < number_of_movies; k++) {
+				if (movie[k].name_of_movie == tempNameOfMovie) {
+
+					if (Nom_of_days <= duedate) {
+						TotalPrice = movie[k].price * Nom_of_days;
+						cout << "You have to pay: " << TotalPrice << " pounds.\n";
+					}
+					else {
+						TotalPrice = movie[k].price + ((Nom_of_days - duedate) * (0.05f * movie[k].price));
+						cout << "You delayed returning the movie by " << (Nom_of_days - duedate) << " days.\n"
+							<< "You have to pay: " << TotalPrice << " pounds.\n"
+							<< "\t\tNOTE: 5% penalty per delayed day.\n";
+					}
+					movie[k].Quantity++;
+					TotalPrice = 0;
+					users[logged_in_index].userRentals.rentedMovies[j].rentDay = { 0, 0, 0 }; 
+					return;
+				}
+			}
 		}
-		if (!found)
-			cout << "User hasn't rented any movies.";
 	}
 
+	if (!found) {
+		cout << "You have not rented this movie.\n";
+	}
 }
 
 	void Rentday(int index) {

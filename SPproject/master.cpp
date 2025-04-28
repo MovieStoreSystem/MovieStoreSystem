@@ -349,39 +349,48 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|'
-				<< boolalpha << users[i].isEmployee<<'|';
-
+				<< boolalpha << users[i].isEmployee << '|'
+				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+			
 			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
 			{
 				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
-			outFile << totalnumofmovies << '|'
-				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+			outFile << totalnumofmovies << '|';
 
-		
 
-			//Movies' Info
-			for (int j{0}; j < users[i].userRentals.nMovies; j++)
+
+			//Movies Info
+
+			for (int i{ 0 }; i < totalnumofmovies; i++) //output movie information
 			{
-				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
-					
-				int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
-				if (movieIndex != -1)
-				{
-					outFile << movie[movieIndex].Quantity << '|';
-					if (!users[i].isEmployee) {
-						outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
-							<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-							<< users[i].userRentals.rentedMovies[j].rentDay.year << '|'
-							<< movie[j].rentingCount << '|';
-					}
-					outFile << movie[movieIndex].price << '|';
-				}
-			
-                   
+				outFile << movie[i].name_of_movie << '|'
+					<< movie[i].Quantity << '|'
+					<< movie[i].rentingCount << '|'
+				    << movie[i].price << '|';
 			}
+
+			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
+				{
+			 outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
+
+			 int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
+			 if (movieIndex != -1)
+			 {
+				 outFile << movie[movieIndex].Quantity << '|';
+
+				 outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
+					 << users[i].userRentals.rentedMovies[j].rentDay.month << '|'
+					 << users[i].userRentals.rentedMovies[j].rentDay.year << '|'
+					 << movie[movieIndex].rentingCount << '|'
+					 << movie[movieIndex].price << '|';
+			 }
+
+
+			}
+		
 
 			outFile << '\n';
 		}
@@ -433,17 +442,39 @@ void loadFromFile(user users[])
 		users[currentIndex].isEmployee = (value == "true");
 
 		getline(ssLine, value, '|');
-		users[currentIndex].frozen = (value == "true");
-		
-		getline(ssLine, value, '|');
-		totalnumofmovies = stoi(value);
-		
-		getline(ssLine, value, '|');
 		if (!value.empty())
 		 users[currentIndex].userRentals.nMovies = stoi(value);
 		else
 		 users[currentIndex].userRentals.nMovies = 0;
+		
+		for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
+		{
+		getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
 
+		}
+		
+		getline(ssLine, value, '|');
+		users[currentIndex].frozen = (value == "true");
+		
+		getline(ssLine, value, '|');
+		totalnumofmovies = stoi(value);
+	
+
+
+		for (int i{0}; i < totalnumofmovies; i++)
+		{
+
+			getline(ssLine, movie[i].name_of_movie, '|');
+
+			if (getline(ssLine, value, '|') && !value.empty())
+				movie[i].Quantity = stoi(value);
+
+			if (getline(ssLine, value, '|') && !value.empty())
+				movie[i].rentingCount = stoi(value);
+
+			if (getline(ssLine, value, '|') && !value.empty())
+				movie[i].price = stof(value);
+		}
 
 		if (totalnumofmovies != 0)
 		{
@@ -456,22 +487,18 @@ void loadFromFile(user users[])
 				if (getline(ssLine, value, '|') && !value.empty() && movieIndex != -1)
 					movie[movieIndex].Quantity = stoi(value);
 
+				if (getline(ssLine, value, '|') && !value.empty())
+					users[currentIndex].userRentals.rentedMovies[i].rentDay.day = stoi(value);
 
-				if (users[currentIndex].userRentals.nMovies != 0)
-				{
-					if (getline(ssLine, value, '|') && !value.empty())
-						users[currentIndex].userRentals.rentedMovies[i].rentDay.day = stoi(value);
+				if (getline(ssLine, value, '|') && !value.empty())
+					users[currentIndex].userRentals.rentedMovies[i].rentDay.month = stoi(value);
 
-					if (getline(ssLine, value, '|') && !value.empty())
-						users[currentIndex].userRentals.rentedMovies[i].rentDay.month = stoi(value);
+				if (getline(ssLine, value, '|') && !value.empty())
+					users[currentIndex].userRentals.rentedMovies[i].rentDay.year = stoi(value);
 
-					if (getline(ssLine, value, '|') && !value.empty())
-						users[currentIndex].userRentals.rentedMovies[i].rentDay.year = stoi(value);
-
-					if (getline(ssLine, value, '|') && !value.empty())
-						movie[currentIndex].rentingCount = stoi(value);
-				}
-
+				if (getline(ssLine, value, '|') && !value.empty())
+					movie[currentIndex].rentingCount = stoi(value);
+				
 				if (getline(ssLine, value, '|') && !value.empty())
 					movie[movieIndex].price = stof(value);
 			}
@@ -571,13 +598,13 @@ void Renting() {
 					movie[i].Quantity--;
 					movie[i].rentingCount++;
 			        
-					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
+					users[i].userRentals.rentedMovies[users[i].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
 					
-					Rentday(users[logged_in_index].userRentals.nMovies);
+					Rentday(users[i].userRentals.nMovies);
 					
 					cout << "\t\trented successfully\n";
 		            
-					users[logged_in_index].userRentals.nMovies++;
+					users[i].userRentals.nMovies++;
 					movieRented = true;
 					break;
 				}
@@ -761,6 +788,8 @@ void ViewAccountInfo() {
 //		}
 //	}
 //}
+
+
 int findMovieIndexByName(string_view movieName)
 {
 	for (int i{ 0 }; i < totalnumofmovies; i++)

@@ -1,2 +1,2 @@
-2|jannah|01004440519|j@gmail.com|1234|true|1|Encanto|false|1|Encanto|5|1|40|Encanto|5|0|0|0|1|40|
-jan|01004540519|ja@gmail.com|1234|false|0|false|1|Encanto|5|1|40|
+2|jan|01004440519|j@gmail.com|1|true|1|Encanto|false|1|Encanto|2|1|40|Encanto|2|12|12|2025|1|40|
+jannah|01005550519|ja@gmail.com|1|false|0|false|1|Encanto|2|1|40|

@@ -317,7 +317,7 @@ void movierate(movieinfo movie[]) {
 
 	for (int i = 0;i < number_of_movies;i++)
 	{
-		if (movie[i].names_of_movies == title)
+		if (movie[i].name_of_movie == title)
 		{
 			cout << "Please enter a rating from 1 to 5\n";
 			cin >> temp_rate;
@@ -340,6 +340,11 @@ void movierate(movieinfo movie[]) {
 void outputToFile(user users[], int totalUsers)
 {
 	ofstream outFile("savedData.txt");
+	if (!outFile)
+	{
+		cerr << "Couldn't open file for writing.";
+		return;
+	}
     outFile << totalUsers << '|';
 
 	if (outFile.is_open())
@@ -352,7 +357,7 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|'
-				<< users[i].isEmployee<<'|';
+				<< boolalpha << users[i].isEmployee<<'|';
 
 			for (int j{ 0 }; j < users[i].rentedInfo.nMovies; j++) //output rented movies to file 
 			{
@@ -360,7 +365,24 @@ void outputToFile(user users[], int totalUsers)
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
-			outFile << movie[totalnumofmovies].names_of_movies << '\n'; 
+
+
+
+			//Movies' Info
+			for (int i{0}; i < totalnumofmovies; i++)
+			{
+				outFile << movie[i].name_of_movie << '|'
+					<< movie[i].Quantity << '|'
+					<< movie[i].rentday.day << '|'
+					<< movie[i].rentday.month << '|'
+					<< movie[i].rentday.year << '|'
+					<< movie[i].rentingCount << '|'
+					<< movie[i].price << '|'
+					<< movie[i].overdue_price << '|';
+                   
+			}
+
+			outFile << '\n';
 		}
 		outFile.close();
 	}
@@ -384,6 +406,11 @@ void loadFromFile(user users[])
 {
 	string line{}, value{};
 	ifstream myFile("savedData.txt");
+	if (!myFile)
+	{
+		cerr << "Couldn't open file for reading.";
+		return;
+	}
 
 	int currentIndex{ 0 };
 	while(getline(myFile, line))
@@ -400,15 +427,39 @@ void loadFromFile(user users[])
 		getline(ssLine, users[currentIndex].userAccount.phoneNumber, '|');
 		getline(ssLine, users[currentIndex].userAccount.email, '|');
 		getline(ssLine, users[currentIndex].userAccount.password, '|');
-		string temp;
-		getline(ssLine, temp, '|');
-		users[currentIndex].isEmployee = (temp == "1" || temp == "true");
-
 
 		getline(ssLine, value, '|');
-		users[currentIndex].frozen = (value == "true") ? true : false;
+		users[currentIndex].isEmployee = (value == "true");
+
+		getline(ssLine, value, '|');
+		users[currentIndex].frozen = (value == "true");
+
+		getline(ssLine, movie[currentIndex].name_of_movie, '|');
+
+		getline(ssLine, value, '|');
+		movie[currentIndex].Quantity = stoi(value);
+		
+		getline(ssLine, value, '|');
+		movie[currentIndex].rentday.day = stoi(value);
+		
+		getline(ssLine, value, '|');
+		movie[currentIndex].rentday.month = stoi(value);
+		
+		getline(ssLine, value, '|');
+		movie[currentIndex].rentday.year = stoi(value);
+		
+		getline(ssLine, value, '|');
+		movie[currentIndex].rentingCount = stoi(value);
+		
+		getline(ssLine, value, '|');
+		movie[currentIndex].price = stof(value);
+		
+		getline(ssLine, value, '|');
+		movie[currentIndex].overdue_price = stof(value);
+		
 		currentIndex++;
 	}
+	myFile.close();
 }
 
 bool isLeap(int year) {
@@ -473,7 +524,7 @@ void Renting() {
 	}
 	else {
 		for (int i = 0;i < number_of_movies;i++) {
-			users[logged_in_index].rentedInfo.namesofRentedmovies[users[logged_in_index].rentedInfo.nMovies] = movie[num].names_of_movies;
+			users[logged_in_index].rentedInfo.namesofRentedmovies[users[logged_in_index].rentedInfo.nMovies] = movie[num].name_of_movie;
 		}
 		for (int i = 0; i < number_of_movies; i++) {
 			if (num - 1 == i) {
@@ -504,7 +555,7 @@ void sortMoviesByCount() {
 		}
 	}
 	for (int i = 0; i < number_of_movies; i++) {
-		cout << movie[i].names_of_movies << " - Rentals: " << movie[i].rentingCount << endl;
+		cout << movie[i].name_of_movie << " - Rentals: " << movie[i].rentingCount << endl;
 	}
 }
 
@@ -520,7 +571,7 @@ void displayCustomers(int totalusers) {
 void displayMovies() {
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
-		cout <<i+1<<". " << movie[i].names_of_movies;
+		cout <<i+1<<". " << movie[i].name_of_movie;
 		cout << '\n';
 	}
 }
@@ -529,7 +580,7 @@ void displayRentedMovies() {
 	for (int i = 0; i < totalnumofmovies; i++) 
 	{
 		if (users[logged_in_index].movieInfo.rentingCount>0)
-			cout << movie[i].names_of_movies << "\n";
+			cout << movie[i].name_of_movie << "\n";
 	}
 }
 
@@ -544,7 +595,7 @@ void addingMovies(int count)
 		for (int i = 0;i < count;i++) {
 			cout << "Enter the movie name:\n";
 			cin.ignore();
-			getline(cin, movie[totalnumofmovies].names_of_movies);
+			getline(cin, movie[totalnumofmovies].name_of_movie);
 			cout << "Enter the price of the movie for a day:\n";
 			cin >> movie[totalnumofmovies].price;
 			cout << "Enter the quantity of the movie\n";
@@ -557,7 +608,7 @@ void addingMovies(int count)
 void moviemanagment()
 {
 	int count;
-	cout << "Enter the count of movies you want to input\n";
+	cout << "Enter how many movies you want to input\n";
 	cin >> count;
 	addingMovies(count);
 }
@@ -568,7 +619,7 @@ void Calculate_totalPrice() {
 	float TotalPrice = 0;
 	for (int k = 0; k < number_of_movies; k++) {
 		for (int j = 0; j < number_of_movies; j++) { // for every movie
-			if (users[logged_in_index].rentedInfo.namesofRentedmovies[k] == movie[j].names_of_movies) {
+			if (users[logged_in_index].rentedInfo.namesofRentedmovies[k] == movie[j].name_of_movie) {
 				Currentday();
 				Nom_of_days = daysBetween(users[logged_in_index].rentedInfo.rentday[k], currentday);
 

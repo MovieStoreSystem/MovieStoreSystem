@@ -23,7 +23,6 @@ int main() {
 	char ch = 'y', choice;
 	bool open = true;
 
-	while(open) {
 		bool sign = true;
 		while (sign) {
 			cout << "1.Sign up \n2.Sign in\n";
@@ -48,6 +47,7 @@ int main() {
 				break;
 			}
 		}
+	while(open) {
 
 		cout << "\t\tWelcome to our Movie Store\n";
 

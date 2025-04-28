@@ -47,9 +47,9 @@ int main() {
 				break;
 			}
 		}
+		cout << "\t\tWelcome to our Movie Store\n\n";
 	while(open) {
-
-		cout << "\t\tWelcome to our Movie Store\n";
+		cout << "\t\tMENU\n";
 
 		if (users[logged_in_index].isEmployee)
 		{

@@ -280,9 +280,9 @@ bool signup(user& temp, user users[], int& totalusers)
 	cout << "Enter your password:\n";
 	cin >> temp.userAccount.password;
 
-	temp.userAccount.accountNumber = (rand() % 100) + 5;
+	temp.userAccount.accountNumber = logged_in_index;
 	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
-		temp.userAccount.accountNumber = (rand() % 100) + 5;
+		temp.userAccount.accountNumber = logged_in_index++;
 	}
 	return true;
 }

@@ -36,7 +36,7 @@ struct movieinfo {
 	float average_rate = 0;
 	int final_score_of_movie = 0;
 	int total_ratings = 0;
-	Date rentday;     //, returnday;
+	Date rentday;   //, returnday;
 }movie[number_of_movies];
 
 struct rentedMOVIE_INFO {

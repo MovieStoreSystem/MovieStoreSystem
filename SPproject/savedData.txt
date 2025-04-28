@@ -1,2 +1,1 @@
-2|jannah|01004440519|j@gmail.com|1234|true|false|1|0|Encanto|6|45|
-jannah|01444440519|ja@gmail.com|1234|true|false|1|0|Encanto|6|45|
+1|jannah|01004440519|j@gmail.com|1234|true|false|2|0|Encanto|4|0|30|Snow White|6|0|45|

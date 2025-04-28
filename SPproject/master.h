@@ -32,7 +32,7 @@ struct movieinfo {
 	string name_of_movie;
 	float price = 0,overdue_price = 0;
 	int rentingCount = 0;
-	int Quantity; 
+	int Quantity=0; 
 	float average_rate = 0;
 	int final_score_of_movie = 0;
 	int total_ratings = 0;

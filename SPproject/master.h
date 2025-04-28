@@ -29,8 +29,8 @@ struct accountinfo
 };
 
 struct movieinfo {
-	string names_of_movies;
-	float price = 0,overdue_price=0;
+	string name_of_movie;
+	float price = 0,overdue_price = 0;
 	int rentingCount = 0;
 	int Quantity; 
 	float average_rate = 0;

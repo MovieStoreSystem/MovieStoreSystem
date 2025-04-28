@@ -30,32 +30,33 @@ struct accountinfo
 
 struct movieinfo {
 	string name_of_movie;
-	float price = 0,overdue_price = 0;
+	float price = 0.0f, overdue_price = 0.0f;
 	int rentingCount = 0;
-	int Quantity; 
-	float average_rate = 0;
-	int final_score_of_movie = 0;
+	int Quantity = 0;
+	float average_rate = 0.0f;
+	int final_score_of_movie;
 	int total_ratings = 0;
-	Date rentday;     //, returnday;
-}movie[number_of_movies];
+} movie[number_of_movies];
 
-struct rentedMOVIE_INFO {
-	string namesofRentedmovies[20];
-	int nMovies = 0;
-	Date rentday[number_of_movies];   //, returnday;
-	//string movieNAME;
-	//int numberofmovies=0;
+struct RentedMovieInfo
+{
+	string nameOfRentedMovie;
+	Date rentDay;
 };
+
+struct RentedMovies {
+	RentedMovieInfo rentedMovies[number_of_movies];
+	int nMovies = 0;
+};
+
 
 struct user
 {
+	accountinfo userAccount;
 	int age = 0;
 	bool isEmployee = false;
 	bool frozen = false;
-	accountinfo userAccount;
-	rentedMOVIE_INFO rentedInfo;
-	movieinfo movieInfo;
-	Date rentday;          //, returnday;
+	RentedMovies userRentals;
 	//string rentedMovies[10];
 	//int usersmovie[number_of_movies];
 }users[20], Overdue[20];
@@ -103,3 +104,6 @@ void Calculate_totalPrice();
 void Rentday(int index);
 void Currentday();
 void ViewAccountInfo();
+
+
+int findMovieIndexByName(string_view movieName);

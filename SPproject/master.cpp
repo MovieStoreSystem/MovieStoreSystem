@@ -357,16 +357,16 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|'
-				<< boolalpha << users[i].isEmployee << '|';
-
+				<< boolalpha << users[i].isEmployee << '|'
+				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+			
 			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
 			{
 				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
-			outFile << totalnumofmovies << '|'
-				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+			outFile << totalnumofmovies << '|';
 
 
 
@@ -385,17 +385,16 @@ void outputToFile(user users[], int totalUsers)
 			 outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
 
 			 int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
-				if (movieIndex != -1)
-				{
-					outFile << movie[movieIndex].Quantity << '|';
-					if (!users[i].isEmployee) {
-						outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
-							<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-							<< users[i].userRentals.rentedMovies[j].rentDay.year << '|'
-							<< movie[movieIndex].rentingCount << '|';
-						}
-					outFile << movie[movieIndex].price << '|';
-				}
+			 if (movieIndex != -1)
+			 {
+				 outFile << movie[movieIndex].Quantity << '|';
+
+				 outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
+					 << users[i].userRentals.rentedMovies[j].rentDay.month << '|'
+					 << users[i].userRentals.rentedMovies[j].rentDay.year << '|'
+					 << movie[movieIndex].rentingCount << '|'
+					 << movie[movieIndex].price << '|';
+			 }
 
 
 			}
@@ -451,16 +450,25 @@ void loadFromFile(user users[])
 		users[currentIndex].isEmployee = (value == "true");
 
 		getline(ssLine, value, '|');
-		users[currentIndex].frozen = (value == "true");
-		
-		getline(ssLine, value, '|');
-		totalnumofmovies = stoi(value);
-		
-		getline(ssLine, value, '|');
 		if (!value.empty())
 		 users[currentIndex].userRentals.nMovies = stoi(value);
 		else
 		 users[currentIndex].userRentals.nMovies = 0;
+		
+		for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
+		{
+		getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
+
+		}
+		
+		getline(ssLine, value, '|');
+		users[currentIndex].frozen = (value == "true");
+		
+		getline(ssLine, value, '|');
+		totalnumofmovies = stoi(value);
+	
+
+
 		for (int i{0}; i < totalnumofmovies; i++)
 		{
 
@@ -487,21 +495,18 @@ void loadFromFile(user users[])
 				if (getline(ssLine, value, '|') && !value.empty() && movieIndex != -1)
 					movie[movieIndex].Quantity = stoi(value);
 
-				if (users[currentIndex].userRentals.nMovies != 0)
-				{
-					if (getline(ssLine, value, '|') && !value.empty())
-						users[currentIndex].userRentals.rentedMovies[i].rentDay.day = stoi(value);
+				if (getline(ssLine, value, '|') && !value.empty())
+					users[currentIndex].userRentals.rentedMovies[i].rentDay.day = stoi(value);
 
-					if (getline(ssLine, value, '|') && !value.empty())
-						users[currentIndex].userRentals.rentedMovies[i].rentDay.month = stoi(value);
+				if (getline(ssLine, value, '|') && !value.empty())
+					users[currentIndex].userRentals.rentedMovies[i].rentDay.month = stoi(value);
 
-					if (getline(ssLine, value, '|') && !value.empty())
-						users[currentIndex].userRentals.rentedMovies[i].rentDay.year = stoi(value);
+				if (getline(ssLine, value, '|') && !value.empty())
+					users[currentIndex].userRentals.rentedMovies[i].rentDay.year = stoi(value);
 
-					if (getline(ssLine, value, '|') && !value.empty())
-						movie[currentIndex].rentingCount = stoi(value);
-				}
-
+				if (getline(ssLine, value, '|') && !value.empty())
+					movie[currentIndex].rentingCount = stoi(value);
+				
 				if (getline(ssLine, value, '|') && !value.empty())
 					movie[movieIndex].price = stof(value);
 			}

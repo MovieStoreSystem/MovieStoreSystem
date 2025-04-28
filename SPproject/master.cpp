@@ -603,13 +603,13 @@ void Renting() {
 					movie[i].Quantity--;
 					movie[i].rentingCount++;
 			        
-					users[i].userRentals.rentedMovies[users[i].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
+					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
 					
-					Rentday(i);
+					Rentday(users[logged_in_index].userRentals.nMovies);
 					
 					cout << "\t\trented successfully\n";
 		            
-					users[i].userRentals.nMovies++;
+					users[logged_in_index].userRentals.nMovies++;
 					movieRented = true;
 					break;
 				}
@@ -718,29 +718,31 @@ void Calculate_totalPrice() {
 				cout << "You haven't rented this movie yet.\n";
 				return;
 			}
+			else {
+				found = true;
+				Currentday();  // sets the currentday variable
+				Nom_of_days = daysBetween(users[logged_in_index].userRentals.rentedMovies[j].rentDay, currentday);
 
-			found = true;
-			Currentday();  // sets the currentday variable
-			Nom_of_days = daysBetween(users[logged_in_index].userRentals.rentedMovies[j].rentDay, currentday);
+				// Find the movie in the movies list
+				for (int k = 0; k < number_of_movies; k++) {
+					if (movie[k].name_of_movie == tempNameOfMovie) {
 
-			// Find the movie in the movies list
-			for (int k = 0; k < number_of_movies; k++) {
-				if (movie[k].name_of_movie == tempNameOfMovie) {
-
-					if (Nom_of_days <= duedate) {
-						TotalPrice = movie[k].price * Nom_of_days;
-						cout << "You have to pay: " << TotalPrice << " pounds.\n";
+						if (Nom_of_days <= duedate) {
+							TotalPrice = movie[k].price * Nom_of_days;
+							cout << "You have to pay: " << TotalPrice << " pounds.\n";
+						}
+						else {
+							TotalPrice = movie[k].price + ((Nom_of_days - duedate) * (0.05f * movie[k].price));
+							cout << "You delayed returning the movie by " << (Nom_of_days - duedate) << " days.\n"
+								<< "You have to pay: " << TotalPrice << " pounds.\n"
+								<< "\t\tNOTE: 5% penalty per delayed day.\n";
+						}
+						movie[k].Quantity++;
+						users[logged_in_index].userRentals.nMovies--;
+						TotalPrice = 0;
+						users[logged_in_index].userRentals.rentedMovies[j].rentDay = { 0, 0, 0 };
+						return;
 					}
-					else {
-						TotalPrice = movie[k].price + ((Nom_of_days - duedate) * (0.05f * movie[k].price));
-						cout << "You delayed returning the movie by " << (Nom_of_days - duedate) << " days.\n"
-							<< "You have to pay: " << TotalPrice << " pounds.\n"
-							<< "\t\tNOTE: 5% penalty per delayed day.\n";
-					}
-					movie[k].Quantity++;
-					TotalPrice = 0;
-					users[logged_in_index].userRentals.rentedMovies[j].rentDay = { 0, 0, 0 }; 
-					return;
 				}
 			}
 		}
@@ -751,15 +753,15 @@ void Calculate_totalPrice() {
 	}
 }
 
-	void Rentday(int index) {
-	   cout << "Enter the day of renting\n";
-	   cin >> users[index].userRentals.rentedMovies[index].rentDay.day;
-	   cout << "Enter the month of renting\n";
-	   cin >> users[index].userRentals.rentedMovies[index].rentDay.month;
-	   cout << "Enter the year of renting\n";
-	   cin >> users[index].userRentals.rentedMovies[index].rentDay.year;
-  
+void Rentday(int index) {
+	cout << "Enter the day of renting\n";
+	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.day;
+	cout << "Enter the month of renting\n";
+	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.month;
+	cout << "Enter the year of renting\n";
+	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.year;
 }
+
 void Currentday() {
 	cout << "Enter the date of today\n";
 	cin >> currentday.day >> currentday.month >> currentday.year;

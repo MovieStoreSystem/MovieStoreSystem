@@ -23,27 +23,32 @@ int main() {
 	char ch = 'y', choice;
 	bool open = true;
 
-	cout << "1.Sign up \n2.Sign in\n";
-	cin >> choice;
-
-	
-	switch (choice)
-	{
-	case '1':
-		signup(users[total_users], users, total_users);
-		logged_in_index = total_users;
-		total_users++;
-		break;
-	case '2':
-		logged_in_index = signin(users, total_users);
-		if (logged_in_index == -1)
-			return 0;
-		break;
-	default:
-		cout << "invalid choice";
-		break;
-	}
 	while(open) {
+		bool sign = true;
+		while (sign) {
+			cout << "1.Sign up \n2.Sign in\n";
+			cin >> choice;
+
+			switch (choice)
+			{
+			case '1':
+				signup(users[total_users], users, total_users);
+				logged_in_index = total_users;
+				total_users++;
+				sign = false;
+				break;
+			case '2':
+				logged_in_index = signin(users, total_users);
+				if (logged_in_index == -1)
+					return 0;
+				sign = false;
+				break;
+			default:
+				cout << "invalid choice\n";
+				break;
+			}
+		}
+
 		cout << "\t\tWelcome to our Movie Store\n";
 
 		if (users[logged_in_index].isEmployee)

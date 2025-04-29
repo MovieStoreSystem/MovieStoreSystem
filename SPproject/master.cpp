@@ -334,6 +334,7 @@ void movierate(movieinfo movie[]) {
 	return;
 }
 
+//
 //void outputToFile(user users[], int totalUsers)
 //{
 //	ofstream outFile("savedData.txt");
@@ -342,71 +343,51 @@ void movierate(movieinfo movie[]) {
 //		cerr << "Couldn't open file for writing.";
 //		return;
 //	}
-//	
-//    outFile << totalUsers << '|';
-//	outFile << totalnumofmovies << '|';
 //
 //	if (outFile.is_open())
 //	{
-//	for (int i{ 0 }; i < totalnumofmovies; i++) //output movie information
-//	{
-//		outFile << movie[i].name_of_movie << '|'
-//			<< movie[i].Quantity << '|'
-//			<< movie[i].rentingCount << '|'
-//			<< movie[i].price << '|';
+//		// Write totalUsers and totalnumofmovies first
+//		outFile << totalUsers << '|'
+//			<< totalnumofmovies << '|';
 //
-//    }
+//		// Write all movie information
+//		for (int i{ 0 }; i < totalnumofmovies; i++)
+//		{
+//			outFile << movie[i].name_of_movie << '|'
+//				<< movie[i].Quantity << '|'
+//				<< movie[i].rentingCount << '|'
+//				<< movie[i].price << '|'
+//				<< movie[i].average_rate << '|'
+//				<< movie[i].final_score_of_movie << '|'
+//				<< movie[i].total_ratings << '|';
+//		}
+//
+//		// Write all users
 //		for (int i{ 0 }; i < totalUsers; i++)
 //		{
-//			outFile
-//				//<< users[i].userAccount.accountNumber << '|'
-//				<< users[i].userAccount.username << '|' //output user ID & username to file
+//			outFile << users[i].userAccount.username << '|'
 //				<< users[i].userAccount.phoneNumber << '|'
 //				<< users[i].userAccount.email << '|'
 //				<< users[i].userAccount.password << '|'
 //				<< boolalpha << users[i].isEmployee << '|'
-//				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
-//			
-//			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
+//				<< users[i].userRentals.nMovies << '|';
+//
+//			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
 //			{
-//				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
-//
+//				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|'
+//					<< users[i].userRentals.rentedMovies[j].rentDay.day << '|'
+//					<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
+//					<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
 //			}
-//			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
 //
+//			outFile << boolalpha << users[i].frozen << '|';
 //
-//
-//			//Movies Info
-//
-//
-//			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
-//				{
-//			 outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
-//
-//			 int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
-//			 if (movieIndex != -1)
-//			 {
-//				 outFile << movie[movieIndex].Quantity << '|';
-//
-//				 outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
-//					 << users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-//					 << users[i].userRentals.rentedMovies[j].rentDay.year << '|'
-//					 << movie[movieIndex].rentingCount << '|'
-//					 << movie[movieIndex].price << '|'
-//					 << movie[movieIndex].average_rate << '|'
-//					 << movie[movieIndex].final_score_of_movie << '|'
-//					 << movie[movieIndex].total_ratings << '|';
-//			 }
-//
-//
-//			}
-//		
-//
-//			outFile << '\n';
+//			outFile << '\n'; // New line for the next user
 //		}
-//		outFile.close();
-//	}
 //
+//		outFile.close(); //chat gpt changes idon't know what is the difference but all i know that it doesn't work with the last function ,good luck cause i tried to understand it and it is hard
+//		            // Sorry, I couldn't help you :( it's okayyy dont worry abt it 
+//	}
 //}
 
 void outputToFile(user users[], int totalUsers)
@@ -418,52 +399,68 @@ void outputToFile(user users[], int totalUsers)
 		return;
 	}
 
+	outFile << totalUsers << '|';
+	outFile << totalnumofmovies << '|';
+
 	if (outFile.is_open())
 	{
-		// Write totalUsers and totalnumofmovies first
-		outFile << totalUsers << '|'
-			<< totalnumofmovies << '|';
-
-		// Write all movie information
-		for (int i{ 0 }; i < totalnumofmovies; i++)
+		for (int i{ 0 }; i < totalnumofmovies; i++) //output movie information
 		{
 			outFile << movie[i].name_of_movie << '|'
 				<< movie[i].Quantity << '|'
 				<< movie[i].rentingCount << '|'
-				<< movie[i].price << '|'
-				<< movie[i].average_rate << '|'
-				<< movie[i].final_score_of_movie << '|'
-				<< movie[i].total_ratings << '|';
-		}
+				<< movie[i].price << '|';
 
-		// Write all users
+		}
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
-			outFile << users[i].userAccount.username << '|'
+			outFile
+				//<< users[i].userAccount.accountNumber << '|'
+				<< users[i].userAccount.username << '|' //output user ID & username to file
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< users[i].userAccount.password << '|'
 				<< boolalpha << users[i].isEmployee << '|'
-				<< users[i].userRentals.nMovies << '|';
+				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
 
-			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
+			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
 			{
-				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|'
-					<< users[i].userRentals.rentedMovies[j].rentDay.day << '|'
-					<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-					<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
+				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
+
+			}
+			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
+
+
+
+			//Movies Info
+
+
+			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
+			{
+				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
+
+				int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
+				if (movieIndex != -1)
+				{
+					outFile << movie[movieIndex].Quantity << '|';
+
+					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
+						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
+						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|'
+						<< movie[movieIndex].rentingCount << '|'
+						<< movie[movieIndex].price << '|';
+				}
+
+
 			}
 
-			outFile << boolalpha << users[i].frozen << '|';
 
-			outFile << '\n'; // New line for the next user
+			outFile << '\n';
 		}
-
-		outFile.close(); //chat gpt changes idon't know what is the difference but all i know that it doesn't work with the last function ,good luck cause i tried to understand it and it is hard
-		            // Sorry, I couldn't help you :(
+		outFile.close();
 	}
-}
 
+}
 
 int getNumberOfUsersFromFile()
 {
@@ -475,7 +472,7 @@ int getNumberOfUsersFromFile()
 	if (myFile.eof())
 		return 0;
 	else
-        return stoi(nUsers);
+		return stoi(nUsers);
 }
 
 void loadFromFile(user users[])
@@ -489,7 +486,7 @@ void loadFromFile(user users[])
 	}
 
 	int currentIndex{ 0 };
-	while(getline(myFile, line))
+	while (getline(myFile, line))
 	{
 		stringstream ssLine(line);
 
@@ -513,18 +510,9 @@ void loadFromFile(user users[])
 
 				if (getline(ssLine, value, '|') && !value.empty())
 					movie[i].price = stof(value);
-
-				/*if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].average_rate = stof(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].final_score_of_movie = stof(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].total_ratings = stof(value);    */
 			}
 		}
-	
+
 		/*
 			getline(ssLine, value, '|');
 		if (!value.empty())
@@ -540,19 +528,19 @@ void loadFromFile(user users[])
 
 		getline(ssLine, value, '|');
 		if (!value.empty())
-		 users[currentIndex].userRentals.nMovies = stoi(value);
+			users[currentIndex].userRentals.nMovies = stoi(value);
 		else
-		 users[currentIndex].userRentals.nMovies = 0;
-		
+			users[currentIndex].userRentals.nMovies = 0;
+
 		for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
 		{
-		getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
+			getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
 
 		}
-		
+
 		getline(ssLine, value, '|');
 		users[currentIndex].frozen = (value == "true");
-		
+
 
 		if (totalnumofmovies != 0)
 		{
@@ -571,12 +559,11 @@ void loadFromFile(user users[])
 
 			}
 		}
-		
+
 		currentIndex++;
 	}
 	myFile.close();
 }
-
 
 
 

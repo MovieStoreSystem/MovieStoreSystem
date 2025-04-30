@@ -392,9 +392,9 @@ void outputToFile(user users[], int totalUsers)
 				{
 					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|'
-						<< movie[movieIndex].rentingCount << '|'
-						<< movie[movieIndex].price << '|';
+						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
+						/*<< movie[movieIndex].rentingCount << '|'
+						<< movie[movieIndex].price << '|';*/
 				}
 				
 			}
@@ -590,6 +590,12 @@ void Renting() {
 		for (int i = 0;i < number_of_movies;i++) {
 
 			if (num -1 == i) {
+				for (int j = 0;j < users[logged_in_index].userRentals.nMovies;j++) {
+					if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == movie[i].name_of_movie) {
+						cout << "You have already rented this movie\n";
+						return;
+					}
+				}
 				if (movie[i].Quantity == 0)
 				{
 					cout << "Sorry, this movie is not available right now ...\n";
@@ -796,18 +802,21 @@ void ViewAccountInfo() {
 
 //void update() {
 //	bool found;
-//	cout << "Enter New Shipments data\n";
+//	string name_of_movie;
+//	int Quantity;
+//
+//	cout << "Enter New Shipment's data\n";
 //	for (int i = 0; i < number_of_movies; i++) {
-//		cin >> x.name_of_movie >> x.Quantity;
-//		if (movie[i].name_of_movie == x.name_of_movie) {
+//		cin >> name_of_movie >> Quantity;
+//		if (movie[i].name_of_movie == name_of_movie) {
 //			found = true;
-//			movie[i].quantity += x.Quantity;
+//			movie[i].Quantity += Quantity;
 //		}
-//		if (movie[i].name_of_movie != x.name_of_movie) {
+//		if (movie[i].name_of_movie != name_of_movie) {
 //			found = false;
-//			movie[i].quantity = 0;
-//			movie[i].quantity += x.Quantity;
-//			addingMovies(x.Quantity);
+//			movie[i].Quantity = 0;
+//			movie[i].Quantity += Quantity;
+//			addingMovies(Quantity);
 //		}
 //	}
 //}

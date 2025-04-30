@@ -280,9 +280,9 @@ bool signup(user& temp, user users[], int& totalusers)
 	cout << "Enter your password:\n";
 	cin >> temp.userAccount.password;
 
-	temp.userAccount.accountNumber = logged_in_index;
+	temp.userAccount.accountNumber = (rand() % 50);
 	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
-		temp.userAccount.accountNumber = logged_in_index++;
+		temp.userAccount.accountNumber = (rand() % 50) + 1;
 	}
 	return true;
 }
@@ -688,10 +688,13 @@ void sortMoviesByCount() {
 
 // Displaying information
 void displayCustomers(int totalusers) {
+	int j = 1;
 	for (int i = 0; i < totalusers; i++)
 	{
-		cout << users[i].userAccount.accountNumber << '\t';
-		cout << users[i].userAccount.username << '\n';
+		if (!users[i].isEmployee) {
+			cout << j<<". " << users[i].userAccount.username << '\n';
+			j++;
+		}
 	}
 }
 

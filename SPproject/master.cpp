@@ -37,8 +37,9 @@ int main() {
 				break;
 			case '2':
 				logged_in_index = signin(users, total_users);
-				if (logged_in_index == 50)
+				if (logged_in_index == 50) {
 					return 0;
+				}
 				sign = false;
 				break;
 			default:
@@ -300,7 +301,7 @@ int signin(user users[], int totalusers) {
 		}
 	}
 	cout << "This account doesn't exist.\n";
-	return -1;
+	return 50;
 }
 
 // Rating Movies
@@ -792,7 +793,7 @@ void Calculate_totalPrice() {
 						movie[k].Quantity++;
 						users[logged_in_index].userRentals.nMovies--;
 						TotalPrice = 0;
-						users[logged_in_index].userRentals.rentedMovies[j].rentDay = { 0, 0, 0 };
+						users[logged_in_index].userRentals.rentedMovies[j].rentDay= { 0, 0, 0 };
 						return;
 					}
 				}

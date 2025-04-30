@@ -270,7 +270,10 @@ bool signup(user& temp, user users[], int& totalusers)
 	{
 		cout << "Enter your email:\n";
 		cin >> temp.userAccount.email;
-		if (findemail(temp.userAccount.email, users, totalusers)) {
+		if(){
+
+		}
+		else if (findemail(temp.userAccount.email, users, totalusers)) {
 			cout << "This email already exists!\n";
 		}
 		else
@@ -710,7 +713,6 @@ void moviemanagment()
 	addingMovies(count);
 }
 
-//shrouk
 void Calculate_totalPrice() {
 	int Nom_of_days;
 	float TotalPrice = 0;

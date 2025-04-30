@@ -334,61 +334,6 @@ void movierate(movieinfo movie[]) {
 	return;
 }
 
-//
-//void outputToFile(user users[], int totalUsers)
-//{
-//	ofstream outFile("savedData.txt");
-//	if (!outFile)
-//	{
-//		cerr << "Couldn't open file for writing.";
-//		return;
-//	}
-//
-//	if (outFile.is_open())
-//	{
-//		// Write totalUsers and totalnumofmovies first
-//		outFile << totalUsers << '|'
-//			<< totalnumofmovies << '|';
-//
-//		// Write all movie information
-//		for (int i{ 0 }; i < totalnumofmovies; i++)
-//		{
-//			outFile << movie[i].name_of_movie << '|'
-//				<< movie[i].Quantity << '|'
-//				<< movie[i].rentingCount << '|'
-//				<< movie[i].price << '|'
-//				<< movie[i].average_rate << '|'
-//				<< movie[i].final_score_of_movie << '|'
-//				<< movie[i].total_ratings << '|';
-//		}
-//
-//		// Write all users
-//		for (int i{ 0 }; i < totalUsers; i++)
-//		{
-//			outFile << users[i].userAccount.username << '|'
-//				<< users[i].userAccount.phoneNumber << '|'
-//				<< users[i].userAccount.email << '|'
-//				<< users[i].userAccount.password << '|'
-//				<< boolalpha << users[i].isEmployee << '|'
-//				<< users[i].userRentals.nMovies << '|';
-//
-//			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
-//			{
-//				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|'
-//					<< users[i].userRentals.rentedMovies[j].rentDay.day << '|'
-//					<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-//					<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
-//			}
-//
-//			outFile << boolalpha << users[i].frozen << '|';
-//
-//			outFile << '\n'; // New line for the next user
-//		}
-//
-//		outFile.close(); //chat gpt changes idon't know what is the difference but all i know that it doesn't work with the last function ,good luck cause i tried to understand it and it is hard
-//		            // Sorry, I couldn't help you :( it's okayyy dont worry abt it 
-//	}
-//}
 
 void outputToFile(user users[], int totalUsers)
 {

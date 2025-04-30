@@ -360,7 +360,7 @@ void outputToFile(user users[], int totalUsers)
 				<< movie[i].price << '|';
 
 		}
-		for (int i{ 0 }; i < totalUsers; i++)
+		for (int i{ 0 }; i <= totalUsers; i++)
 		{
 			outFile
 				//<< users[i].userAccount.accountNumber << '|'
@@ -396,8 +396,7 @@ void outputToFile(user users[], int totalUsers)
 						<< movie[movieIndex].rentingCount << '|'
 						<< movie[movieIndex].price << '|';
 				}
-
-
+				
 			}
 
 
@@ -587,10 +586,10 @@ void Renting() {
 	}
 	else {
 		bool movieRented{ false };
-		num -= 1;
+	
 		for (int i = 0;i < number_of_movies;i++) {
 
-			if (num == i) {
+			if (num -1 == i) {
 				if (movie[i].Quantity == 0)
 				{
 					cout << "Sorry, this movie is not available right now ...\n";
@@ -772,11 +771,11 @@ void Calculate_totalPrice() {
 
 void Rentday(int index) {
 	cout << "Enter the day of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.day;
+	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day;
 	cout << "Enter the month of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.month;
+	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month;
 	cout << "Enter the year of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.year;
+	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year;
 }
 
 void Currentday() {

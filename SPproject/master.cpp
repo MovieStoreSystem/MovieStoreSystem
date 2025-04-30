@@ -19,7 +19,7 @@ int main() {
 		
 	}
 	
-	int logged_in_index = -1;
+	int logged_in_index = total_users;
 	char ch = 'y', choice;
 	bool open = true;
 
@@ -38,7 +38,7 @@ int main() {
 				break;
 			case '2':
 				logged_in_index = signin(users, total_users);
-				if (logged_in_index == -1)
+				if (logged_in_index == total_users)
 					return 0;
 				sign = false;
 				break;
@@ -654,7 +654,7 @@ void Renting() {
 					movie[i].Quantity--;
 					movie[i].rentingCount++;
 
-					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
+					users[i].userRentals.rentedMovies[users[i].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
 
 					Rentday(i);
 

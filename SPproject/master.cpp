@@ -19,35 +19,42 @@ int main() {
 		
 	}
 	
-	char ch = 'y', choice;
+	char ch = 'y';
+	string choice;
 	bool open = true;
 
 		bool sign = true;
 		while (sign) {
 
 			    cout << "1.Sign up \n2.Sign in\n";
-				cin >> choice;
+				getline(cin >> ws, choice);
 
-				switch (choice)
+				if (choice.length() == 1 && isdigit(choice[0]))
 				{
-				case '1':
-					signup(users[total_users], users, total_users);
-					logged_in_index = total_users;
-					total_users++;
-					sign = false;
-					break;
-				case '2':
-					logged_in_index = signin(users, total_users);
-					if (logged_in_index == 50) {
-						continue;
-					}
-					sign = false;
-					break;
-				default:
-					cout << "invalid choice\n";
-					break;
+					switch (choice[0])
+					{
+					case '1':
+						signup(users[total_users], users, total_users);
+						logged_in_index = total_users;
+						total_users++;
+						sign = false;
+						break;
+					case '2':
+						logged_in_index = signin(users, total_users);
+						if (logged_in_index == 50) {
+							continue;
+						}
+						sign = false;
+						break;
+					default:
+						cout << "Invalid Choice\n";
+						break;
 
-			}
+					}
+				}
+				  else
+						cout << "Invalid Choice\n";
+
 		}
 		cout << "\t\tWelcome to our Movie Store\n\n";
 	while(open) {
@@ -295,9 +302,15 @@ bool signup(user& temp, user users[], int& totalusers)
 	{
 		cout << "Enter your password:\n";
 		cin >> temp.userAccount.password;
-		if (temp.userAccount.password.length() != 7)
+		if (temp.userAccount.password.length() < 7)
 		{
 			cout << "Password must be atleast 7 digits.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else if (temp.userAccount.password.length() > 10)
+		{
+			cout << "Password cannot exceed 10 digits.\n";
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}

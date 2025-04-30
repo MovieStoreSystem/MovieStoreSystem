@@ -479,7 +479,7 @@ void loadFromFile(user users[])
 	ifstream myFile("savedData.txt");
 	if (!myFile)
 	{
-		cerr << "Couldn't open file for reading.";
+		cout << "Couldn't open file for reading.";
 		return;
 	}
 
@@ -697,10 +697,10 @@ void displayCustomers(int totalusers) {
 }
 
 void displayMovies() {
+	cout << "Movies: " << "\t " << "Rate:\n";
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
-		cout << "Movies: " << "\t" << "Rate:";
-		cout <<i+1<<". " << movie[i].name_of_movie<<"\t"<<movie[i].average_rate;
+		cout <<i+1<<". " << movie[i].name_of_movie<<"\t "<<movie[i].average_rate;
 		cout << '\n';
 	}
 }

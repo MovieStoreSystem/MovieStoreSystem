@@ -655,7 +655,7 @@ void Renting() {
 
 					Rentday(i);
 
-					cout << "\t\trented successfully\n";
+					cout << "\t\tRENTED SUCCESFULLY\n";
 
 					users[logged_in_index].userRentals.nMovies++;
 					movieRented = true;
@@ -698,6 +698,7 @@ void displayCustomers(int totalusers) {
 void displayMovies() {
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
+		cout << "Movies: " << "\t" << "Rate:";
 		cout <<i+1<<". " << movie[i].name_of_movie<<"\t"<<movie[i].average_rate;
 		cout << '\n';
 	}
@@ -746,8 +747,20 @@ void addingMovies(int count)
 void moviemanagment()
 {
 	int count;
-	cout << "Enter how many movies you want to input\n";
-	cin >> count;
+	while (true) {
+		cout << "Enter how many movies you want to input\n";
+		cin >> count;
+
+		if (cin.fail())
+		{
+			cout << "Please enter a number.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+			continue;
+		}
+		else
+			break;
+	}
 	addingMovies(count);
 }
 

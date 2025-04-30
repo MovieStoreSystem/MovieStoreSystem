@@ -270,6 +270,9 @@ bool signup(user& temp, user users[], int& totalusers)
 	{
 		cout << "Enter your email:\n";
 		cin >> temp.userAccount.email;
+		/*if(){
+		
+		}*/
 		if (findemail(temp.userAccount.email, users, totalusers)) {
 			cout << "This email already exists!\n";
 		}
@@ -334,6 +337,7 @@ void movierate(movieinfo movie[]) {
 	return;
 }
 
+
 void outputToFile(user users[], int totalUsers)
 {
 	ofstream outFile("savedData.txt");
@@ -356,7 +360,7 @@ void outputToFile(user users[], int totalUsers)
 				<< movie[i].price << '|';
 
 		}
-		for (int i{ 0 }; i < totalUsers; i++)
+		for (int i{ 0 }; i <= totalUsers; i++)
 		{
 			outFile
 				//<< users[i].userAccount.accountNumber << '|'
@@ -392,8 +396,7 @@ void outputToFile(user users[], int totalUsers)
 						<< movie[movieIndex].rentingCount << '|'
 						<< movie[movieIndex].price << '|';
 				}
-
-
+				
 			}
 
 
@@ -583,9 +586,10 @@ void Renting() {
 	}
 	else {
 		bool movieRented{ false };
+	
 		for (int i = 0;i < number_of_movies;i++) {
 
-			if (num - 1 == i) {
+			if (num -1 == i) {
 				if (movie[i].Quantity == 0)
 				{
 					cout << "Sorry, this movie is not available right now ...\n";
@@ -709,7 +713,6 @@ void moviemanagment()
 	addingMovies(count);
 }
 
-//shrouk
 void Calculate_totalPrice() {
 	int Nom_of_days;
 	float TotalPrice = 0;
@@ -717,7 +720,8 @@ void Calculate_totalPrice() {
 	string tempNameOfMovie;
 
 	cout << "Enter the name of movie you want to return:\n";
-	cin >> tempNameOfMovie;
+	cin.ignore();
+	getline(cin, tempNameOfMovie);
 
 	for (int j = 0; j < users[logged_in_index].userRentals.nMovies; j++) {
 		if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == tempNameOfMovie) {
@@ -763,13 +767,15 @@ void Calculate_totalPrice() {
 	}
 }
 
+
+
 void Rentday(int index) {
 	cout << "Enter the day of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.day;
+	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day;
 	cout << "Enter the month of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.month;
+	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month;
 	cout << "Enter the year of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.year;
+	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year;
 }
 
 void Currentday() {

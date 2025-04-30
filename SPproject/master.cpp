@@ -24,27 +24,29 @@ int main() {
 
 		bool sign = true;
 		while (sign) {
-			cout << "1.Sign up \n2.Sign in\n";
-			cin >> choice;
 
-			switch (choice)
-			{
-			case '1':
-				signup(users[total_users], users, total_users);
-				logged_in_index = total_users;
-				total_users++;
-				sign = false;
-				break;
-			case '2':
-				logged_in_index = signin(users, total_users);
-				if (logged_in_index == 50) {
-					return 0;
-				}
-				sign = false;
-				break;
-			default:
-				cout << "invalid choice\n";
-				break;
+			    cout << "1.Sign up \n2.Sign in\n";
+				cin >> choice;
+
+				switch (choice)
+				{
+				case '1':
+					signup(users[total_users], users, total_users);
+					logged_in_index = total_users;
+					total_users++;
+					sign = false;
+					break;
+				case '2':
+					logged_in_index = signin(users, total_users);
+					if (logged_in_index == 50) {
+						continue;
+					}
+					sign = false;
+					break;
+				default:
+					cout << "invalid choice\n";
+					break;
+
 			}
 		}
 		cout << "\t\tWelcome to our Movie Store\n\n";
@@ -208,14 +210,24 @@ bool findtrueinfo(string email, string password, user users[], int& totalusers) 
 bool signup(user& temp, user users[], int& totalusers)
 {
 	char role;
-	cout << "Are you an Employee (E) or a Customer (C)? ";
-	cin >> role;
+	while (true)
+	{	cout << "Are you an Employee (E) or a Customer (C)? ";
+		cin >> role;
 
-	if (role == 'E' || role == 'e') {
-		temp.isEmployee = true;
-	}
-	else {
-		temp.isEmployee = false;
+		if (role == 'E' || role == 'e') {
+			temp.isEmployee = true;
+			break;
+		}
+		else if (role == 'C' || role == 'c'){
+			temp.isEmployee = false;
+			break;
+		}
+		else
+		{
+			cout << "Invalid choice.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
 	}
 
 	cout << "Enter your username:\n";
@@ -279,9 +291,19 @@ bool signup(user& temp, user users[], int& totalusers)
 		else
 			break;
 	}
-
-	cout << "Enter your password:\n";
-	cin >> temp.userAccount.password;
+	while (true)
+	{
+		cout << "Enter your password:\n";
+		cin >> temp.userAccount.password;
+		if (temp.userAccount.password.length() != 7)
+		{
+			cout << "Password must be atleast 7 digits.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else
+			break;
+	}
 
 	temp.userAccount.accountNumber = (rand() % 50);
 	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {

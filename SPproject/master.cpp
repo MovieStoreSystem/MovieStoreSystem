@@ -654,7 +654,7 @@ void Renting() {
 					movie[i].Quantity--;
 					movie[i].rentingCount++;
 
-					users[i].userRentals.rentedMovies[users[i].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
+					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
 
 					Rentday(i);
 
@@ -810,11 +810,11 @@ void Calculate_totalPrice() {
 
 void Rentday(int index) {
 	cout << "Enter the day of renting\n";
-	cin >> users[index].userRentals.rentedMovies[index].rentDay.day;
+	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.day;
 	cout << "Enter the month of renting\n";
-	cin >> users[index].userRentals.rentedMovies[index].rentDay.month;
+	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.month;
 	cout << "Enter the year of renting\n";
-	cin >> users[index].userRentals.rentedMovies[index].rentDay.year;
+	cin >> users[logged_in_index].userRentals.rentedMovies[index].rentDay.year;
 }
 
 void Currentday() {

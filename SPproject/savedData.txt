@@ -1,4 +1,4 @@
-4|4|Snow White|4|1|40|Encanto|6|0|40|Interstellar|2|0|10|Crater|1|0|20|jannah|01004440519|j@gmail.com|1|true|1|Snow White|false|Snow White|4|4|4|4|1|40|
+4|4|Snow White|4|1|40|Encanto|6|0|40|Interstellar|2|0|10|Crater|0|1|20|jannah|01004440519|j@gmail.com|1|true|1|Snow White|false|Snow White|4|4|4|4|1|40|
 jannah|01004550519|ja@gmail.com|1|false|0|false|
 sara omran|01551441909|saraomran@gmail.com|123|true|0|false|
-sara|01551441906|sara@gmail.com|1234|false|0|false|
+sara|01551441906|sara@gmail.com|1234|false|1|Crater|false|Crater|0|0|0|0|1|20|

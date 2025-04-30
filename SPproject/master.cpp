@@ -270,10 +270,10 @@ bool signup(user& temp, user users[], int& totalusers)
 	{
 		cout << "Enter your email:\n";
 		cin >> temp.userAccount.email;
-		if(){
-
-		}
-		else if (findemail(temp.userAccount.email, users, totalusers)) {
+		/*if(){
+		
+		}*/
+		if (findemail(temp.userAccount.email, users, totalusers)) {
 			cout << "This email already exists!\n";
 		}
 		else
@@ -396,7 +396,7 @@ void outputToFile(user users[], int totalUsers)
 						<< movie[movieIndex].rentingCount << '|'
 						<< movie[movieIndex].price << '|';
 				}
-
+	
 
 			}
 
@@ -587,9 +587,10 @@ void Renting() {
 	}
 	else {
 		bool movieRented{ false };
+		num -= 1;
 		for (int i = 0;i < number_of_movies;i++) {
 
-			if (num - 1 == i) {
+			if (num == i) {
 				if (movie[i].Quantity == 0)
 				{
 					cout << "Sorry, this movie is not available right now ...\n";
@@ -720,7 +721,8 @@ void Calculate_totalPrice() {
 	string tempNameOfMovie;
 
 	cout << "Enter the name of movie you want to return:\n";
-	cin >> tempNameOfMovie;
+	cin.ignore();
+	getline(cin, tempNameOfMovie);
 
 	for (int j = 0; j < users[logged_in_index].userRentals.nMovies; j++) {
 		if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == tempNameOfMovie) {
@@ -765,6 +767,8 @@ void Calculate_totalPrice() {
 		cout << "You have not rented this movie.\n";
 	}
 }
+
+
 
 void Rentday(int index) {
 	cout << "Enter the day of renting\n";

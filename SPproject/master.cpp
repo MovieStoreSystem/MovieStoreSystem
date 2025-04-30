@@ -360,7 +360,7 @@ void outputToFile(user users[], int totalUsers)
 				<< movie[i].price << '|';
 
 		}
-		for (int i{ 0 }; i <= totalUsers; i++)
+		for (int i{ 0 }; i < totalUsers; i++)
 		{
 			outFile
 				//<< users[i].userAccount.accountNumber << '|'

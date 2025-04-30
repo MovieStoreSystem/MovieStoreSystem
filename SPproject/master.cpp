@@ -396,7 +396,7 @@ void outputToFile(user users[], int totalUsers)
 						<< movie[movieIndex].rentingCount << '|'
 						<< movie[movieIndex].price << '|';
 				}
-	
+
 
 			}
 

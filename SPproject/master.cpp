@@ -19,7 +19,6 @@ int main() {
 		
 	}
 	
-	int logged_in_index = total_users;
 	char ch = 'y', choice;
 	bool open = true;
 
@@ -38,7 +37,7 @@ int main() {
 				break;
 			case '2':
 				logged_in_index = signin(users, total_users);
-				if (logged_in_index == total_users)
+				if (logged_in_index == 50)
 					return 0;
 				sign = false;
 				break;
@@ -442,8 +441,6 @@ void outputToFile(user users[], int totalUsers)
 				int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
 				if (movieIndex != -1)
 				{
-					outFile << movie[movieIndex].Quantity << '|';
-
 					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|'
@@ -654,13 +651,13 @@ void Renting() {
 					movie[i].Quantity--;
 					movie[i].rentingCount++;
 
-					users[i].userRentals.rentedMovies[users[i].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
+					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
 
 					Rentday(i);
 
 					cout << "\t\trented successfully\n";
 
-					users[i].userRentals.nMovies++;
+					users[logged_in_index].userRentals.nMovies++;
 					movieRented = true;
 					break;
 				}

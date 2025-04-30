@@ -6,7 +6,7 @@ using namespace std;
 const int duedate = 7;
 const int number_of_movies = 20;
 int totalnumofmovies = 0;
-int logged_in_index = -1;
+int logged_in_index = 50;
 //number of days of months if the year is not leap
 int daysInMonth[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 

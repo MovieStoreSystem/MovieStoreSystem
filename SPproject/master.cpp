@@ -573,53 +573,55 @@ void ListofDaysLeft() {
 
 //if user want to rent movie (renting function) //
 void Renting() {
+	bool renting = true;
+	while (renting) {
+		int num = 0;
+		cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT\n";
+		displayMovies();
+		cout << "Enter a number of movie you want: \n";
+		cin >> num;
+		if (cin.fail()) {
+			cout << "The choice must be a number\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
 
-	int num = 0;
-	cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT\n";
-	displayMovies();
-	cout << "Enter a number of movie you want: \n";
-	cin >> num;
+		else if (num < 1 || num>number_of_movies) {
+			cout << "Invalid number!!!\n";
+		}
+		else {
 
+			for (int i = 0;i < number_of_movies;i++) {
 
-	if (num < 1 || num>number_of_movies) {
-		cout << "Invalid number!!!\n";
-	}
-	else {
-		bool movieRented{ false };
-	
-		for (int i = 0;i < number_of_movies;i++) {
-
-			if (num -1 == i) {
-				for (int j = 0;j < users[logged_in_index].userRentals.nMovies;j++) {
-					if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == movie[i].name_of_movie) {
-						cout << "You have already rented this movie\n";
-						return;
+				if (num - 1 == i) {
+					for (int j = 0;j < users[logged_in_index].userRentals.nMovies;j++) {
+						if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == movie[i].name_of_movie) {
+							cout << "You have already rented this movie\n";
+							return;
+						}
 					}
-				}
-				if (movie[i].Quantity == 0)
-				{
-					cout << "Sorry, this movie is not available right now ...\n";
-					movieRented = false;
-					break;
-				}
-				else {
-					movie[i].Quantity--;
-					movie[i].rentingCount++;
+					if (movie[i].Quantity == 0)
+					{
+						cout << "Sorry, this movie is not available right now ...\n";
+						break;
+					}
+					else {
+						movie[i].Quantity--;
+						movie[i].rentingCount++;
 
-					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
+						users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].nameOfRentedMovie = movie[i].name_of_movie;
 
-					Rentday(i);
+						Rentday(i);
 
-					cout << "\t\tRENTED SUCCESFULLY\n";
+						cout << "\t\tRENTED SUCCESFULLY\n";
 
-					users[logged_in_index].userRentals.nMovies++;
-					movieRented = true;
-					break;
+						users[logged_in_index].userRentals.nMovies++;
+						renting = false;
+						break;
+					}
 				}
 			}
 		}
-		if (!movieRented)
-			cout << "Couldn't rent the movie.\n";
 	}
 }
 
@@ -637,6 +639,8 @@ void sortMoviesByCount() {
 		cout << movie[i].name_of_movie << " - Rentals: " << movie[i].rentingCount << endl;
 	}
 }
+
+
 
 // Displaying information
 void displayCustomers(int totalusers) {

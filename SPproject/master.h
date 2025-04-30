@@ -105,5 +105,6 @@ void Rentday(int index);
 void Currentday();
 void ViewAccountInfo();
 
+//void update();
 
 int findMovieIndexByName(string_view movieName);

@@ -108,3 +108,6 @@ void ViewAccountInfo();
 //void update();
 
 int findMovieIndexByName(string_view movieName);
+
+char getValidatedInput(string_view string);
+

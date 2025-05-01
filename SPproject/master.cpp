@@ -19,19 +19,15 @@ int main() {
 		
 	}
 	
-	char ch = 'y';
-	string choice;
+	char ch = 'y', choice;
 	bool open = true;
 
 		bool sign = true;
 		while (sign) {
 
-			    cout << "1.Sign up \n2.Sign in\n";
-				getline(cin >> ws, choice);
-
-				if (choice.length() == 1 && isdigit(choice[0]))
-				{
-					switch (choice[0])
+				choice = getValidatedInput("1.Sign up \n2.Sign in\n");
+				
+					switch (choice)
 					{
 					case '1':
 						signup(users[total_users], users, total_users);
@@ -51,9 +47,7 @@ int main() {
 						break;
 
 					}
-				}
-				  else
-						cout << "Invalid Choice\n";
+
 
 		}
 		cout << "\t\tWelcome to our Movie Store\n\n";
@@ -170,8 +164,7 @@ char employeermenu()
 	cout << "6.Remove a Movie\n"; // Missing
 	cout << "7.Edit Movie Information\n";  //Missing
 	cout << "8.Exit\n";
-	cout << "Please enter your choice number: ";
-	cin >> choice;
+	choice = getValidatedInput("Please enter your choice number: ");
 	return choice;
 }
 
@@ -689,14 +682,14 @@ void displayCustomers(int totalusers) {
 	}
 }
 
-void displayMovies() {
-	cout << "Movies: " << "\t " << "Rate:\n";
-	for (int i = 0; i < totalnumofmovies; i++)
-	{
-		cout <<i+1<<". " << movie[i].name_of_movie<<"\t "<<movie[i].average_rate;
-		cout << '\n';
-	}
-}
+//void displayMovies() {
+//	cout << "Movies: " << "\t " << "Rate:\n";
+//	for (int i = 0; i < totalnumofmovies; i++)
+//	{
+//		cout <<i+1<<". " << movie[i].name_of_movie<<"\t "<<movie[i].average_rate;
+//		cout << '\n';
+//	}
+//}
 
 void displayRentedMovies() {
 	for (int i = 0; i < totalnumofmovies; i++) 
@@ -860,6 +853,32 @@ void ViewAccountInfo() {
 //	}
 //}
 
+void displayMovies() {
+	cout << "Movies: " << "\t " << "Rate:\n";
+	for (int i = 0; i < totalnumofmovies; i++)
+	{
+		cout << i + 1 << ". " << movie[i].name_of_movie << "\t " << movie[i].average_rate;
+		cout << '\n';
+	}
+};
+void update(movieinfo movie[number_of_movies]) {
+	displayMovies();
+	int choose, quantity;
+	float price;
+	cout << "Enter the numper of the movie you want to edit\n";
+	cin >> choose;
+	if (choose > number_of_movies)
+		cout << "your choice isn't avilable, please try again\n";
+	else
+	{
+		cout << "Enter new quantity\n";
+		cin >> quantity;
+		movie[choose - 1].Quantity += quantity;
+		cout << "Enter new fees's price\n";
+		cin >> price;
+		movie[choose -1 ].price += price;
+	}
+};
 
 int findMovieIndexByName(string_view movieName)
 {
@@ -869,4 +888,22 @@ int findMovieIndexByName(string_view movieName)
 			return i;
 	}
 	return -1;
+}
+
+char getValidatedInput(string_view sentence)
+{
+
+	string choice{};
+	while (true)
+	{
+	    cout << sentence;
+		getline(cin >> ws, choice);
+		if (choice.length() == 1 && isdigit(choice[0]))
+			return choice[0];
+		else
+		{
+			cout << "Invalid Choice.\n";
+			continue;
+		}
+	}
 }

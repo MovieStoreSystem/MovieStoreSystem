@@ -109,8 +109,9 @@ void ViewAccountInfo();
 
 int findMovieIndexByName(string_view movieName);
 
-char getValidatedInput(string_view string);
-int getValidatedInt(string_view sentence);
+char getValidatedIChar(string_view string);
+int getValidatedInt(string_view sentence, string_view ERRORsentence);
+int getValidatedDate(string_view sentence);
 
 
 void update(movieinfo movie[]);

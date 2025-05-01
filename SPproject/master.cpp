@@ -25,7 +25,7 @@ int main() {
 		bool sign = true;
 		while (sign) {
 
-				choice = getValidatedInput("1.Sign up \n2.Sign in\n");
+				choice = getValidatedIChar("1.Sign up \n2.Sign in\n");
 				
 					switch (choice)
 					{
@@ -77,8 +77,8 @@ int main() {
 				Overdue_clients();
 				break;
 			case '6':
-				break;
 				Renting();
+				break;
 			case '7':
 				update(movie);
 				break;
@@ -163,7 +163,7 @@ char employeermenu()
 	cout << "6.Remove a Movie\n"; // Missing
 	cout << "7.Edit Movie Information\n";  //Missing
 	cout << "8.Exit\n";
-	choice = getValidatedInput("Please enter your choice number: ");
+	choice = getValidatedIChar("Please enter your choice number: ");
 	return choice;
 }
 
@@ -651,6 +651,171 @@ void Renting() {
 		}
 	}
 }
+// NEW
+void Rentday(int index) {
+	while (true) {
+		cout << "\t\tPlease enter the date of rentday\n\n\n";
+		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day = getValidatedDate("Enter the day: ");
+		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month = getValidatedDate("Enter the day: ");
+		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year = getValidatedDate("Enter the year: ");
+
+
+		//check year
+		if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year < 2000 ||
+			users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year > 2026) {
+
+			cout << "Invalid year!!!\n";
+			cout << "Please enter the date again correctly:\n\n";
+			continue;
+		}
+		//check months
+		if ((users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year % 4 == 0 &&
+			users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year % 100 != 0) ||
+			(users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year % 400 == 0)) {
+
+			if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month == 2) {
+
+				if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day < 1 ||
+					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day>29) {
+
+					cout << "Invalid day!!!\n";
+					cout << "Please enter the date again correctly:\n\n";
+					continue;
+				}
+				else {
+					cout << "\t\tEntered successfully";
+					break;
+				}
+
+			}
+
+		}
+
+		if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month > 12 ||
+			users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month < 1) {
+
+			cout << "Invalid month!!!\n";
+			cout << "Please enter the date again correctly:\n\n";
+			continue;
+		}//check days
+		else {
+			for (int i = 0; i < 12;i++) {
+				if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month == i + 1) {
+					if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day > daysInMonth[i] ||
+						users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day < 1) {
+						cout << "Invalid day!!!\n";
+						cout << "Please enter the date again correctly:\n\n";
+						continue;
+					}
+					else {
+						cout << "\t\tEntered successfully";
+						break;
+					}
+				}
+
+			}
+			break;
+
+		}
+
+	}
+
+} 
+
+void Currentday() {
+	while (true) {
+		cout << "\t\tPlease Enter the date of today\n\n\n";
+		cout << "Enter the day: ";
+		cin >> currentday.day;
+
+		if (cin.fail())
+		{
+			cout << "Please enter a number.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Please enter the date again correctly:\n\n";
+			continue;
+		}
+
+
+		cout << "Enter the month: ";
+		cin >> currentday.month;
+		if (cin.fail())
+		{
+			cout << "Please enter a number.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "\tPlease enter the date again correctly:\n\n";
+			continue;
+		}
+
+		cout << "Enter the year: ";
+		cin >> currentday.year;
+		if (cin.fail())
+		{
+			cout << "Please enter a number.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "\tPlease enter the date again correctly:\n\n";
+			continue;
+		}
+
+		//check year
+		if (currentday.year > 0 && currentday.year < 2026) {
+
+			cout << "\tInvalid year!!!\n";
+			cout << "\tPlease enter the date again correctly:\n\n";
+			continue;
+		}
+		//check monthes
+		if ((currentday.year % 4 == 0 && currentday.year % 100 != 0) || (currentday.year % 400 == 0)) {
+
+			if (currentday.month == 2) {
+
+				if (currentday.day < 1 || currentday.day>29) {
+
+					cout << "\tInvalid day!!!\n";
+					cout << "\tPlease enter the date again correctly:\n\n";
+					continue;
+				}
+				else {
+					cout << "\t\tEntered successfully";
+					break;
+				}
+
+			}
+
+
+
+		}
+
+		if (currentday.month > 12 || currentday.month < 1) {
+
+			cout << "\tInvalid month!!!\n";
+			cout << "\tPlease enter the date again correctly:\n\n";
+			continue;
+		}//check days
+		else {
+			for (int i = 0; i < 12; i++) {
+				if (currentday.month == i + 1) {
+					if (currentday.day > daysInMonth[i] || currentday.day < 1) {
+						cout << "\tInvalid day!!!\n";
+						cout << "\tPlease enter the date again correctly:\n\n";
+						continue;
+					}
+					else {
+						cout << "\t\tEntered successfully";
+						break;
+					}
+				}
+
+			}
+		}
+
+
+
+	}
+}//
 
 void sortMoviesByCount() {
 	// ترتيب بالأكبر count
@@ -680,15 +845,6 @@ void displayCustomers(int totalusers) {
 		}
 	}
 }
-
-//void displayMovies() {
-//	cout << "Movies: " << "\t " << "Rate:\n";
-//	for (int i = 0; i < totalnumofmovies; i++)
-//	{
-//		cout <<i+1<<". " << movie[i].name_of_movie<<"\t "<<movie[i].average_rate;
-//		cout << '\n';
-//	}
-//}
 
 void displayRentedMovies() {
 	for (int i = 0; i < totalnumofmovies; i++) 
@@ -804,22 +960,6 @@ void Calculate_totalPrice() {
 	}
 }
 
-
-
-void Rentday(int index) {
-	cout << "Enter the day of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day;
-	cout << "Enter the month of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month;
-	cout << "Enter the year of renting\n";
-	cin >> users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year;
-}
-
-void Currentday() {
-	cout << "Enter the date of today\n";
-	cin >> currentday.day >> currentday.month >> currentday.year;
-}
-
 void ViewAccountInfo() {
 	cout << "Username:\t" << users[logged_in_index].userAccount.username << "\n";
 	cout << "Email:\t" << users[logged_in_index].userAccount.email << "\n";
@@ -831,27 +971,6 @@ void ViewAccountInfo() {
 	else cout << "Your account is not blocked\n";
 }
 
-//void update() {
-//	bool found;
-//	string name_of_movie;
-//	int Quantity;
-//
-//	cout << "Enter New Shipment's data\n";
-//	for (int i = 0; i < number_of_movies; i++) {
-//		cin >> name_of_movie >> Quantity;
-//		if (movie[i].name_of_movie == name_of_movie) {
-//			found = true;
-//			movie[i].Quantity += Quantity;
-//		}
-//		if (movie[i].name_of_movie != name_of_movie) {
-//			found = false;
-//			movie[i].Quantity = 0;
-//			movie[i].Quantity += Quantity;
-//			addingMovies(Quantity);
-//		}
-//	}
-//}
-
 void displayMovies() {
 	cout << "Movies: " << "\t " << "Rate:\n";
 	for (int i = 0; i < totalnumofmovies; i++)
@@ -860,6 +979,7 @@ void displayMovies() {
 		cout << '\n';
 	}
 };
+
 void update(movieinfo movie[]) {
 	displayMovies();
 	int choose, quantity;
@@ -867,8 +987,8 @@ void update(movieinfo movie[]) {
 	while (true)
 	{
 
-		choose = getValidatedInt("Enter the number of the movie you want to edit\n");
-		if (choose > number_of_movies)
+		choose = getValidatedInt("Enter the number of the movie you want to edit\n", "Invalid Choice.\n");
+		if (choose > totalnumofmovies)
 		{
 			cout << "Please choose a valid movie number.\n";
 			continue;
@@ -895,7 +1015,7 @@ int findMovieIndexByName(string_view movieName)
 	return -1;
 }
 
-char getValidatedInput(string_view sentence)
+char getValidatedIChar(string_view sentence)
 {
 
 	string choice{};
@@ -913,7 +1033,7 @@ char getValidatedInput(string_view sentence)
 	}
 }
 
-int getValidatedInt(string_view sentence)
+int getValidatedInt(string_view sentence, string_view ERRORsentence)
 {
 
 	string choice{};
@@ -927,8 +1047,28 @@ int getValidatedInt(string_view sentence)
 			return stoi(choice);
 		else
 		{
-			cout << "Invalid Choice.\n";
+			cout << ERRORsentence;
 			continue;
 		}
+	}
+}
+
+int getValidatedDate(string_view sentence)
+{
+	int input{};
+	while(true)
+	{
+		cout << sentence;
+		cin >> input;
+		if (cin.fail())
+		{
+			cout << "Please enter a number.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
+			cout << "Please enter the date again correctly:\n\n";
+			continue;
+		}
+		else 
+			return input;
 	}
 }

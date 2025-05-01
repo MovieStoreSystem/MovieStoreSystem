@@ -77,11 +77,10 @@ int main() {
 				Overdue_clients();
 				break;
 			case '6':
-				Renting();
 				break;
-
+				Renting();
 			case '7':
-				Calculate_totalPrice();
+				update(movie);
 				break;
 
 			case '8':
@@ -861,23 +860,29 @@ void displayMovies() {
 		cout << '\n';
 	}
 };
-void update(movieinfo movie[number_of_movies]) {
+void update(movieinfo movie[]) {
 	displayMovies();
 	int choose, quantity;
 	float price;
-	cout << "Enter the numper of the movie you want to edit\n";
-	cin >> choose;
-	if (choose > number_of_movies)
-		cout << "your choice isn't avilable, please try again\n";
-	else
+	while (true)
 	{
-		cout << "Enter new quantity\n";
-		cin >> quantity;
-		movie[choose - 1].Quantity += quantity;
-		cout << "Enter new fees's price\n";
-		cin >> price;
-		movie[choose -1 ].price += price;
+
+		choose = getValidatedInt("Enter the number of the movie you want to edit\n");
+		if (choose > number_of_movies)
+		{
+			cout << "Please choose a valid movie number.\n";
+			continue;
+		}
+		else
+			break;
 	}
+	cout << "Enter new quantity\n";
+	cin >> quantity;
+	movie[choose - 1].Quantity = quantity;
+	cout << "Enter new fees's price\n";
+	cin >> price;
+	movie[choose - 1 ].price = price;
+
 };
 
 int findMovieIndexByName(string_view movieName)
@@ -900,6 +905,26 @@ char getValidatedInput(string_view sentence)
 		getline(cin >> ws, choice);
 		if (choice.length() == 1 && isdigit(choice[0]))
 			return choice[0];
+		else
+		{
+			cout << "Invalid Choice.\n";
+			continue;
+		}
+	}
+}
+
+int getValidatedInt(string_view sentence)
+{
+
+	string choice{};
+	while (true)
+	{
+		cout << sentence;
+		getline(cin >> ws, choice);
+		int validatedDigit[2] = { isdigit(choice[0]), isdigit(choice[1]) };
+		if (choice.length() == 1 || choice.length() == 2 && (validatedDigit[0]
+			|| (validatedDigit[0] && validatedDigit[1])))
+			return stoi(choice);
 		else
 		{
 			cout << "Invalid Choice.\n";

@@ -36,6 +36,7 @@ struct movieinfo {
 	float average_rate = 0.0f;
 	int final_score_of_movie;
 	int total_ratings = 0;
+	bool rated = false;
 } movie[number_of_movies];
 
 struct RentedMovieInfo
@@ -57,6 +58,7 @@ struct user
 	bool isEmployee = false;
 	bool frozen = false;
 	RentedMovies userRentals;
+	bool ratedMovies[number_of_movies] = { false };
 	//string rentedMovies[10];
 	//int usersmovie[number_of_movies];
 }users[20], Overdue[20];

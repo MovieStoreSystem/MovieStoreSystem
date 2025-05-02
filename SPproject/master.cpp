@@ -403,10 +403,10 @@ void outputToFile(user users[], int totalUsers)
 			outFile << movie[i].name_of_movie << '|'
 				<< movie[i].Quantity << '|'
 				<< movie[i].rentingCount << '|'
-				<< movie[i].price << '|';
-				/*<< movie[i].average_rate << '|'
+				<< movie[i].price << '|'
+				<< movie[i].average_rate << '|'
 				<< movie[i].final_score_of_movie << '|'
-				<< movie[i].total_ratings << '|';*/
+				<< movie[i].total_ratings << '|';
 
 		}
 		for (int i{ 0 }; i < totalUsers; i++)
@@ -509,6 +509,17 @@ void loadFromFile(user users[])
 
 				if (getline(ssLine, value, '|') && !value.empty())
 					movie[i].price = stof(value);
+
+				if (getline(ssLine, value, '|') && !value.empty())
+					movie[i].average_rate = stof(value);
+
+				if (getline(ssLine, value, '|') && !value.empty())
+					movie[i].final_score_of_movie = stoi(value);
+
+				if (getline(ssLine, value, '|') && !value.empty())
+					movie[i].total_ratings = stoi(value);
+
+
 			}
 		}
 
@@ -976,10 +987,10 @@ void Calculate_totalPrice() {
 							cout << "You have to pay: " << TotalPrice << " pounds.\n";
 						}
 						else {
-							TotalPrice = movie[k].price + ((Nom_of_days - duedate) * (0.05f * movie[k].price));
+							TotalPrice = (movie[k].price*Nom_of_days) + ((Nom_of_days - duedate) * (0.05f * movie[k].price));
 							cout << "You delayed returning the movie by " << (Nom_of_days - duedate) << " days.\n"
 								<< "You have to pay: " << TotalPrice << " pounds.\n"
-								<< "\t\tNOTE: 5% penalty per delayed day.\n";
+								<< "NOTE: 5% penalty per delayed day.\n";
 						}
 						movie[k].Quantity++;
 						users[logged_in_index].userRentals.nMovies--;

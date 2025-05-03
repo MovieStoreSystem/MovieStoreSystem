@@ -25,29 +25,28 @@ int main() {
 		bool sign = true;
 		while (sign) {
 
-				choice = getValidatedIChar("1.Sign up \n2.Sign in\n");
-				
-					switch (choice)
-					{
-					case '1':
-						signup(users[total_users], users, total_users);
-						logged_in_index = total_users;
-						total_users++;
-						sign = false;
-						break;
-					case '2':
-						logged_in_index = signin(users, total_users);
-						if (logged_in_index == 50) {
-							continue;
-						}
-						sign = false;
-						break;
-					default:
-						cout << "Invalid Choice\n";
-						break;
+			choice = getValidatedIChar("1.Sign up \n2.Sign in\n");
 
-					}
+			switch (choice)
+			{
+			case '1':
+				signup(users[total_users], users, total_users);
+				logged_in_index = total_users;
+				total_users++;
+				sign = false;
+				break;
+			case '2':
+				logged_in_index = signin(users, total_users);
+				if (logged_in_index == 50) {
+					continue;
+				}
+				sign = false;
+				break;
+			default:
+				cout << "Invalid Choice\n";
+				break;
 
+			}
 
 		}
 		cout << "\t\tWelcome to our Movie Store\n\n";
@@ -159,7 +158,7 @@ char employeermenu()
 	cout << "2.List all Movies\n";
 	cout << "3.List all Customers\n";
 	cout << "4.Most rented movies\n";
-	cout << "5.Show Freezed Customers\n";
+	cout << "5.Overdue Customers\n";
 	cout << "6.Remove a Movie\n"; // Missing
 	cout << "7.Edit Movie Information\n";  //Missing
 	cout << "8.Exit\n";
@@ -281,16 +280,14 @@ bool signup(user& temp, user users[], int& totalusers)
 	{
 		cout << "Enter your email:\n";
 		cin >> temp.userAccount.email;
-		/*if(){
 		
-		}*/
 		if (findemail(temp.userAccount.email, users, totalusers)) {
 			cout << "This email already exists!\n";
 		}
 		else
 			break;
 	}
-	//if (temp.isEmployee) {
+	if (temp.isEmployee) {
 		while (true)
 		{
 			cout << "Enter your password:\n";
@@ -310,29 +307,72 @@ bool signup(user& temp, user users[], int& totalusers)
 			else
 				break;
 		}
-	//}
+	}
 	temp.userAccount.accountNumber = (rand() % 50);
 	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
 		temp.userAccount.accountNumber = (rand() % 50) + 1;
 	}
 	return true;
 }
-int signin(user users[], int totalusers) {
-	string email, password;
-	cout << "Enter your email: ";
-	cin >> email;
-	cout << "Enter your password: ";
-	cin >> password;
 
-	//checking if they are true!
-	for (int i = 0; i < totalusers; i++) {
-		if (users[i].userAccount.email == email && users[i].userAccount.password == password) {
-			cout << "Logged in successfully.\n";
-			return i;
+int signin(user users[], int totalusers) {
+	char choice;
+	user temp;
+	string email, password, phonenumber, username;
+	bool notfound = true;
+	while (true) {
+		cout << "Are you an Employee (E) or a Customer (C)? ";
+		cin >> choice;
+
+		if (choice == 'E' || choice == 'e') {
+			temp.isEmployee = true;
+			break;
+		}
+		else if (choice == 'C' || choice == 'c') {
+			temp.isEmployee = false;
+			break;
+		}
+		else
+		{
+			cout << "Invalid choice.\n";
+			cin.clear();
+			cin.ignore(10000, '\n');
 		}
 	}
+	if (temp.isEmployee) {
+		cout << "Enter your email: ";
+		cin >> email;
+		cout << "Enter your password: ";
+		cin >> password;
+
+		//checking if they are true!
+		for (int i = 0; i < totalusers; i++) {
+			if (users[i].userAccount.email == email && users[i].userAccount.password == password&&users[i].isEmployee==true) {
+				cout << "Logged in successfully.\n";
+				notfound = false;
+				return i;
+			}
+		}
+	}
+	else {
+		cout << "Enter your username: ";
+		cin >> username;
+		cout << "Enter your Phonenumber: ";
+		cin >> phonenumber;
+
+		//checking if they are true!
+		for (int i = 0; i < totalusers; i++) {
+			if (users[i].userAccount.username == username && users[i].userAccount.phoneNumber == phonenumber && users[i].isEmployee == false) {
+				cout << "Logged in successfully.\n";
+				notfound = false;
+				return i;
+			}
+		}
+	}
+
 	cout << "This account doesn't exist.\n";
 	return 50;
+
 }
 
 // Rating Movies
@@ -416,9 +456,13 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.username << '|' //output user ID & username to file
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
-				<< users[i].userAccount.password << '|'
-				<< boolalpha << users[i].isEmployee << '|'
-				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+				<< boolalpha << users[i].isEmployee << '|';
+				if (users[i].isEmployee) {
+					outFile
+						<< users[i].userAccount.password << '|';
+				}
+				outFile
+					<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
 
 			/*for (int j{ 0 };j < number_of_movies;j++) {
 				outFile
@@ -531,10 +575,13 @@ void loadFromFile(user users[])
 		getline(ssLine, users[currentIndex].userAccount.username, '|');
 		getline(ssLine, users[currentIndex].userAccount.phoneNumber, '|');
 		getline(ssLine, users[currentIndex].userAccount.email, '|');
-		getline(ssLine, users[currentIndex].userAccount.password, '|');
 
 		getline(ssLine, value, '|');
 		users[currentIndex].isEmployee = (value == "true");
+
+		if (users[currentIndex].isEmployee==true) {
+			getline(ssLine, users[currentIndex].userAccount.password, '|');
+		}
 
 		getline(ssLine, value, '|');
 		if (!value.empty())

@@ -160,7 +160,7 @@ char employeermenu()
 	cout << "4.Most rented movies\n";
 	cout << "5.Overdue Customers\n";
 	cout << "6.Remove a Movie\n"; // Missing
-	cout << "7.Edit Movie Information\n";  //Missing
+	cout << "7.Edit Movie Information\n";  
 	cout << "8.Exit\n";
 	choice = getValidatedIChar("Please enter your choice number: ");
 	return choice;

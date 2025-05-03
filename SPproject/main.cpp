@@ -12,6 +12,8 @@ struct movieinfo {
 	int final_score_of_movie = 0;
 	int total_ratings = 0;
 }movie[number_of_movies];
+
+
 void addingMovies(int count, movieinfo movie[])
 {
 
@@ -58,7 +60,5 @@ void moviemanagment()
 }
 void main()
 {
-	int totalnumofmovies;
-	int number_of_movies;
 	moviemanagment();
 }

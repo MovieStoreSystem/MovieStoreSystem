@@ -117,5 +117,6 @@ int getValidatedDate(string_view sentence);
 
 
 void update(movieinfo movie[]);
+void deleteMovies();
 
 

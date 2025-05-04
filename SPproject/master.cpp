@@ -76,7 +76,7 @@ int main() {
 				Overdue_clients();
 				break;
 			case '6':
-				Renting();
+				deleteMovies();
 				break;
 			case '7':
 				update(movie);
@@ -452,7 +452,6 @@ void outputToFile(user users[], int totalUsers)
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
 			outFile
-				//<< users[i].userAccount.accountNumber << '|'
 				<< users[i].userAccount.username << '|' //output user ID & username to file
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
@@ -464,10 +463,6 @@ void outputToFile(user users[], int totalUsers)
 				outFile
 					<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
 
-			/*for (int j{ 0 };j < number_of_movies;j++) {
-				outFile
-				<< users[i].ratedMovies[j] << '|';
-			}*/
 
 			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
 			{
@@ -483,7 +478,6 @@ void outputToFile(user users[], int totalUsers)
 
 			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
 			{
-				//outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
 
 				int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
 				if (movieIndex != -1)
@@ -491,8 +485,7 @@ void outputToFile(user users[], int totalUsers)
 					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
-						/*<< movie[movieIndex].rentingCount << '|'
-						<< movie[movieIndex].price << '|';*/
+	
 				}
 				
 			}
@@ -567,10 +560,6 @@ void loadFromFile(user users[])
 			}
 		}
 
-		/*
-			getline(ssLine, value, '|');
-		if (!value.empty())
-			users[currentIndex].userAccount.accountNumber = stoi(value);*/
 
 		getline(ssLine, users[currentIndex].userAccount.username, '|');
 		getline(ssLine, users[currentIndex].userAccount.phoneNumber, '|');
@@ -973,7 +962,7 @@ void addingMovies(int count)
 				cout << "Enter the quantity of the movie\n";
 				cin >> movie[totalnumofmovies].Quantity;
 				totalnumofmovies++;
-				if (totalnumofmovies > number_of_movies) {
+				if (totalnumofmovies == number_of_movies) {
 					cout << "sorry we have reached the maximum number of movies\n";
 					return;
 				}
@@ -1167,3 +1156,25 @@ int getValidatedDate(string_view sentence)
 			return input;
 	}
 }
+
+void deleteMovies() {
+	displayMovies();
+	int choose, quantity;
+	while (true)
+	{
+
+		choose = getValidatedInt("Enter the number of the movie you want to edit\n", "Please choose integar number\n");
+		if (choose > number_of_movies)
+		{
+			cout << "Please choose a valid movie number.\n";
+			continue;
+		}
+		else
+			break;
+	}
+	for (int i = choose-1;i < totalnumofmovies;i++) {
+		movie[i] = movie[i + 1];
+	}
+	totalnumofmovies--;
+	cout << "deleting procces went succesfully!\n";
+};

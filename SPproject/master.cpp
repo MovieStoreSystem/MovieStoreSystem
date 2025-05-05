@@ -1020,10 +1020,36 @@ void addingMovies(int count)
 				count++;
 			}
 			else {
-				cout << "Enter the price of the movie for a day:\n";
-				cin >> movie[totalnumofmovies].price;
-				cout << "Enter the quantity of the movie\n";
-				cin >> movie[totalnumofmovies].Quantity;
+				while (true) {
+					cout << "Enter the price of the movie for a day:\n";
+					cin >> movie[totalnumofmovies].price;
+
+					if (cin.fail())
+					{
+						cout << "Please enter a number.\n";
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+					else
+						break;
+				}
+				while (true) {
+
+					cout << "Enter the quantity of the movie\n";
+					cin >> movie[totalnumofmovies].Quantity;
+					
+					if (cin.fail())
+					{
+						cout << "Please enter a number.\n";
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+					else
+						break;
+				}
+
 				totalnumofmovies++;
 				if (totalnumofmovies == number_of_movies) {
 					cout << "sorry we have reached the maximum number of movies\n";
@@ -1133,8 +1159,20 @@ void update(movieinfo movie[]) {
 	float price;
 	while (true)
 	{
+		while (true) {
+			cout << "Enter the number of the movie you want to edit\n";
+			cin >> choose;
 
-		choose = getValidatedInt("Enter the number of the movie you want to edit\n", "Invalid Choice.\n");
+			if (cin.fail())
+			{
+				cout << "Invalid Choice.\n";
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			else
+				break;
+		}
 		if (choose > totalnumofmovies)
 		{
 			cout << "Please choose a valid movie number.\n";
@@ -1145,7 +1183,7 @@ void update(movieinfo movie[]) {
 	}
 	cout << "Enter new quantity\n";
 	cin >> quantity;
-	movie[choose - 1].Quantity = quantity;
+	movie[choose - 1].Quantity += quantity;
 	cout << "Enter new fees's price\n";
 	cin >> price;
 	movie[choose - 1 ].price = price;

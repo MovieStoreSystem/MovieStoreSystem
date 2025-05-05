@@ -535,12 +535,26 @@ void outputToFile(user users[], int totalUsers)
 			outFile
 				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
 
-
-			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
+			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
 			{
 				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
 
+				int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
+				if (movieIndex != -1)
+				{
+					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
+						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
+						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
+
+				}
+
 			}
+
+			//for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
+			//{
+			//	
+
+			//}
 
 			outFile
 				<< users[i].userBought.nBoughtMovies << '|';
@@ -555,19 +569,7 @@ void outputToFile(user users[], int totalUsers)
 			//Movies Info
 
 
-			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
-			{
-
-				int movieIndex = findMovieIndexByName(users[i].userRentals.rentedMovies[j].nameOfRentedMovie);
-				if (movieIndex != -1)
-				{
-					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
-						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
-						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
-
-				}
-
-			}
+			
 
 
 			outFile << '\n';
@@ -657,28 +659,6 @@ void loadFromFile(user users[])
 		else
 			users[currentIndex].userRentals.nMovies = 0;
 
-		for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
-		{
-			getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
-
-		}
-
-		getline(ssLine, value, '|');
-		if (!value.empty())
-			users[currentIndex].userBought.nBoughtMovies = stoi(value);
-		else
-			users[currentIndex].userBought.nBoughtMovies = 0;
-
-		for (int i{ 0 }; i < users[currentIndex].userBought.nBoughtMovies; i++)
-		{
-			getline(ssLine, users[currentIndex].userBought.name_of_bought_movies[i], '|');
-
-		}
-
-		getline(ssLine, value, '|');
-		users[currentIndex].frozen = (value == "true");
-
-
 		if (totalnumofmovies != 0)
 		{
 			for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
@@ -696,6 +676,30 @@ void loadFromFile(user users[])
 
 			}
 		}
+
+		/*for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
+		{
+			getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
+
+		}*/
+
+		getline(ssLine, value, '|');
+		if (!value.empty())
+			users[currentIndex].userBought.nBoughtMovies = stoi(value);
+		else
+			users[currentIndex].userBought.nBoughtMovies = 0;
+
+		for (int i{ 0 }; i < users[currentIndex].userBought.nBoughtMovies; i++)
+		{
+			getline(ssLine, users[currentIndex].userBought.name_of_bought_movies[i], '|');
+
+		}
+
+		getline(ssLine, value, '|');
+		users[currentIndex].frozen = (value == "true");
+
+
+		
 
 		currentIndex++;
 	}

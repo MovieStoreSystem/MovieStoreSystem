@@ -30,7 +30,7 @@ struct accountinfo
 
 struct movieinfo {
 	string name_of_movie;
-	float price = 0.0f, overdue_price = 0.0f;
+	float price = 0.0f;
 	int rentingCount = 0;
 	int Quantity = 0;
 	float average_rate = 0.0f;
@@ -48,8 +48,13 @@ struct RentedMovieInfo
 struct RentedMovies {
 	RentedMovieInfo rentedMovies[number_of_movies];
 	int nMovies = 0;
+	
 };
 
+struct BoughtMovies {
+	string name_of_bought_movies[number_of_movies];
+	int nBoughtMovies = 0;
+};
 
 struct user
 {
@@ -58,6 +63,7 @@ struct user
 	bool isEmployee = false;
 	bool frozen = false;
 	RentedMovies userRentals;
+	BoughtMovies userBought;
 	bool ratedMovies[number_of_movies] = { false };
 	//string rentedMovies[10];
 	//int usersmovie[number_of_movies];
@@ -75,7 +81,10 @@ bool findaccountnum(int accountnum, user users[], int& totalusers);
 bool findtrueinfo(string email, string password, user users[], int& totalusers);
 int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);
-void movierate(movieinfo movies[]);
+void movierate();
+void Display_High_Rated_Movies();
+void Buy_A_Movie();
+void BoughtandRentedMovies();
 void outputToFile(user users[], int totalUsers);
 void loadFromFile(user users[]);
 int getNumberOfUsersFromFile();

@@ -100,26 +100,29 @@ int main() {
 				break;
 
 			case '2':
+				Buy_A_Movie();
+				break;
+			case '3':
 				Renting();
 				break;
 
-			case '3':
+			case '4':
 				Calculate_totalPrice();
 				break;
 
-			case '4':
+			case '5':
 				ViewAccountInfo();
 				break;
 
-			case '5':
-				movierate(movie);
-				break;
-
 			case '6':
-				displayRentedMovies();
+				movierate();
 				break;
 
 			case '7':
+				BoughtandRentedMovies();
+				break;
+
+			case '8':
 				cout << "Exiting :)\n";
 				open = false;
 				break;
@@ -141,14 +144,15 @@ char customermenu()
 {
 	char choice;
 	cout << "1.View Movies\n";
-	cout << "2.Rent a Movie\n";
-	cout << "3.Return a Movie\n";  
-	cout << "4.View Account Information\n";  
-	cout << "5.Rate a Movie / Leave a Review\n";  
-	cout << "6.View Currently Rented Movies\n";  
-	cout << "7.Exit\n";
+	cout << "2.Buy a Movie\n";
+	cout << "3.Rent a Movie\n";
+	cout << "4.Return a Movie\n";  
+	cout << "5.View Account Information\n";  
+	cout << "6.Rate a Movie / Leave a Review\n";  
+	cout << "7.View Currently Rented Movies\n";  
+	cout << "8.Exit\n";
 	cout << "Please enter your choice number: ";
-	cin >> choice;
+	choice = getValidatedIChar("Please enter your choice number: ");
 	return choice;
 }
 char employeermenu()
@@ -159,7 +163,7 @@ char employeermenu()
 	cout << "3.List all Customers\n";
 	cout << "4.Most rented movies\n";
 	cout << "5.Overdue Customers\n";
-	cout << "6.Remove a Movie\n"; // Missing
+	cout << "6.Remove a Movie\n"; 
 	cout << "7.Edit Movie Information\n";  
 	cout << "8.Exit\n";
 	choice = getValidatedIChar("Please enter your choice number: ");
@@ -376,10 +380,11 @@ int signin(user users[], int totalusers) {
 }
 
 // Rating Movies
-void movierate(movieinfo movie[]) {
+void movierate() {
 	string title;
 	int temp_rate;
 	bool rated = true;
+	displayMovies();
 	cout << "Enter the title of the movie\n";
 	cin.ignore();
 	getline(cin, title);
@@ -399,7 +404,6 @@ void movierate(movieinfo movie[]) {
 					}
 					else if (temp_rate < 1 || temp_rate>5) {
 						cout << "Sorry, Invalid rating. Should be from 1 to 5 \n";
-						//return;
 					}
 					else {
 						movie[i].total_ratings++;
@@ -408,6 +412,7 @@ void movierate(movieinfo movie[]) {
 						cout << "The new rating is " << movie[i].average_rate << endl;
 						cout << "Thank you for your rating:)\n";
 						users[logged_in_index].ratedMovies[i] = true;
+						Display_High_Rated_Movies();
 						rated = false;
 						return;
 					}
@@ -422,7 +427,65 @@ void movierate(movieinfo movie[]) {
 
 	return;
 }
+void Display_High_Rated_Movies() {
+	//movieinfo High_Rated_Movie[number_of_movies];
+	for (int i = 0;i < totalnumofmovies;i++) {
 
+		for (int j = i+1;j < totalnumofmovies;j++) {
+			if (movie[i].average_rate<movie[j].average_rate) {
+				swap(movie[i], movie[j]);
+			}
+		}
+	}
+	displayMovies();
+
+}
+
+void Buy_A_Movie() {
+	int choice;
+	bool buying = true;
+	displayMovies();
+	cout << "Enter the number of the movie you want to buy:\n";
+	cin >> choice;
+	while (buying) {
+		if (cin.fail()){
+			cout << "Please enter an integar number:\n";
+			continue;
+		}
+		else if (choice<1 || choice>totalnumofmovies - 1) {
+			cout << "Invalid number\n";
+			continue;
+		}
+		else {
+
+			if (movie[choice - 1].Quantity == 0) {
+				cout << "Sorry,This movie is no longer availble\n";
+				buying = false;
+				break;
+			}
+			else {
+				movie[choice - 1].Quantity--;
+				users[logged_in_index].userBought.nBoughtMovies++;
+				users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] = movie[choice].name_of_movie;
+				cout << "Your total Price is: " << movie[choice - 1].price * 30;
+				buying = false;
+				break;
+			}
+
+		}
+	}
+}
+
+void BoughtandRentedMovies() {
+	cout << "Your Rented Movies:\n";
+	for (int i = 0;i < users[logged_in_index].userRentals.nMovies;i++) {
+		cout <<i+1<<". " << users[logged_in_index].userRentals.rentedMovies[i].nameOfRentedMovie << "\n";
+	}
+	cout << "Your Bought Movies:\n";
+	for (int i = 0;i < users[logged_in_index].userBought.nBoughtMovies;i++) {
+		cout << i + 1 << ". " << users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] << "\n";
+	}
+}
 
 void outputToFile(user users[], int totalUsers)
 {
@@ -918,7 +981,7 @@ void displayCustomers(int totalusers) {
 	}
 }
 
-void displayRentedMovies() {
+void displayRentedMovies() {  //not used
 	for (int i = 0; i < totalnumofmovies; i++) 
 	{
 		{
@@ -1056,10 +1119,10 @@ void ViewAccountInfo() {
 }
 
 void displayMovies() {
-	cout << "Movies: " << "\t\t " << "Rate:\n";
+	cout << "Movies: \t\t" << "Rate: \t\t" << "Price Per Day:\t\t" << "Buying Price: \n";
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
-		cout << i + 1 << ". " << movie[i].name_of_movie << "\t\t " << movie[i].average_rate;
+		cout << i + 1 << ". " << movie[i].name_of_movie << "\t\t " << movie[i].average_rate << "\t\t" << movie[i].price << "\t\t\t" << movie[i].price * 30;
 		cout << '\n';
 	}
 };
@@ -1163,7 +1226,7 @@ void deleteMovies() {
 	while (true)
 	{
 
-		choose = getValidatedInt("Enter the number of the movie you want to edit\n", "Please choose integar number\n");
+		choose = getValidatedInt("Enter the number of the movie you want to delete\n", "Please choose integar number\n");
 		if (choose > number_of_movies)
 		{
 			cout << "Please choose a valid movie number.\n";

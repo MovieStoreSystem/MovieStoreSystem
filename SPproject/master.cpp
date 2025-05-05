@@ -1050,10 +1050,36 @@ void addingMovies(int count)
 				count++;
 			}
 			else {
-				cout << "Enter the price of the movie for a day:\n";
-				cin >> movie[totalnumofmovies].price;
-				cout << "Enter the quantity of the movie\n";
-				cin >> movie[totalnumofmovies].Quantity;
+				while (true) {
+					cout << "Enter the price of the movie for a day:\n";
+					cin >> movie[totalnumofmovies].price;
+
+					if (cin.fail())
+					{
+						cout << "Please enter a number.\n";
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+					else
+						break;
+				}
+				while (true) {
+
+					cout << "Enter the quantity of the movie\n";
+					cin >> movie[totalnumofmovies].Quantity;
+					
+					if (cin.fail())
+					{
+						cout << "Please enter a number.\n";
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+					else
+						break;
+				}
+
 				totalnumofmovies++;
 				if (totalnumofmovies == number_of_movies) {
 					cout << "sorry we have reached the maximum number of movies\n";
@@ -1163,8 +1189,20 @@ void update(movieinfo movie[]) {
 	float price;
 	while (true)
 	{
+		while (true) {
+			cout << "Enter the number of the movie you want to edit\n";
+			cin >> choose;
 
-		choose = getValidatedInt("Enter the number of the movie you want to edit\n", "Invalid Choice.\n");
+			if (cin.fail())
+			{
+				cout << "Invalid Choice.\n";
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			else
+				break;
+		}
 		if (choose > totalnumofmovies)
 		{
 			cout << "Please choose a valid movie number.\n";
@@ -1192,7 +1230,7 @@ int findMovieIndexByName(string_view movieName)
 	return -1;
 }
 
-char getValidatedIChar(string_view sentence)
+char getValidatedChar(string_view sentence)
 {
 
 	string choice{};
@@ -1205,26 +1243,6 @@ char getValidatedIChar(string_view sentence)
 		else
 		{
 			cout << "Invalid Choice.\n";
-			continue;
-		}
-	}
-}
-
-int getValidatedInt(string_view sentence, string_view ERRORsentence)
-{
-
-	string choice{};
-	while (true)
-	{
-		cout << sentence;
-		getline(cin >> ws, choice);
-		int validatedDigit[2] = { isdigit(choice[0]), isdigit(choice[1]) };
-		if (choice.length() == 1 || choice.length() == 2 && (validatedDigit[0]
-			|| (validatedDigit[0] && validatedDigit[1])))
-			return stoi(choice);
-		else
-		{
-			cout << ERRORsentence;
 			continue;
 		}
 	}
@@ -1256,8 +1274,21 @@ void deleteMovies() {
 	while (true)
 	{
 
-		choose = getValidatedInt("Enter the number of the movie you want to delete\n", "Please choose integar number\n");
-		if (choose > number_of_movies)
+		while (true) {
+			cout << "Enter the number of the movie you want to delete\n";
+			cin >> choose;
+
+			if (cin.fail())
+			{
+				cout << "Invalid Choice.\n";
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			else
+				break;
+		}
+		if (choose > totalnumofmovies)
 		{
 			cout << "Please choose a valid movie number.\n";
 			continue;
@@ -1269,5 +1300,5 @@ void deleteMovies() {
 		movie[i] = movie[i + 1];
 	}
 	totalnumofmovies--;
-	cout << "deleting procces went succesfully!\n";
+	cout << "Deleting procces went succesfully!\n";
 };

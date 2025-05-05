@@ -120,8 +120,7 @@ void ViewAccountInfo();
 
 int findMovieIndexByName(string_view movieName);
 
-char getValidatedIChar(string_view string);
-int getValidatedInt(string_view sentence, string_view ERRORsentence);
+char getValidatedChar(string_view string);
 int getValidatedDate(string_view sentence);
 
 

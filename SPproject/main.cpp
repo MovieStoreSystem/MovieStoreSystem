@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <string_view>
+#include <sstream>
 using namespace std;
 const int number_of_movies = 20;
 int totalnumofmovies = 0;
@@ -12,31 +14,67 @@ struct movieinfo {
 	int final_score_of_movie = 0;
 	int total_ratings = 0;
 }movie[number_of_movies];
-
-
-void addingMovies(int count, movieinfo movie[])
+void addingMovies(int count)
 {
-
+	bool found = true;
 	if (totalnumofmovies > number_of_movies) {
 		cout << "sorry we have reached the maximum number of movies\n";
 		return;
 	}
 	else {
-		for (int i = totalnumofmovies;i < count + totalnumofmovies;i++) {
+		for (int i = 0;i < count;i++) {
+			found = true;
 			cout << "Enter the movie name:\n";
 			cin.ignore();
-		    getline(cin, movie[i].name_of_movie);
-			cout << "Enter the price of the movie for a day:\n";
-			cin >> movie[i].price;
-			cout << "Enter the quantity of the movie\n";
-			cin >> movie[i].Quantity;
+			getline(cin, movie[totalnumofmovies].name_of_movie);
+			
+			for (int j = 0;j < totalnumofmovies;j++) {
+				if (movie[totalnumofmovies].name_of_movie == movie[j].name_of_movie) {
+					found = false;
+				}
+			}
+			if (!found) {
+				cout << "This Movie already exist\n";
+				count++;
+			}
+			else {
+				while (true) {
+					cout << "Enter the price of the movie for a day:\n";
+					cin >> movie[totalnumofmovies].price;
 
-			if (i > number_of_movies) {
-				cout << "sorry we have reached the maximum number of movies\n";
-				return;
+					if (cin.fail())
+					{
+						cout << "Please enter a number.\n";
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+					else
+						break;
+				}
+				while (true) {
+
+					cout << "Enter the quantity of the movie\n";
+					cin >> movie[totalnumofmovies].Quantity;
+
+					if (cin.fail())
+					{
+						cout << "Please enter a number.\n";
+						cin.clear();
+						cin.ignore(10000, '\n');
+						continue;
+					}
+					else
+						break;
+				}
+
+				totalnumofmovies++;
+				if (totalnumofmovies == number_of_movies) {
+					cout << "sorry we have reached the maximum number of movies\n";
+					return;
+				}
 			}
 		}
-		totalnumofmovies += count;
 	}
 }
 void moviemanagment()
@@ -56,7 +94,7 @@ void moviemanagment()
 		else
 			break;
 	}
-	addingMovies(count, movie);
+	addingMovies(count);
 }
 void main()
 {

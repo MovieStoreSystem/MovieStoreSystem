@@ -1,4 +1,2 @@
-4|5|Crater|5|0|5|0|0|0|Interstellar|5|0|10|0|0|0|Encanto|3|0|8|0|0|0|Moana|3|0|6|0|0|0|WALL-E|4|0|10|0|0|0|saraomran@gmail.com|01551441909|saraomran@gmail.com|true|1234567|0|0|false|
-sara|01551441906|sara@gmail.com|false|0|0|false|
-user001|01111111111|user001@gmail.com|false|0|0|false|
-user002|01111111112|user002@gmail.com|false|0|0|false|
+2|3|Interstellar|5|0|5|0|0|0|Crater|5|0|5|0|0|0|Encanto|4|0|5|0|0|0|sara omran|01551441909|saraomran@gmail.com|true|1234567|0|0|false|
+sara|01551441906|sara@gmail.com|false|0|1|Encanto|false|

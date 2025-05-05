@@ -25,7 +25,7 @@ int main() {
 		bool sign = true;
 		while (sign) {
 
-			choice = getValidatedIChar("1.Sign up \n2.Sign in\n");
+			choice = getValidatedChar("1.Sign up \n2.Sign in\n");
 
 			switch (choice)
 			{
@@ -154,7 +154,7 @@ char customermenu()
 	cout << "6.Rate a Movie / Leave a Review\n";  
 	cout << "7.View Currently Rented Movies\n";  
 	cout << "8.Exit\n";
-	choice = getValidatedIChar("Please enter your choice number: ");
+	choice = getValidatedChar("Please enter your choice number: ");
 	return choice;
 }
 char employeermenu()
@@ -169,7 +169,7 @@ char employeermenu()
 	cout << "7.Remove a Movie\n"; 
 	cout << "8.Edit Movie Information\n";  
 	cout << "9.Exit\n";
-	choice = getValidatedIChar("Please enter your choice number: ");
+	choice = getValidatedChar("Please enter your choice number: ");
 	return choice;
 }
 
@@ -454,14 +454,14 @@ void Buy_A_Movie() {
 	int choice;
 	bool buying = true;
 	displayMovies();
+	while (buying) {
 	cout << "Enter the number of the movie you want to buy:\n";
 	cin >> choice;
-	while (buying) {
 		if (cin.fail()){
 			cout << "Please enter an integar number:\n";
 			continue;
 		}
-		else if (choice<1 || choice>totalnumofmovies - 1) {
+		else if (choice<1 || choice>totalnumofmovies ) {
 			cout << "Invalid number\n";
 			continue;
 		}
@@ -474,8 +474,8 @@ void Buy_A_Movie() {
 			}
 			else {
 				movie[choice - 1].Quantity--;
+				users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] = movie[choice-1].name_of_movie;
 				users[logged_in_index].userBought.nBoughtMovies++;
-				users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] = movie[choice].name_of_movie;
 				cout << "Your total Price is: " << movie[choice - 1].price * 30;
 				buying = false;
 				break;
@@ -528,12 +528,12 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.phoneNumber << '|'
 				<< users[i].userAccount.email << '|'
 				<< boolalpha << users[i].isEmployee << '|';
-				if (users[i].isEmployee) {
-					outFile
-						<< users[i].userAccount.password << '|';
-				}
+			if (users[i].isEmployee) {
 				outFile
-					<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+					<< users[i].userAccount.password << '|';
+			}
+			outFile
+				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
 
 
 			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
@@ -564,9 +564,9 @@ void outputToFile(user users[], int totalUsers)
 					outFile << users[i].userRentals.rentedMovies[j].rentDay.day << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.month << '|'
 						<< users[i].userRentals.rentedMovies[j].rentDay.year << '|';
-	
+
 				}
-				
+
 			}
 
 
@@ -647,7 +647,7 @@ void loadFromFile(user users[])
 		getline(ssLine, value, '|');
 		users[currentIndex].isEmployee = (value == "true");
 
-		if (users[currentIndex].isEmployee==true) {
+		if (users[currentIndex].isEmployee == true) {
 			getline(ssLine, users[currentIndex].userAccount.password, '|');
 		}
 
@@ -701,7 +701,6 @@ void loadFromFile(user users[])
 	}
 	myFile.close();
 }
-
 
 
 bool isLeap(int year) {
@@ -1011,20 +1010,20 @@ void displayCustomers(int totalusers) {
 	}
 }
 
-void displayRentedMovies() {  //not used
-	for (int i = 0; i < totalnumofmovies; i++) 
-	{
-		{
-			if (users[i].userRentals.nMovies > 0)
-			{
-				cout << "Rented movies for user: " << users[i].userAccount.username << '\n';
-
-				for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
-					cout << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '\n';
-			}
-		}
-	}
-}
+//void displayRentedMovies() {  //not used
+//	for (int i = 0; i < totalnumofmovies; i++) 
+//	{
+//		{
+//			if (users[i].userRentals.nMovies > 0)
+//			{
+//				cout << "Rented movies for user: " << users[i].userAccount.username << '\n';
+//
+//				for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
+//					cout << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '\n';
+//			}
+//		}
+//	}
+//}
 
 //Menna
 void addingMovies(int count)
@@ -1181,7 +1180,7 @@ void displayMovies() {
 		cout << i + 1 << ". " << movie[i].name_of_movie << "\t\t " << movie[i].average_rate << "\t\t" << movie[i].price << "\t\t\t" << movie[i].price * 30;
 		cout << '\n';
 	}
-};
+}
 
 void update(movieinfo movie[]) {
 	displayMovies();

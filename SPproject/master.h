@@ -103,7 +103,7 @@ void sortMoviesByCount();
 //display
 void displayCustomers(int totalusers);
 void displayMovies();
-void displayRentedMovies();
+//void displayRentedMovies();
 
 void addingMovies(int count);
 void moviemanagment();

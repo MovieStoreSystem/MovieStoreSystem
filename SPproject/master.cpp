@@ -73,16 +73,19 @@ int main() {
 				sortMoviesByCount();
 				break;
 			case '5':
-				Overdue_clients();
+				Display_High_Rated_Movies();
 				break;
 			case '6':
-				deleteMovies();
+				Overdue_clients();
 				break;
 			case '7':
+				deleteMovies();
+				break;
+			case '8':
 				update(movie);
 				break;
 
-			case '8':
+			case '9':
 				cout << "Exiting :)\n";
 				open = false;
 				break;
@@ -151,7 +154,6 @@ char customermenu()
 	cout << "6.Rate a Movie / Leave a Review\n";  
 	cout << "7.View Currently Rented Movies\n";  
 	cout << "8.Exit\n";
-	cout << "Please enter your choice number: ";
 	choice = getValidatedIChar("Please enter your choice number: ");
 	return choice;
 }
@@ -162,10 +164,11 @@ char employeermenu()
 	cout << "2.List all Movies\n";
 	cout << "3.List all Customers\n";
 	cout << "4.Most rented movies\n";
-	cout << "5.Overdue Customers\n";
-	cout << "6.Remove a Movie\n"; 
-	cout << "7.Edit Movie Information\n";  
-	cout << "8.Exit\n";
+	cout << "5.High Rated Movies\n";
+	cout << "6.Overdue Customers\n";
+	cout << "7.Remove a Movie\n"; 
+	cout << "8.Edit Movie Information\n";  
+	cout << "9.Exit\n";
 	choice = getValidatedIChar("Please enter your choice number: ");
 	return choice;
 }
@@ -382,17 +385,19 @@ int signin(user users[], int totalusers) {
 // Rating Movies
 void movierate() {
 	string title;
-	int temp_rate;
+	float temp_rate;
 	bool rated = true;
+	bool found=false;
 	displayMovies();
 	cout << "Enter the title of the movie\n";
-	cin.ignore();
+	//cin.ignore();
 	getline(cin, title);
 
-	for (int i = 0;i < number_of_movies;i++)
+	for (int i = 0;i < totalnumofmovies;i++)
 	{
-		if (movie[i].name_of_movie == title)
+		if (title==movie[i].name_of_movie )
 		{
+			found = true;
 			if (!users[logged_in_index].ratedMovies[i]) {
 				while (rated) {
 					cout << "Please enter a rating from 1 to 5\n";
@@ -408,7 +413,7 @@ void movierate() {
 					else {
 						movie[i].total_ratings++;
 						movie[i].final_score_of_movie += temp_rate;
-						movie[i].average_rate = (float)movie[i].final_score_of_movie / movie[i].total_ratings;
+						movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
 						cout << "The new rating is " << movie[i].average_rate << endl;
 						cout << "Thank you for your rating:)\n";
 						users[logged_in_index].ratedMovies[i] = true;
@@ -423,6 +428,10 @@ void movierate() {
 				return;
 			}
 		}
+		
+	}
+	if (!found) {
+		cout << "Sorry,This Movie is not abailable\n";
 	}
 
 	return;
@@ -532,8 +541,15 @@ void outputToFile(user users[], int totalUsers)
 				outFile << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '|';
 
 			}
-			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
 
+			outFile
+				<< users[i].userBought.nBoughtMovies << '|';
+			for (int j{ 0 }; j < users[i].userBought.nBoughtMovies; j++) //output rented movies to file 
+			{
+				outFile << users[i].userBought.name_of_bought_movies[j] << '|';
+
+			}
+			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
 
 
 			//Movies Info
@@ -648,6 +664,18 @@ void loadFromFile(user users[])
 		}
 
 		getline(ssLine, value, '|');
+		if (!value.empty())
+			users[currentIndex].userBought.nBoughtMovies = stoi(value);
+		else
+			users[currentIndex].userBought.nBoughtMovies = 0;
+
+		for (int i{ 0 }; i < users[currentIndex].userBought.nBoughtMovies; i++)
+		{
+			getline(ssLine, users[currentIndex].userBought.name_of_bought_movies[i], '|');
+
+		}
+
+		getline(ssLine, value, '|');
 		users[currentIndex].frozen = (value == "true");
 
 
@@ -703,6 +731,8 @@ int daysBetween(Date rentday, Date currentday) {
 }
 
 void Overdue_clients() {
+	Currentday();
+	int count = 1;
 	for (int i = 0, j = 0; i < 20; i++) {
 		bool alreadyMarked{ false };
 		int Number_of_days = 0;
@@ -714,14 +744,14 @@ void Overdue_clients() {
 				{
 					users[i].frozen = true;
 					Overdue[j++] = users[i];
-
-					cout << users[i].userAccount.accountNumber << "." << users[i].userAccount.username << "\t" << users[i].userAccount.phoneNumber << "\n";
+					cout << "Name of Customer:\t\t" << "Thier Phone Number\t\t" << "Thier Email\n";
+					cout << count++<< "." << users[i].userAccount.username << "\t\t\t" << users[i].userAccount.phoneNumber << "\t\t"<<users[i].userAccount.email;
 					alreadyMarked = true;
 				}
 			 break;
 			}
 		}
-	};
+	}
 }
 
 void ListofDaysLeft() {
@@ -1143,10 +1173,10 @@ void update(movieinfo movie[]) {
 		else
 			break;
 	}
-	cout << "Enter new quantity\n";
+	cout << "Add new quantity\n";
 	cin >> quantity;
-	movie[choose - 1].Quantity = quantity;
-	cout << "Enter new fees's price\n";
+	movie[choose - 1].Quantity += quantity;
+	cout << "Enter new price\n";
 	cin >> price;
 	movie[choose - 1 ].price = price;
 

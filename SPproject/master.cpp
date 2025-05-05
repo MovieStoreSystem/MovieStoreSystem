@@ -1200,7 +1200,7 @@ int findMovieIndexByName(string_view movieName)
 	return -1;
 }
 
-char getValidatedIChar(string_view sentence)
+char getValidatedChar(string_view sentence)
 {
 
 	string choice{};
@@ -1213,26 +1213,6 @@ char getValidatedIChar(string_view sentence)
 		else
 		{
 			cout << "Invalid Choice.\n";
-			continue;
-		}
-	}
-}
-
-int getValidatedInt(string_view sentence, string_view ERRORsentence)
-{
-
-	string choice{};
-	while (true)
-	{
-		cout << sentence;
-		getline(cin >> ws, choice);
-		int validatedDigit[2] = { isdigit(choice[0]), isdigit(choice[1]) };
-		if (choice.length() == 1 || choice.length() == 2 && (validatedDigit[0]
-			|| (validatedDigit[0] && validatedDigit[1])))
-			return stoi(choice);
-		else
-		{
-			cout << ERRORsentence;
 			continue;
 		}
 	}
@@ -1264,8 +1244,21 @@ void deleteMovies() {
 	while (true)
 	{
 
-		choose = getValidatedInt("Enter the number of the movie you want to delete\n", "Please choose integar number\n");
-		if (choose > number_of_movies)
+		while (true) {
+			cout << "Enter the number of the movie you want to delete\n";
+			cin >> choose;
+
+			if (cin.fail())
+			{
+				cout << "Invalid Choice.\n";
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			else
+				break;
+		}
+		if (choose > totalnumofmovies)
 		{
 			cout << "Please choose a valid movie number.\n";
 			continue;
@@ -1277,5 +1270,5 @@ void deleteMovies() {
 		movie[i] = movie[i + 1];
 	}
 	totalnumofmovies--;
-	cout << "deleting procces went succesfully!\n";
+	cout << "Deleting procces went succesfully!\n";
 };

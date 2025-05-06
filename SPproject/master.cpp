@@ -521,6 +521,7 @@ void outputToFile(user users[], int totalUsers)
 				<< movie[i].total_ratings << '|';
 
 		}
+		outFile << '\n';
 		for (int i{ 0 }; i < totalUsers; i++)
 		{
 			outFile
@@ -602,44 +603,48 @@ void loadFromFile(user users[])
 		return;
 	}
 
+
+	getline(myFile, line);
+	stringstream ssLine(line);
+	getline(ssLine, value, '|');
+
+	getline(ssLine, value, '|');
+	totalnumofmovies = stoi(value);
+
+	for (int i{ 0 }; i < totalnumofmovies; i++)
+	{
+
+		getline(ssLine, movie[i].name_of_movie, '|');
+
+		if (getline(ssLine, value, '|') && !value.empty())
+			movie[i].Quantity = stoi(value);
+
+		if (getline(ssLine, value, '|') && !value.empty())
+			movie[i].rentingCount = stoi(value);
+
+		if (getline(ssLine, value, '|') && !value.empty())
+			movie[i].price = stof(value);
+
+		if (getline(ssLine, value, '|') && !value.empty())
+			movie[i].average_rate = stof(value);
+
+		if (getline(ssLine, value, '|') && !value.empty())
+			movie[i].final_score_of_movie = stoi(value);
+
+		if (getline(ssLine, value, '|') && !value.empty())
+			movie[i].total_ratings = stoi(value);
+
+
+	}
 	int currentIndex{ 0 };
 	while (getline(myFile, line))
 	{
 		stringstream ssLine(line);
 
-		if (currentIndex == 0)
+		/*if (currentIndex == 0)
 		{
-			getline(ssLine, value, '|');
-
-			getline(ssLine, value, '|');
-			totalnumofmovies = stoi(value);
-
-			for (int i{ 0 }; i < totalnumofmovies; i++)
-			{
-
-				getline(ssLine, movie[i].name_of_movie, '|');
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].Quantity = stoi(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].rentingCount = stoi(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].price = stof(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].average_rate = stof(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].final_score_of_movie = stoi(value);
-
-				if (getline(ssLine, value, '|') && !value.empty())
-					movie[i].total_ratings = stoi(value);
-
-
-			}
-		}
+			
+		}*/
 
 
 		getline(ssLine, users[currentIndex].userAccount.username, '|');

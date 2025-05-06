@@ -50,7 +50,6 @@ struct movieinfo {
 	float average_rate = 0.0f;
 	float final_score_of_movie=0.0f;
 	int total_ratings = 0;
-	bool rated = false;
 } movie[number_of_movies];
 
 struct RentedMovieInfo
@@ -70,6 +69,11 @@ struct BoughtMovies {
 	int nBoughtMovies = 0;
 };
 
+struct RatedMovies {
+	string ratedMoviesNames[number_of_movies];
+	int nRatedMovies = 0;
+};
+
 struct user
 {
 	accountinfo userAccount;
@@ -78,35 +82,42 @@ struct user
 	bool frozen = false;
 	RentedMovies userRentals;
 	BoughtMovies userBought;
-	bool ratedMovies[number_of_movies] = { false };
-	//string rentedMovies[10];
-	//int usersmovie[number_of_movies];
+	RatedMovies rating;
 }users[20], Overdue[20];
 
 
 
 //functions
-//sign in/up
+
+//Menu
 char customermenu();
 char employeermenu();
+//Finding true identity
 bool findemail(string email, user users[], int& totalusers);
 bool findphonenumber(string phonenum, user users[], int& totalusers);
 bool findaccountnum(int accountnum, user users[], int& totalusers);
 bool findtrueinfo(string email, string password, user users[], int& totalusers);
+//Sign in/up
 int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);
+//Bonus movie rating
 void movierate();
 void Display_High_Rated_Movies();
 void Buy_A_Movie();
-void BoughtandRentedMovies();
+void ViewAccountInfo();
+
+//using files to save data
 void outputToFile(user users[], int totalUsers);
 void loadFromFile(user users[]);
 int getNumberOfUsersFromFile();
+//checking input
 char getValidatedChar(string_view string);
 int getValidatedDate(string_view sentence);
 int findMovieIndexByName(string_view movieName);
+//Layout
+void printCenteredText(string coutText, int width = nCharactersToFillUpConsole);
 
-//Renting and ReturnSystems
+//Renting movies and specifying dates
 bool isLeap(int year);
 int dateToDays(Date d);
 int daysBetween(Date rentday, Date currentday);
@@ -114,26 +125,24 @@ void Overdue_clients();
 void ListofDaysLeft();
 void Renting();
 void sortMoviesByCount();
+void Rentday(int index);
+void Currentday();
 
-//display
+// to display info 
 void displayCustomers(int totalusers);
 void displayMovies();
-//void displayRentedMovies();
+void BoughtandRentedMovies();
 
 void addingMovies(int count);
 void moviemanagment();
 
+//return and calculating the price
 void Calculate_totalPrice();
 
-void Rentday(int index);
-void Currentday();
-void ViewAccountInfo();
-
+// to change movie info
 void update(movieinfo movie[]);
 void deleteMovies();
 
-//Layout
-void printCenteredText(string coutText, int width = nCharactersToFillUpConsole);
 
 
 

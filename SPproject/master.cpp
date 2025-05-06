@@ -6,10 +6,17 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <windows.h>
 #include <iostream>
 using namespace std;
 
+//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
 int main() {
+
+//SetConsoleTextAttribute(hConsole, 9);
+//SetConsoleTextAttribute(hConsole, 240);
 
 	int total_users{ getNumberOfUsersFromFile() };
 
@@ -359,7 +366,6 @@ bool signup(user& temp, user users[], int& totalusers)
 	}
 	return true;
 }
-
 int signin(user users[], int totalusers) {
 	char choice;
 	user temp;
@@ -401,9 +407,9 @@ int signin(user users[], int totalusers) {
 		}
 	}
 	else {
-		cout << "Enter your username: ";
+		cout << "Enter username: ";
 		cin >> username;
-		cout << "Enter your phonenumber: ";
+		cout << "Enter phonenumber: ";
 		cin >> phonenumber;
 
 		//checking if they are true!
@@ -422,59 +428,114 @@ int signin(user users[], int totalusers) {
 }
 
 // Rating Movies
+//void movierate() {
+//	string title;
+//	float temp_rate;
+//	bool rated = true;
+//	bool found = false, name = true;
+//	displayMovies();
+//	cout << "Enter the title of the movie\n";
+//	getline(cin, title);
+//
+//	name = false;
+//	for (int i = 0;i < totalnumofmovies;i++)
+//	{
+//		if (title == movie[i].name_of_movie)
+//		{
+//			found = true;
+//			for (int j = 0;j < users[logged_in_index].rating.nRatedMovies;j++) {
+//				if (users[logged_in_index].rating.ratedMoviesNames[j] != movie[i].name_of_movie) {
+//					while (rated) {
+//						cout << "Please enter a rating from 1 to 5\n";
+//						cin >> temp_rate;
+//						if (cin.fail()) {
+//							printCenteredText("Rating should be a number from 1 to 5");
+//							cin.clear();
+//							cin.ignore(10000, '\n');
+//						}
+//						else if (temp_rate < 1 || temp_rate>5) {
+//							printCenteredText("Sorry, Invalid rating. Should be from 1 to 5 ");
+//						}
+//						else {
+//							movie[i].total_ratings++;
+//							movie[i].final_score_of_movie += temp_rate;
+//							movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
+//							cout << "The new rating is " << movie[i].average_rate << endl;
+//							printCenteredText("Thank you for your rating:)");
+//							users[logged_in_index].rating.ratedMoviesNames[users[logged_in_index].rating.nRatedMovies] = movie[i].name_of_movie;
+//							users[logged_in_index].rating.nRatedMovies++;
+//							Display_High_Rated_Movies();
+//							rated = false;
+//							return;
+//						}
+//					}
+//				}
+//				else {
+//					printCenteredText("You have already rated this movie");
+//					return;
+//				}
+//			}
+//		}
+//	}
+//
+//	if (!found) {
+//		printCenteredText("Sorry,This Movie is not available");
+//	}
+//
+//	return;
+//}
+
 void movierate() {
 	string title;
 	float temp_rate;
 	bool rated = true;
-	bool found=false;
+	bool found = false;
 	displayMovies();
 	cout << "Enter the title of the movie\n";
-	//cin.ignore();
 	getline(cin, title);
-
 	for (int i = 0;i < totalnumofmovies;i++)
 	{
-		if (title==movie[i].name_of_movie )
+		if (title == movie[i].name_of_movie)
 		{
 			found = true;
-			if (!users[logged_in_index].ratedMovies[i]) {
-				while (rated) {
-					cout << "Please enter a rating from 1 to 5\n";
-					cin >> temp_rate;
-					if (cin.fail()) {
-						printCenteredText("Rating should be a number from 1 to 5");
-						cin.clear();
-						cin.ignore(10000, '\n');
-					}
-					else if (temp_rate < 1 || temp_rate>5) {
-						printCenteredText("Sorry, Invalid rating. Should be from 1 to 5 ");
-					}
-					else {
-						movie[i].total_ratings++;
-						movie[i].final_score_of_movie += temp_rate;
-						movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
-						cout << "The new rating is " << movie[i].average_rate << endl;
-						printCenteredText("Thank you for your rating:)");
-						users[logged_in_index].ratedMovies[i] = true;
-						Display_High_Rated_Movies();
-						rated = false;
-						return;
-					}
+			for (int j = 0;j < users[logged_in_index].rating.nRatedMovies;j++) {
+				if (users[logged_in_index].rating.ratedMoviesNames[j] == movie[i].name_of_movie) {
+					printCenteredText("You have already rated this movie");
+					return;
 				}
 			}
-			else {
-				printCenteredText("You have already rated this movie");
-				return;
+			while (rated) {
+				cout << "Please enter a rating from 1 to 5\n";
+				cin >> temp_rate;
+				if (cin.fail()) {
+					printCenteredText("Rating should be a number from 1 to 5");
+					cin.clear();
+					cin.ignore(10000, '\n');
+				}
+				else if (temp_rate < 1 || temp_rate>5) {
+					printCenteredText("Sorry, Invalid rating. Should be from 1 to 5 ");
+				}
+				else {
+					movie[i].total_ratings++;
+					movie[i].final_score_of_movie += temp_rate;
+					movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
+					cout << "The new rating is " << movie[i].average_rate << endl;
+					printCenteredText("Thank you for your rating:)");
+					users[logged_in_index].rating.ratedMoviesNames[users[logged_in_index].rating.nRatedMovies] = movie[i].name_of_movie;
+					users[logged_in_index].rating.nRatedMovies++;
+					Display_High_Rated_Movies();
+					rated = false;
+					return;
+				}
 			}
 		}
-		
 	}
 	if (!found) {
 		printCenteredText("Sorry,This Movie is not available");
 	}
 
-	return;
 }
+
 void Display_High_Rated_Movies() {
 	//movieinfo High_Rated_Movie[number_of_movies];
 	for (int i = 0;i < totalnumofmovies;i++) {
@@ -791,7 +852,7 @@ void ListofDaysLeft() {
 	}
 }
 
-//if user want to rent movie (renting function) //
+//if user want to rent movie (renting function) 
 void Renting() {
 	bool renting = true;
 	while (renting) {
@@ -844,7 +905,7 @@ void Renting() {
 		}
 	}
 }
-// NEW
+
 void Rentday(int index) {
 	while (true) {
 		printCenteredText("Please enter the date of rentday");
@@ -1031,7 +1092,6 @@ void displayCustomers(int totalusers) {
 	}
 }
 
-//Menna
 void addingMovies(int count)
 {
 	bool found = true;
@@ -1176,9 +1236,9 @@ void ViewAccountInfo() {
 	printCenteredText("Email:");
 	printCenteredText(users[logged_in_index].userAccount.email);
 	cout << '\n';
-	printCenteredText("Password:");
+	/*printCenteredText("Password:");
 	printCenteredText(users[logged_in_index].userAccount.password);
-	cout << '\n';
+	cout << '\n';*/  // users don't have a password
 	printCenteredText("PhoneNumber:");
 	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
 	cout << '\n';

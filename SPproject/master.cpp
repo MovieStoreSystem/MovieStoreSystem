@@ -527,7 +527,7 @@ void BoughtandRentedMovies() {
 	}
 	cout << "Your Bought Movies:\n";
 	for (int i = 0;i < users[logged_in_index].userBought.nBoughtMovies;i++) {
-		cout << i + 1 << ". " << users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] << "\n";
+		cout << i + 1 << ". " << users[logged_in_index].userBought.name_of_bought_movies[i] << "\n";
 	}
 }
 
@@ -788,7 +788,7 @@ void Overdue_clients() {
 					users[i].frozen = true;
 					Overdue[j++] = users[i];
 					cout << "Name of Customer:\t\t" << "Thier Phone Number\t\t" << "Thier Email\n";
-					cout << count++<< "." << users[i].userAccount.username << "\t\t\t" << users[i].userAccount.phoneNumber << "\t\t"<<users[i].userAccount.email;
+					cout << count++<< "." << users[i].userAccount.username << "\t\t\t" << users[i].userAccount.phoneNumber << "\t\t\t"<<users[i].userAccount.email<<'\n';
 					alreadyMarked = true;
 				}
 			 break;
@@ -893,7 +893,7 @@ void Rentday(int index) {
 					continue;
 				}
 				else {
-					cout << "\t\tEntered successfully";
+					cout << "\t\tEntered successfully\n";
 					break;
 				}
 
@@ -918,7 +918,7 @@ void Rentday(int index) {
 						continue;
 					}
 					else {
-						cout << "\t\tEntered successfully";
+						cout << "\t\tEntered successfully\n";
 						break;
 					}
 				}
@@ -1205,10 +1205,10 @@ void Calculate_totalPrice() {
 }
 
 void ViewAccountInfo() {
-	cout << "Username:\t" << users[logged_in_index].userAccount.username << "\n";
-	cout << "Email:\t" << users[logged_in_index].userAccount.email << "\n";
-	cout << "Password:\t" << users[logged_in_index].userAccount.password << "\n";
-	cout << "PhoneNumber:\t" << users[logged_in_index].userAccount.phoneNumber << "\n";
+	cout << "Username:\t\t" << users[logged_in_index].userAccount.username << "\n";
+	cout << "Email:\t\t" << users[logged_in_index].userAccount.email << "\n";
+	cout << "Password:\t\t" << users[logged_in_index].userAccount.password << "\n";
+	cout << "PhoneNumber:\t\t" << users[logged_in_index].userAccount.phoneNumber << "\n";
 	if (users[logged_in_index].frozen) {
 		cout << "Your account is blocked\n";
 	}

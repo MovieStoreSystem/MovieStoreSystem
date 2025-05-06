@@ -75,39 +75,47 @@ int main() {
 			switch (employeermenu())
 			{
 			case '1':
-				system("CLS");
 				moviemanagment();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '2':
-				system("CLS");
 				displayMovies();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '3':
-				system("CLS");
 				displayCustomers(total_users);
+				system("pause");
+				system("CLS");
 				break;
 
 			case '4':
-				system("CLS");
 				sortMoviesByCount();
+				system("pause");
+				system("CLS");
 				break;
 			case '5':
-				system("CLS");
 				Display_High_Rated_Movies();
+				system("pause");
+				system("CLS");
 				break;
 			case '6':
-				system("CLS");
 				Overdue_clients();
+				system("pause");
+				system("CLS");
 				break;
 			case '7':
-				system("CLS");
 				deleteMovies();
+				system("pause");
+				system("CLS");
 				break;
 			case '8':
-				system("CLS");
 				update(movie);
+				system("pause");
+				system("CLS");
 				break;
 
 			case '9':
@@ -126,37 +134,44 @@ int main() {
 			switch (customermenu())
 			{
 			case '1':
-				system("CLS");
 				displayMovies();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '2':
-				system("CLS");
 				Buy_A_Movie();
+				system("pause");
+				system("CLS");
 				break;
 			case '3':
-				system("CLS");
 				Renting();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '4':
-				system("CLS");
 				Calculate_totalPrice();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '5':
-				system("CLS");
 				ViewAccountInfo();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '6':
-				system("CLS");
 				movierate();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '7':
-				system("CLS");
 				BoughtandRentedMovies();
+				system("pause");
+				system("CLS");
 				break;
 
 			case '8':
@@ -187,7 +202,7 @@ char customermenu()
 	printCenteredText("4. Return a Movie");
 	printCenteredText("5. View Account Information");
 	printCenteredText("6. Rate a Movie / Leave a Review");
-	printCenteredText("7. View Currently Rented Movies");
+	printCenteredText("7. View Currently Rented and Bought Movies");
 	printCenteredText("8. Exit");
 	cout << string(nCharactersToFillUpConsole, '-') << '\n';
 	choice = getValidatedChar("Please enter your choice number: ");
@@ -220,6 +235,7 @@ void printCenteredText(string coutText, int width)
 // Functions for checking the true identity
 bool findemail(string email, user users[], int& totalusers)
 {
+	
 	for (int i = 0; i < totalusers; i++) {
 		if (email == users[i].userAccount.email) {
 			return true;
@@ -330,14 +346,17 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	while (true)
 	{
+		string domain = "@gmail.com";
 		cout << "[Step 4/5] Enter your email:\n";
 		cin >> temp.userAccount.email;
-		
 		if (findemail(temp.userAccount.email, users, totalusers)) {
 			cout << "This email already exists!\n";
 		}
 		else
+		{
 			break;
+		}
+		
 	}
 	if (temp.isEmployee) {
 		while (true)
@@ -360,11 +379,11 @@ bool signup(user& temp, user users[], int& totalusers)
 				break;
 		}
 	}
-	temp.userAccount.accountNumber = (rand() % 50);
+	/*temp.userAccount.accountNumber = (rand() % 50);
 	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
 		temp.userAccount.accountNumber = (rand() % 50) + 1;
-	}
-	return true;
+	}*/
+	//return true;
 }
 int signin(user users[], int totalusers) {
 	char choice;
@@ -555,13 +574,13 @@ void Buy_A_Movie() {
 	bool buying = true;
 	displayMovies();
 	while (buying) {
-	cout << "Enter the number of the movie you want to buy:\n";
-	cin >> choice;
-		if (cin.fail()){
+		cout << "Enter the number of the movie you want to buy:\n";
+		cin >> choice;
+		if (cin.fail()) {
 			printCenteredText("Please enter an integar number:");
 			continue;
 		}
-		else if (choice<1 || choice>totalnumofmovies ) {
+		else if (choice<1 || choice>totalnumofmovies) {
 			printCenteredText("Invalid number");
 			continue;
 		}
@@ -574,15 +593,16 @@ void Buy_A_Movie() {
 			}
 			else {
 				movie[choice - 1].Quantity--;
-				users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] = movie[choice-1].name_of_movie;
+				users[logged_in_index].userBought.name_of_bought_movies[users[logged_in_index].userBought.nBoughtMovies] = movie[choice - 1].name_of_movie;
 				users[logged_in_index].userBought.nBoughtMovies++;
-				cout << "Your total Price is: " << movie[choice - 1].price * 30;
+				cout << "Your total Price is: " << movie[choice - 1].price * 30 << '\n';
 				buying = false;
 				break;
 			}
 
 		}
 	}
+
 }
 
 void BoughtandRentedMovies() {
@@ -666,7 +686,6 @@ void outputToFile(user users[], int totalUsers)
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
-		
 			outFile << '\n';
 		}
 		outFile.close();
@@ -781,7 +800,6 @@ void loadFromFile(user users[])
 			getline(ssLine, users[currentIndex].userBought.name_of_bought_movies[i], '|');
 
 		}
-
 		getline(ssLine, value, '|');
 		users[currentIndex].frozen = (value == "true");
 
@@ -820,22 +838,21 @@ int daysBetween(Date rentday, Date currentday) {
 void Overdue_clients() {
 	Currentday();
 	int count = 1;
+	cout << "Name of Customer:\t\t" << "Thier Phone Number\t\t" << "Thier Email\n";
 	for (int i = 0, j = 0; i < 20; i++) {
 		bool alreadyMarked{ false };
 		int Number_of_days = 0;
-		for (int k{0}; k < users[i].userRentals.nMovies; k++)
+		for (int k{ 0 }; k < users[i].userRentals.nMovies; k++)
 		{
 			Number_of_days = daysBetween(users[i].userRentals.rentedMovies[k].rentDay, currentday);
 			if (Number_of_days > duedate) {
 				if (!alreadyMarked)
 				{
 					users[i].frozen = true;
-					Overdue[j++] = users[i];
-					cout << "Name of Customer:\t\t" << "Their Phone Number\t\t" << "Their Email\n";
-					cout << count++<< "." << users[i].userAccount.username << "\t\t\t" << users[i].userAccount.phoneNumber << "\t\t\t"<<users[i].userAccount.email<<'\n';
+					cout << count++ << "." << users[i].userAccount.username << "\t\t\t" << users[i].userAccount.phoneNumber << "\t\t" << users[i].userAccount.email;
 					alreadyMarked = true;
 				}
-			 break;
+				break;
 			}
 		}
 	}
@@ -1243,9 +1260,9 @@ void ViewAccountInfo() {
 	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
 	cout << '\n';
 	if (users[logged_in_index].frozen) {
-		printCenteredText("Your account is blocked");
+		printCenteredText("Customer have delayed payment");
 	}
-	else printCenteredText("Your account is not blocked");
+	
 }
 
 void displayMovies() {

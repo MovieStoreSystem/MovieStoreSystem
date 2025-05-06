@@ -34,7 +34,7 @@ struct movieinfo {
 	int rentingCount = 0;
 	int Quantity = 0;
 	float average_rate = 0.0f;
-	int final_score_of_movie=0;
+	float final_score_of_movie=0.0f;
 	int total_ratings = 0;
 	bool rated = false;
 } movie[number_of_movies];
@@ -103,7 +103,7 @@ void sortMoviesByCount();
 //display
 void displayCustomers(int totalusers);
 void displayMovies();
-void displayRentedMovies();
+//void displayRentedMovies();
 
 void addingMovies(int count);
 void moviemanagment();

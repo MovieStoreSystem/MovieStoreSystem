@@ -967,8 +967,6 @@ void sortMoviesByCount() {
 	}
 }
 
-
-
 // Displaying information
 void displayCustomers(int totalusers) {
 	int j = 1;

@@ -56,6 +56,7 @@ int main() {
 			}
 
 		}
+		cout << '\n';
 		printCenteredText("Welcome to our Movie Store");
 
 	while(open) {
@@ -103,7 +104,8 @@ int main() {
 				break;
 
 			case '9':
-				printCenteredText("Exiting :)");
+				printCenteredText("Exiting!");
+				printCenteredText("Thank you for using our system :)");
 				open = false;
 				break;
 			default:
@@ -151,7 +153,8 @@ int main() {
 				break;
 
 			case '8':
-				printCenteredText("Exiting :)");
+				printCenteredText("Exiting!");
+				printCenteredText("Thank you for using our system :)");
 				open = false;
 				break;
 
@@ -844,7 +847,7 @@ void Renting() {
 // NEW
 void Rentday(int index) {
 	while (true) {
-		cout << "\t\tPlease enter the date of rentday\n\n\n";
+		printCenteredText("Please enter the date of rentday");
 		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day = getValidatedDate("Enter the day: ");
 		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month = getValidatedDate("Enter the month: ");
 		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year = getValidatedDate("Enter the year: ");
@@ -873,8 +876,6 @@ void Rentday(int index) {
 					continue;
 				}
 				else {
-					printCenteredText("Entered successfully");
-					cout << '\n';
 					break;
 				}
 
@@ -899,8 +900,6 @@ void Rentday(int index) {
 						continue;
 					}
 					else {
-						printCenteredText("Entered successfully");
-						cout << '\n';
 						break;
 					}
 				}
@@ -972,8 +971,6 @@ void Currentday() {
 					continue;
 				}
 				else {
-					printCenteredText("Entered successfully");
-					cout << '\n';
 					trueDate = false;
 					break;
 				}
@@ -996,8 +993,6 @@ void Currentday() {
 						continue;
 					}
 					else {
-						printCenteredText("Entered successfully");
-						cout << '\n';
 						trueDate = false;
 						break;
 					}
@@ -1035,21 +1030,6 @@ void displayCustomers(int totalusers) {
 		}
 	}
 }
-
-//void displayRentedMovies() {  //not used
-//	for (int i = 0; i < totalnumofmovies; i++) 
-//	{
-//		{
-//			if (users[i].userRentals.nMovies > 0)
-//			{
-//				cout << "Rented movies for user: " << users[i].userAccount.username << '\n';
-//
-//				for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
-//					cout << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '\n';
-//			}
-//		}
-//	}
-//}
 
 //Menna
 void addingMovies(int count)
@@ -1140,9 +1120,10 @@ void Calculate_totalPrice() {
 	bool found{ false };
 	string tempNameOfMovie;
 
+	BoughtandRentedMovies();
+	cout << '\n';
 	cout << "Enter the name of movie you want to return:\n";
-	cin.ignore();
-	getline(cin, tempNameOfMovie);
+	getline(cin >> ws, tempNameOfMovie);
 
 	for (int j = 0; j < users[logged_in_index].userRentals.nMovies; j++) {
 		if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == tempNameOfMovie) {
@@ -1189,14 +1170,22 @@ void Calculate_totalPrice() {
 }
 
 void ViewAccountInfo() {
-	cout << "Username:\t\t" << users[logged_in_index].userAccount.username << "\n";
-	cout << "Email:\t\t" << users[logged_in_index].userAccount.email << "\n";
-	cout << "Password:\t\t" << users[logged_in_index].userAccount.password << "\n";
-	cout << "PhoneNumber:\t\t" << users[logged_in_index].userAccount.phoneNumber << "\n";
+	printCenteredText("Username:");
+	printCenteredText(users[logged_in_index].userAccount.username);
+	cout << '\n';
+	printCenteredText("Email:");
+	printCenteredText(users[logged_in_index].userAccount.email);
+	cout << '\n';
+	printCenteredText("Password:");
+	printCenteredText(users[logged_in_index].userAccount.password);
+	cout << '\n';
+	printCenteredText("PhoneNumber:");
+	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
+	cout << '\n';
 	if (users[logged_in_index].frozen) {
-		cout << "Your account is blocked\n";
+		printCenteredText("Your account is blocked");
 	}
-	else cout << "Your account is not blocked\n";
+	else printCenteredText("Your account is not blocked");
 }
 
 void displayMovies() {

@@ -1,5 +1,6 @@
 ﻿#include "master.h"
 #include <cmath>
+#include <cstdlib>
 #include <cctype> 
 #include <fstream>
 #include <sstream>
@@ -21,12 +22,16 @@ int main() {
 	
 	char ch = 'y', choice;
 	bool open = true;
+    bool sign = true;
 
-		bool sign = true;
 		while (sign) {
 
-			choice = getValidatedChar("1.Sign up \n2.Sign in\n");
+			system("CLS");
 
+			choice = getValidatedChar("1.Sign up \t 2.Sign in");
+		
+			system("CLS");
+		
 			switch (choice)
 			{
 			case '1':
@@ -43,95 +48,113 @@ int main() {
 				sign = false;
 				break;
 			default:
-				cout << "Invalid Choice\n";
+				printCenteredText("Invalid Choice");
 				break;
 
 			}
 
 		}
-		cout << "\t\tWelcome to our Movie Store\n\n";
-	while(open) {
-		cout << "\t\tMENU\n";
+		printCenteredText("Welcome to our Movie Store");
 
+	while(open) {
+			cout << '\n' << string(nCharactersToFillUpConsole, '=') << '\n';
+			printCenteredText("MENU");
+			cout << string(nCharactersToFillUpConsole, '=') << '\n';
 		if (users[logged_in_index].isEmployee)
 		{
 			switch (employeermenu())
 			{
 			case '1':
+				system("CLS");
 				moviemanagment();
 				break;
 
 			case '2':
+				system("CLS");
 				displayMovies();
 				break;
 
 			case '3':
+				system("CLS");
 				displayCustomers(total_users);
 				break;
 
 			case '4':
+				system("CLS");
 				sortMoviesByCount();
 				break;
 			case '5':
+				system("CLS");
 				Display_High_Rated_Movies();
 				break;
 			case '6':
+				system("CLS");
 				Overdue_clients();
 				break;
 			case '7':
+				system("CLS");
 				deleteMovies();
 				break;
 			case '8':
+				system("CLS");
 				update(movie);
 				break;
 
 			case '9':
-				cout << "Exiting :)\n";
+				printCenteredText("Exiting :)");
 				open = false;
 				break;
 			default:
-				cout << "Sorry, Invalid choice!";
+				printCenteredText("Sorry, Invalid choice!");
 				break;
 			}
 		}
 		else
 		{
+
 			switch (customermenu())
 			{
 			case '1':
+				system("CLS");
 				displayMovies();
 				break;
 
 			case '2':
+				system("CLS");
 				Buy_A_Movie();
 				break;
 			case '3':
+				system("CLS");
 				Renting();
 				break;
 
 			case '4':
+				system("CLS");
 				Calculate_totalPrice();
 				break;
 
 			case '5':
+				system("CLS");
 				ViewAccountInfo();
 				break;
 
 			case '6':
+				system("CLS");
 				movierate();
 				break;
 
 			case '7':
+				system("CLS");
 				BoughtandRentedMovies();
 				break;
 
 			case '8':
-				cout << "Exiting :)\n";
+				printCenteredText("Exiting :)");
 				open = false;
 				break;
 
 			default:
-				cout << "Sorry, Invalid choice!";
+				printCenteredText("Sorry, Invalid choice!");
 				break;
 			}
 		}
@@ -146,31 +169,40 @@ int main() {
 char customermenu()
 {
 	char choice;
-	cout << "1.View Movies\n";
-	cout << "2.Buy a Movie\n";
-	cout << "3.Rent a Movie\n";
-	cout << "4.Return a Movie\n";  
-	cout << "5.View Account Information\n";  
-	cout << "6.Rate a Movie / Leave a Review\n";  
-	cout << "7.View Currently Rented Movies\n";  
-	cout << "8.Exit\n";
+	printCenteredText("1. View Movies");
+	printCenteredText("2. Buy a Movie");
+	printCenteredText("3. Rent a Movie");
+	printCenteredText("4. Return a Movie");
+	printCenteredText("5. View Account Information");
+	printCenteredText("6. Rate a Movie / Leave a Review");
+	printCenteredText("7. View Currently Rented Movies");
+	printCenteredText("8. Exit");
+	cout << string(nCharactersToFillUpConsole, '-') << '\n';
 	choice = getValidatedChar("Please enter your choice number: ");
 	return choice;
 }
 char employeermenu()
 {
 	char choice;
-	cout << "1.Add a Movie\n";
-	cout << "2.List all Movies\n";
-	cout << "3.List all Customers\n";
-	cout << "4.Most rented movies\n";
-	cout << "5.High Rated Movies\n";
-	cout << "6.Overdue Customers\n";
-	cout << "7.Remove a Movie\n"; 
-	cout << "8.Edit Movie Information\n";  
-	cout << "9.Exit\n";
+	printCenteredText("1.Add a Movie");
+	printCenteredText("2.List all Movies");
+	printCenteredText("3.List all Customers");
+	printCenteredText("4.Most rented movies");
+	printCenteredText("5.High Rated Movies");
+	printCenteredText("6.Overdue Customers");
+	printCenteredText("7.Remove a Movie");
+	printCenteredText("8.Edit Movie Information");
+	printCenteredText("9.Exit");
+	cout << string(nCharactersToFillUpConsole, '-') << '\n';
 	choice = getValidatedChar("Please enter your choice number: ");
 	return choice;
+}
+
+//For layout
+void printCenteredText(string coutText, int width)
+{
+	int padding = (width - coutText.length()) / 2;
+	cout << string(padding, ' ') << coutText << '\n';
 }
 
 // Functions for checking the true identity
@@ -229,33 +261,34 @@ bool signup(user& temp, user users[], int& totalusers)
 		}
 		else
 		{
-			cout << "Invalid choice.\n";
+			printCenteredText("Invalid choice.");
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}
 	}
 
-	cout << "Enter your username:\n";
+	cout << "[Step 1/5] Enter your username:\n";
 	cin.ignore();
 	getline(cin, temp.userAccount.username);
 
 	while (true) {
-	    cout << "Enter your age:\n";
+	    cout << "[Step 2/5] Enter your age:\n";
 		cin >> temp.age;
 		if (cin.fail()) {
-			cout << "The age must be an integer number\n";
+
+			printCenteredText("The age must be an integer number.");
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}
 		else if (temp.age < 16) {
-			cout << "Invalid age:)\n";
+			printCenteredText("Invalid age :(");
 		}
 		else
 			break;
 	}
 
 	while (true) {
-		cout << "Enter your phone number:\n";
+		cout << "[Step 3/5] Enter your phone number:\n";
 		cin >> temp.userAccount.phoneNumber;
 
 		bool allDigits = true;
@@ -285,7 +318,7 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	while (true)
 	{
-		cout << "Enter your email:\n";
+		cout << "[Step 4/5] Enter your email:\n";
 		cin >> temp.userAccount.email;
 		
 		if (findemail(temp.userAccount.email, users, totalusers)) {
@@ -297,7 +330,7 @@ bool signup(user& temp, user users[], int& totalusers)
 	if (temp.isEmployee) {
 		while (true)
 		{
-			cout << "Enter your password:\n";
+			cout << "[Step 5/5] Enter your password:\n";
 			cin >> temp.userAccount.password;
 			if (temp.userAccount.password.length() < 7)
 			{
@@ -355,7 +388,8 @@ int signin(user users[], int totalusers) {
 		//checking if they are true!
 		for (int i = 0; i < totalusers; i++) {
 			if (users[i].userAccount.email == email && users[i].userAccount.password == password&&users[i].isEmployee==true) {
-				cout << "Logged in successfully.\n";
+				printCenteredText("LOGGED IN SUCCESFULLY");
+				cout << '\n';
 				notfound = false;
 				return i;
 			}
@@ -431,7 +465,7 @@ void movierate() {
 		
 	}
 	if (!found) {
-		cout << "Sorry,This Movie is not abailable\n";
+		cout << "Sorry,This Movie is not available\n";
 	}
 
 	return;
@@ -1099,7 +1133,7 @@ void moviemanagment()
 {
 	int count;
 	while (true) {
-		cout << "Enter how many movies you want to input\n";
+		cout << "Enter how many movies you want to input:\n";
 		cin >> count;
 
 		if (cin.fail())
@@ -1242,7 +1276,7 @@ char getValidatedChar(string_view sentence)
 	string choice{};
 	while (true)
 	{
-	    cout << sentence;
+		printCenteredText(static_cast<string>(sentence));
 		getline(cin >> ws, choice);
 		if (choice.length() == 1 && isdigit(choice[0]))
 			return choice[0];
@@ -1276,7 +1310,7 @@ int getValidatedDate(string_view sentence)
 
 void deleteMovies() {
 	displayMovies();
-	int choose, quantity;
+	int choose;
 	while (true)
 	{
 

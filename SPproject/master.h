@@ -5,6 +5,7 @@ using namespace std;
 //Variables!
 const int duedate = 7;
 const int number_of_movies = 20;
+const int nCharactersToFillUpConsole{ 120 };
 int totalnumofmovies = 0;
 int logged_in_index = 50;
 //number of days of months if the year is not leap
@@ -124,5 +125,9 @@ int getValidatedDate(string_view sentence);
 
 void update(movieinfo movie[]);
 void deleteMovies();
+
+//Layout
+void printCenteredText(string coutText, int width = nCharactersToFillUpConsole);
+
 
 

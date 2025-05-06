@@ -78,7 +78,7 @@ struct user
 	bool frozen = false;
 	RentedMovies userRentals;
 	BoughtMovies userBought;
-	bool ratedMovies[number_of_movies] = { false };
+	bool ratedMovies[number_of_movies] { false };
 	//string rentedMovies[10];
 	//int usersmovie[number_of_movies];
 }users[20], Overdue[20];

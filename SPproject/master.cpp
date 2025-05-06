@@ -2,10 +2,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <cctype> 
-#include <fstream>
+#include <string_view>
 #include <sstream>
 #include <string>
-#include <string_view>
+#include <fstream>
 #include <iostream>
 using namespace std;
 
@@ -470,7 +470,7 @@ void movierate() {
 		
 	}
 	if (!found) {
-		printCenteredText("Sorry,This Movie is not available");
+		printCenteredText("Sorry, this movie is not available");
 	}
 
 	return;

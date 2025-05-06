@@ -18,7 +18,7 @@ using namespace std;
 //Variables!
 const int duedate = 7;
 const int number_of_movies = 20;
-const int nCharactersToFillUpConsole{ 120 };
+const int nCharactersToFillUpConsole{ 156 };
 int totalnumofmovies = 0;
 int logged_in_index = 50;
 //number of days of months if the year is not leap

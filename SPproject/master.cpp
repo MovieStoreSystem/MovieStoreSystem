@@ -25,6 +25,7 @@ int main() {
     bool sign = true;
 
 		while (sign) {
+
 			cout << "Please wait...\n";
 			platform::wait(2000);
 			system("CLS");
@@ -55,6 +56,7 @@ int main() {
 			}
 
 		}
+		cout << '\n';
 		printCenteredText("Welcome to our Movie Store");
 
 	while(open) {
@@ -102,7 +104,8 @@ int main() {
 				break;
 
 			case '9':
-				printCenteredText("Exiting :)");
+				printCenteredText("Exiting!");
+				printCenteredText("Thank you for using our system :)");
 				open = false;
 				break;
 			default:
@@ -150,7 +153,8 @@ int main() {
 				break;
 
 			case '8':
-				printCenteredText("Exiting :)");
+				printCenteredText("Exiting!");
+				printCenteredText("Thank you for using our system :)");
 				open = false;
 				break;
 
@@ -300,15 +304,15 @@ bool signup(user& temp, user users[], int& totalusers)
 			}
 		}
 		if (!allDigits) {
-			cout << "The phone number must contain only digits.\n";
+			printCenteredText("The phone number must contain only digits.");
 			continue;
 		}
 		else if (temp.userAccount.phoneNumber.length() != 11) {
-			cout << "The phone number must be 11 digits\n";
+			printCenteredText("The phone number must be 11 digits");
 			continue;
 		}
 		else if (findphonenumber(temp.userAccount.phoneNumber, users, totalusers)) {
-			cout << "Phone number already used.\n";
+			printCenteredText("Phone number already used.\n");
 			continue;
 		}
 		else {
@@ -335,13 +339,13 @@ bool signup(user& temp, user users[], int& totalusers)
 			cin >> temp.userAccount.password;
 			if (temp.userAccount.password.length() < 7)
 			{
-				cout << "Password must be atleast 7 digits.\n";
+				printCenteredText("Password must be atleast 7 digits.");
 				cin.clear();
 				cin.ignore(10000, '\n');
 			}
 			else if (temp.userAccount.password.length() > 10)
 			{
-				cout << "Password cannot exceed 10 digits.\n";
+				printCenteredText("Password cannot exceed 10 digits.");
 				cin.clear();
 				cin.ignore(10000, '\n');
 			}
@@ -375,7 +379,7 @@ int signin(user users[], int totalusers) {
 		}
 		else
 		{
-			cout << "Invalid choice.\n";
+			printCenteredText("Invalid choice.");
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}
@@ -399,20 +403,20 @@ int signin(user users[], int totalusers) {
 	else {
 		cout << "Enter your username: ";
 		cin >> username;
-		cout << "Enter your Phonenumber: ";
+		cout << "Enter your phonenumber: ";
 		cin >> phonenumber;
 
 		//checking if they are true!
 		for (int i = 0; i < totalusers; i++) {
 			if (users[i].userAccount.username == username && users[i].userAccount.phoneNumber == phonenumber && users[i].isEmployee == false) {
-				cout << "Logged in successfully.\n";
+				printCenteredText("LOGGED IN SUCCESSFULLY.");
 				notfound = false;
 				return i;
 			}
 		}
 	}
 
-	cout << "This account doesn't exist.\n";
+	printCenteredText("This account doesn't exist.");
 	return 50;
 
 }
@@ -438,19 +442,19 @@ void movierate() {
 					cout << "Please enter a rating from 1 to 5\n";
 					cin >> temp_rate;
 					if (cin.fail()) {
-						cout << "Rating should be a number from 1 to 5\n";
+						printCenteredText("Rating should be a number from 1 to 5");
 						cin.clear();
 						cin.ignore(10000, '\n');
 					}
 					else if (temp_rate < 1 || temp_rate>5) {
-						cout << "Sorry, Invalid rating. Should be from 1 to 5 \n";
+						printCenteredText("Sorry, Invalid rating. Should be from 1 to 5 ");
 					}
 					else {
 						movie[i].total_ratings++;
 						movie[i].final_score_of_movie += temp_rate;
 						movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
 						cout << "The new rating is " << movie[i].average_rate << endl;
-						cout << "Thank you for your rating:)\n";
+						printCenteredText("Thank you for your rating:)");
 						users[logged_in_index].ratedMovies[i] = true;
 						Display_High_Rated_Movies();
 						rated = false;
@@ -459,14 +463,14 @@ void movierate() {
 				}
 			}
 			else {
-				cout << "You have already rated this movie\n";
+				printCenteredText("You have already rated this movie");
 				return;
 			}
 		}
 		
 	}
 	if (!found) {
-		cout << "Sorry,This Movie is not available\n";
+		printCenteredText("Sorry,This Movie is not available");
 	}
 
 	return;
@@ -493,17 +497,17 @@ void Buy_A_Movie() {
 	cout << "Enter the number of the movie you want to buy:\n";
 	cin >> choice;
 		if (cin.fail()){
-			cout << "Please enter an integar number:\n";
+			printCenteredText("Please enter an integar number:");
 			continue;
 		}
 		else if (choice<1 || choice>totalnumofmovies ) {
-			cout << "Invalid number\n";
+			printCenteredText("Invalid number");
 			continue;
 		}
 		else {
 
 			if (movie[choice - 1].Quantity == 0) {
-				cout << "Sorry,This movie is no longer availble\n";
+				printCenteredText("Sorry,This movie is no longer availble");
 				buying = false;
 				break;
 			}
@@ -522,12 +526,22 @@ void Buy_A_Movie() {
 
 void BoughtandRentedMovies() {
 	cout << "Your Rented Movies:\n";
-	for (int i = 0;i < users[logged_in_index].userRentals.nMovies;i++) {
-		cout <<i+1<<". " << users[logged_in_index].userRentals.rentedMovies[i].nameOfRentedMovie << "\n";
+	if (users[logged_in_index].userRentals.nMovies == 0)
+		cout << "You haven't rented any movies yet.\n";
+	else
+	{
+		for (int i = 0;i < users[logged_in_index].userRentals.nMovies;i++) {
+			cout << i + 1 << ". " << users[logged_in_index].userRentals.rentedMovies[i].nameOfRentedMovie << "\n";
+		}
 	}
 	cout << "Your Bought Movies:\n";
-	for (int i = 0;i < users[logged_in_index].userBought.nBoughtMovies;i++) {
-		cout << i + 1 << ". " << users[logged_in_index].userBought.name_of_bought_movies[i] << "\n";
+	if (users[logged_in_index].userBought.nBoughtMovies == 0)
+		cout << "You haven't bought any movies yet.\n";
+	else 
+	{
+		for (int i = 0;i < users[logged_in_index].userBought.nBoughtMovies;i++) {
+			cout << i + 1 << ". " << users[logged_in_index].userBought.name_of_bought_movies[i] << "\n";
+		}
 	}
 }
 
@@ -565,11 +579,9 @@ void outputToFile(user users[], int totalUsers)
 				<< users[i].userAccount.email << '|'
 				<< boolalpha << users[i].isEmployee << '|';
 			if (users[i].isEmployee) {
-				outFile
-					<< users[i].userAccount.password << '|';
+				outFile << users[i].userAccount.password << '|';
 			}
-			outFile
-				<< users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
+			outFile << users[i].userRentals.nMovies << '|'; //outputs number of rented movies to file
 
 			for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) // output user's rented Movie
 			{
@@ -586,28 +598,14 @@ void outputToFile(user users[], int totalUsers)
 
 			}
 
-			//for (int j{ 0 }; j < users[i].userRentals.nMovies; j++) //output rented movies to file 
-			//{
-			//	
-
-			//}
-
-			outFile
-				<< users[i].userBought.nBoughtMovies << '|';
-			for (int j{ 0 }; j < users[i].userBought.nBoughtMovies; j++) //output rented movies to file 
+			outFile	<< users[i].userBought.nBoughtMovies << '|';
+			for (int j{ 0 }; j < users[i].userBought.nBoughtMovies; j++) //output bought movies to file 
 			{
 				outFile << users[i].userBought.name_of_bought_movies[j] << '|';
 
 			}
 			outFile << boolalpha << users[i].frozen << '|'; //output frozen status to file
-
-
-			//Movies Info
-
-
-			
-
-
+		
 			outFile << '\n';
 		}
 		outFile.close();
@@ -634,7 +632,7 @@ void loadFromFile(user users[])
 	ifstream myFile("savedData.txt");
 	if (!myFile)
 	{
-		cout << "Couldn't open file for reading.";
+		cerr << "Couldn't open file for reading.";
 		return;
 	}
 
@@ -676,12 +674,6 @@ void loadFromFile(user users[])
 	{
 		stringstream ssLine(line);
 
-		/*if (currentIndex == 0)
-		{
-			
-		}*/
-
-
 		getline(ssLine, users[currentIndex].userAccount.username, '|');
 		getline(ssLine, users[currentIndex].userAccount.phoneNumber, '|');
 		getline(ssLine, users[currentIndex].userAccount.email, '|');
@@ -717,12 +709,6 @@ void loadFromFile(user users[])
 			}
 		}
 
-		/*for (int i{ 0 }; i < users[currentIndex].userRentals.nMovies; i++)
-		{
-			getline(ssLine, users[currentIndex].userRentals.rentedMovies[i].nameOfRentedMovie, '|');
-
-		}*/
-
 		getline(ssLine, value, '|');
 		if (!value.empty())
 			users[currentIndex].userBought.nBoughtMovies = stoi(value);
@@ -737,9 +723,6 @@ void loadFromFile(user users[])
 
 		getline(ssLine, value, '|');
 		users[currentIndex].frozen = (value == "true");
-
-
-		
 
 		currentIndex++;
 	}
@@ -787,7 +770,7 @@ void Overdue_clients() {
 				{
 					users[i].frozen = true;
 					Overdue[j++] = users[i];
-					cout << "Name of Customer:\t\t" << "Thier Phone Number\t\t" << "Thier Email\n";
+					cout << "Name of Customer:\t\t" << "Their Phone Number\t\t" << "Their Email\n";
 					cout << count++<< "." << users[i].userAccount.username << "\t\t\t" << users[i].userAccount.phoneNumber << "\t\t\t"<<users[i].userAccount.email<<'\n';
 					alreadyMarked = true;
 				}
@@ -813,18 +796,18 @@ void Renting() {
 	bool renting = true;
 	while (renting) {
 		int num = 0;
-		cout << "\t\tPLEASE CHOOSE MOVIE THAT YOU WANT TO RENT\n";
+		printCenteredText("PLEASE CHOOSE A MOVIE TO RENT");
 		displayMovies();
 		cout << "Enter a number of movie you want: \n";
 		cin >> num;
 		if (cin.fail()) {
-			cout << "The choice must be a number\n";
+			printCenteredText ("The choice must be a number");
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}
 
 		else if (num < 1 || num>number_of_movies) {
-			cout << "Invalid number!!!\n";
+			printCenteredText("Invalid number.");
 		}
 		else {
 
@@ -833,13 +816,13 @@ void Renting() {
 				if (num - 1 == i) {
 					for (int j = 0;j < users[logged_in_index].userRentals.nMovies;j++) {
 						if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == movie[i].name_of_movie) {
-							cout << "You have already rented this movie\n";
+							printCenteredText("You have already rented this movie");
 							return;
 						}
 					}
 					if (movie[i].Quantity == 0)
 					{
-						cout << "Sorry, this movie is not available right now ...\n";
+						printCenteredText("Sorry, this movie is not available right now ...");
 						break;
 					}
 					else {
@@ -850,7 +833,7 @@ void Renting() {
 
 						Rentday(i);
 
-						cout << "\t\tRENTED SUCCESFULLY\n";
+						printCenteredText("RENTED SUCCESFULLY");
 
 						users[logged_in_index].userRentals.nMovies++;
 						renting = false;
@@ -864,7 +847,7 @@ void Renting() {
 // NEW
 void Rentday(int index) {
 	while (true) {
-		cout << "\t\tPlease enter the date of rentday\n\n\n";
+		printCenteredText("Please enter the date of rentday");
 		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day = getValidatedDate("Enter the day: ");
 		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month = getValidatedDate("Enter the month: ");
 		users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year = getValidatedDate("Enter the year: ");
@@ -874,8 +857,8 @@ void Rentday(int index) {
 		if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year < 2000 ||
 			users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.year > 2025) {
 
-			cout << "Invalid year!!!\n";
-			cout << "Please enter the date again correctly:\n\n";
+			printCenteredText("Invalid year!");
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}
 		//check months
@@ -888,12 +871,11 @@ void Rentday(int index) {
 				if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day < 1 ||
 					users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day>29) {
 
-					cout << "Invalid day!!!\n";
-					cout << "Please enter the date again correctly:\n\n";
+					printCenteredText("Invalid day!");
+					printCenteredText("Please enter the date again correctly:");
 					continue;
 				}
 				else {
-					cout << "\t\tEntered successfully\n";
 					break;
 				}
 
@@ -904,8 +886,8 @@ void Rentday(int index) {
 		if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month > 12 ||
 			users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month < 1) {
 
-			cout << "Invalid month!!!\n";
-			cout << "Please enter the date again correctly:\n\n";
+			printCenteredText("Invalid month!");
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}//check days
 		else {
@@ -913,12 +895,11 @@ void Rentday(int index) {
 				if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.month == i + 1) {
 					if (users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day > daysInMonth[i] ||
 						users[logged_in_index].userRentals.rentedMovies[users[logged_in_index].userRentals.nMovies].rentDay.day < 1) {
-						cout << "Invalid day!!!\n";
-						cout << "Please enter the date again correctly:\n\n";
+						printCenteredText("Invalid day!");
+						printCenteredText("Please enter the date again correctly:");
 						continue;
 					}
 					else {
-						cout << "\t\tEntered successfully\n";
 						break;
 					}
 				}
@@ -941,10 +922,10 @@ void Currentday() {
 
 		if (cin.fail())
 		{
-			cout << "Please enter a number.\n";
+			printCenteredText("Please enter a number.");
 			cin.clear();
 			cin.ignore(10000, '\n');
-			cout << "Please enter the date again correctly:\n\n";
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}
 
@@ -953,10 +934,10 @@ void Currentday() {
 		cin >> currentday.month;
 		if (cin.fail())
 		{
-			cout << "Please enter a number.\n";
+			printCenteredText("Please enter a number.");
 			cin.clear();
 			cin.ignore(10000, '\n');
-			cout << "\tPlease enter the date again correctly:\n\n";
+			printCenteredText("\tPlease enter the date again correctly:");
 			continue;
 		}
 
@@ -964,18 +945,18 @@ void Currentday() {
 		cin >> currentday.year;
 		if (cin.fail())
 		{
-			cout << "Please enter a number.\n";
+			printCenteredText("Please enter a number.");
 			cin.clear();
 			cin.ignore(10000, '\n');
-			cout << "\tPlease enter the date again correctly:\n\n";
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}
 
 		//check year
 		if (currentday.year > 0 && currentday.year < 2025) {
 
-			cout << "\tInvalid year!!!\n";
-			cout << "\tPlease enter the date again correctly:\n\n";
+			printCenteredText("Invalid year!");
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}
 		//check monthes
@@ -985,12 +966,11 @@ void Currentday() {
 
 				if (currentday.day < 1 || currentday.day>29) {
 
-					cout << "\tInvalid day!!!\n";
-					cout << "\tPlease enter the date again correctly:\n\n";
+					printCenteredText("Invalid day!");
+					printCenteredText("Please enter the date again correctly:");
 					continue;
 				}
 				else {
-					cout << "\t\tEntered successfully\n";
 					trueDate = false;
 					break;
 				}
@@ -1000,20 +980,19 @@ void Currentday() {
 
 		if (currentday.month > 12 || currentday.month < 1) {
 
-			cout << "\tInvalid month!!!\n";
-			cout << "\tPlease enter the date again correctly:\n\n";
+			printCenteredText("Invalid month!");
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}//check days
 		else {
 			for (int i = 0; i < 12; i++) {
 				if (currentday.month == i + 1) {
 					if (currentday.day > daysInMonth[i] || currentday.day < 1) {
-						cout << "\tInvalid day!!!\n";
-						cout << "\tPlease enter the date again correctly:\n\n";
+						printCenteredText("\tInvalid day!");
+						printCenteredText("\tPlease enter the date again correctly:");
 						continue;
 					}
 					else {
-						cout << "\t\tEntered successfully\n";
 						trueDate = false;
 						break;
 					}
@@ -1052,27 +1031,12 @@ void displayCustomers(int totalusers) {
 	}
 }
 
-//void displayRentedMovies() {  //not used
-//	for (int i = 0; i < totalnumofmovies; i++) 
-//	{
-//		{
-//			if (users[i].userRentals.nMovies > 0)
-//			{
-//				cout << "Rented movies for user: " << users[i].userAccount.username << '\n';
-//
-//				for (int j{ 0 }; j < users[i].userRentals.nMovies; j++)
-//					cout << users[i].userRentals.rentedMovies[j].nameOfRentedMovie << '\n';
-//			}
-//		}
-//	}
-//}
-
 //Menna
 void addingMovies(int count)
 {
 	bool found = true;
 	if (totalnumofmovies > number_of_movies) {
-		cout << "sorry we have reached the maximum number of movies\n";
+		printCenteredText("Sorry we have reached the maximum number of movies...");
 		return;
 	}
 	else {
@@ -1087,7 +1051,7 @@ void addingMovies(int count)
 				}
 			}
 			if (!found) {
-				cout << "This Movie already exist\n";
+				printCenteredText("This movie already exists.");
 				count++;
 			}
 			else {
@@ -1097,7 +1061,7 @@ void addingMovies(int count)
 
 					if (cin.fail())
 					{
-						cout << "Please enter a number.\n";
+						printCenteredText("Please enter a number.");
 						cin.clear();
 						cin.ignore(10000, '\n');
 						continue;
@@ -1112,7 +1076,7 @@ void addingMovies(int count)
 					
 					if (cin.fail())
 					{
-						cout << "Please enter a number.\n";
+						printCenteredText("Please enter a number.");
 						cin.clear();
 						cin.ignore(10000, '\n');
 						continue;
@@ -1123,7 +1087,7 @@ void addingMovies(int count)
 
 				totalnumofmovies++;
 				if (totalnumofmovies == number_of_movies) {
-					cout << "Sorry we have reached the maximum number of movies\n";
+					printCenteredText("Sorry we have reached the maximum number of movies...");
 					return;
 				}
 			}
@@ -1139,7 +1103,7 @@ void moviemanagment()
 
 		if (cin.fail())
 		{
-			cout << "Please enter a number.\n";
+			printCenteredText("Please enter a number.");
 			cin.clear();
 			cin.ignore(10000, '\n');
 			continue;
@@ -1156,9 +1120,10 @@ void Calculate_totalPrice() {
 	bool found{ false };
 	string tempNameOfMovie;
 
+	BoughtandRentedMovies();
+	cout << '\n';
 	cout << "Enter the name of movie you want to return:\n";
-	cin.ignore();
-	getline(cin, tempNameOfMovie);
+	getline(cin >> ws, tempNameOfMovie);
 
 	for (int j = 0; j < users[logged_in_index].userRentals.nMovies; j++) {
 		if (users[logged_in_index].userRentals.rentedMovies[j].nameOfRentedMovie == tempNameOfMovie) {
@@ -1166,7 +1131,7 @@ void Calculate_totalPrice() {
 			if (users[logged_in_index].userRentals.rentedMovies[j].rentDay.day == 0 &&
 				users[logged_in_index].userRentals.rentedMovies[j].rentDay.month == 0 &&
 				users[logged_in_index].userRentals.rentedMovies[j].rentDay.year == 0) {
-				cout << "You haven't rented this movie yet.\n";
+				printCenteredText("You haven't rented this movie yet.");
 				return;
 			}
 			else {
@@ -1200,19 +1165,27 @@ void Calculate_totalPrice() {
 	}
 
 	if (!found) {
-		cout << "You have not rented this movie.\n";
+		printCenteredText("You have not rented this movie.");
 	}
 }
 
 void ViewAccountInfo() {
-	cout << "Username:\t\t" << users[logged_in_index].userAccount.username << "\n";
-	cout << "Email:\t\t" << users[logged_in_index].userAccount.email << "\n";
-	cout << "Password:\t\t" << users[logged_in_index].userAccount.password << "\n";
-	cout << "PhoneNumber:\t\t" << users[logged_in_index].userAccount.phoneNumber << "\n";
+	printCenteredText("Username:");
+	printCenteredText(users[logged_in_index].userAccount.username);
+	cout << '\n';
+	printCenteredText("Email:");
+	printCenteredText(users[logged_in_index].userAccount.email);
+	cout << '\n';
+	printCenteredText("Password:");
+	printCenteredText(users[logged_in_index].userAccount.password);
+	cout << '\n';
+	printCenteredText("PhoneNumber:");
+	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
+	cout << '\n';
 	if (users[logged_in_index].frozen) {
-		cout << "Your account is blocked\n";
+		printCenteredText("Your account is blocked");
 	}
-	else cout << "Your account is not blocked\n";
+	else printCenteredText("Your account is not blocked");
 }
 
 void displayMovies() {
@@ -1231,12 +1204,12 @@ void update(movieinfo movie[]) {
 	while (true)
 	{
 		while (true) {
-			cout << "Enter the number of the movie you want to edit\n";
+			cout << "Enter the number of the movie you want to edit:\n";
 			cin >> choose;
 
 			if (cin.fail())
 			{
-				cout << "Invalid Choice.\n";
+				printCenteredText("Invalid Choice.");
 				cin.clear();
 				cin.ignore(10000, '\n');
 				continue;
@@ -1246,16 +1219,16 @@ void update(movieinfo movie[]) {
 		}
 		if (choose > totalnumofmovies)
 		{
-			cout << "Please choose a valid movie number.\n";
+			printCenteredText("Please choose a valid movie number.");
 			continue;
 		}
 		else
 			break;
 	}
-	cout << "Add new quantity\n";
+	cout << "Add new quantity:\n";
 	cin >> quantity;
 	movie[choose - 1].Quantity += quantity;
-	cout << "Enter new price\n";
+	cout << "Enter new price:\n";
 	cin >> price;
 	movie[choose - 1 ].price = price;
 
@@ -1283,7 +1256,7 @@ char getValidatedChar(string_view sentence)
 			return choice[0];
 		else
 		{
-			cout << "Invalid Choice.\n";
+			printCenteredText("Invalid Choice.");
 			continue;
 		}
 	}
@@ -1294,14 +1267,14 @@ int getValidatedDate(string_view sentence)
 	int input{};
 	while(true)
 	{
-		cout << sentence;
+		printCenteredText(static_cast<string>(sentence));
 		cin >> input;
 		if (cin.fail())
 		{
-			cout << "Please enter a number.\n";
+			printCenteredText("Please enter a number.");
 			cin.clear();
 			cin.ignore(10000, '\n');
-			cout << "Please enter the date again correctly:\n\n";
+			printCenteredText("Please enter the date again correctly:");
 			continue;
 		}
 		else 
@@ -1321,7 +1294,7 @@ void deleteMovies() {
 
 			if (cin.fail())
 			{
-				cout << "Invalid Choice.\n";
+				printCenteredText("Invalid Choice.");
 				cin.clear();
 				cin.ignore(10000, '\n');
 				continue;
@@ -1331,7 +1304,7 @@ void deleteMovies() {
 		}
 		if (choose > totalnumofmovies)
 		{
-			cout << "Please choose a valid movie number.\n";
+			printCenteredText("Please choose a valid movie number.");
 			continue;
 		}
 		else
@@ -1341,5 +1314,5 @@ void deleteMovies() {
 		movie[i] = movie[i + 1];
 	}
 	totalnumofmovies--;
-	cout << "Deleting procces went succesfully!\n";
+	printCenteredText("Deleting procces went succesfully!");
 };

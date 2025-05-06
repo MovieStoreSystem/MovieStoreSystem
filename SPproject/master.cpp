@@ -25,13 +25,14 @@ int main() {
     bool sign = true;
 
 		while (sign) {
-
+			cout << "Please wait...\n";
+			platform::wait(2000);
 			system("CLS");
 
 			choice = getValidatedChar("1.Sign up \t 2.Sign in");
-		
+
 			system("CLS");
-		
+
 			switch (choice)
 			{
 			case '1':
@@ -1122,7 +1123,7 @@ void addingMovies(int count)
 
 				totalnumofmovies++;
 				if (totalnumofmovies == number_of_movies) {
-					cout << "sorry we have reached the maximum number of movies\n";
+					cout << "Sorry we have reached the maximum number of movies\n";
 					return;
 				}
 			}

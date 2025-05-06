@@ -1,4 +1,17 @@
 #pragma once
+
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+namespace platform
+{
+	void wait(int miliseconds)
+	{
+		Sleep(miliseconds);
+	}
+}
+
+
 #include <string>
 using namespace std;
 

@@ -1043,7 +1043,7 @@ void addingMovies(int count)
 	else {
 		for (int i = 0;i < count;i++) {
 			found = true;
-			cout << "Enter the movie name:\n";
+			cout << "Enter the movie name of movie number #" << i + 1 << '\n';
 			cin.ignore();
 			getline(cin, movie[totalnumofmovies].name_of_movie);
 			for (int j = 0;j < totalnumofmovies;j++) {
@@ -1057,7 +1057,7 @@ void addingMovies(int count)
 			}
 			else {
 				while (true) {
-					cout << "Enter the price of the movie for a day:\n";
+					cout << "Enter the price of the movie for a day #" << i + 1 << '\n';
 					cin >> movie[totalnumofmovies].price;
 
 					if (cin.fail())
@@ -1072,7 +1072,7 @@ void addingMovies(int count)
 				}
 				while (true) {
 
-					cout << "Enter the quantity of the movie\n";
+					cout << "Enter the quantity of the movie number #" << i + 1 << '\n';
 					cin >> movie[totalnumofmovies].Quantity;
 					
 					if (cin.fail())

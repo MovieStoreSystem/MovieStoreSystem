@@ -2,10 +2,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <cctype> 
-#include <fstream>
+#include <string_view>
 #include <sstream>
 #include <string>
-#include <string_view>
+#include<fstream>
 #include <windows.h>
 #include <iostream>
 using namespace std;
@@ -531,7 +531,7 @@ void movierate() {
 		}
 	}
 	if (!found) {
-		printCenteredText("Sorry,This Movie is not available");
+		printCenteredText("Sorry, this movie is not available");
 	}
 
 }
@@ -1236,9 +1236,9 @@ void ViewAccountInfo() {
 	printCenteredText("Email:");
 	printCenteredText(users[logged_in_index].userAccount.email);
 	cout << '\n';
-	/*printCenteredText("Password:");
+	printCenteredText("Password:");
 	printCenteredText(users[logged_in_index].userAccount.password);
-	cout << '\n';*/  // users don't have a password
+	cout << '\n';
 	printCenteredText("PhoneNumber:");
 	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
 	cout << '\n';

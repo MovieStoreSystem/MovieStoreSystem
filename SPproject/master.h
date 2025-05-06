@@ -88,6 +88,9 @@ void BoughtandRentedMovies();
 void outputToFile(user users[], int totalUsers);
 void loadFromFile(user users[]);
 int getNumberOfUsersFromFile();
+char getValidatedChar(string_view string);
+int getValidatedDate(string_view sentence);
+int findMovieIndexByName(string_view movieName);
 
 //Renting and ReturnSystems
 bool isLeap(int year);
@@ -97,8 +100,6 @@ void Overdue_clients();
 void ListofDaysLeft();
 void Renting();
 void sortMoviesByCount();
-//int Days_Between(Date Return_Date, Date Due_Day);
-//double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
 
 //display
 void displayCustomers(int totalusers);
@@ -108,19 +109,11 @@ void displayMovies();
 void addingMovies(int count);
 void moviemanagment();
 
-//double rental_fees(int total_days, float price_of_day, int overdue_days, int overdue_value);
-//void returnfees();
 void Calculate_totalPrice();
 
 void Rentday(int index);
 void Currentday();
 void ViewAccountInfo();
-
-int findMovieIndexByName(string_view movieName);
-
-char getValidatedChar(string_view string);
-int getValidatedDate(string_view sentence);
-
 
 void update(movieinfo movie[]);
 void deleteMovies();

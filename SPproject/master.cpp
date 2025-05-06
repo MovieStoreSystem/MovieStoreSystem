@@ -1176,9 +1176,12 @@ void ViewAccountInfo() {
 	printCenteredText("Email:");
 	printCenteredText(users[logged_in_index].userAccount.email);
 	cout << '\n';
-	printCenteredText("Password:");
-	printCenteredText(users[logged_in_index].userAccount.password);
-	cout << '\n';
+	if (users[logged_in_index].isEmployee)
+	{
+		printCenteredText("Password:");
+		printCenteredText(users[logged_in_index].userAccount.password);
+		cout << '\n';
+	}
 	printCenteredText("PhoneNumber:");
 	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
 	cout << '\n';

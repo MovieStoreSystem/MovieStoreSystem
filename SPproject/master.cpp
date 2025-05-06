@@ -253,24 +253,6 @@ bool findphonenumber(string phonenum, user users[], int& totalusers) {
 		return false;
 	}
 }
-bool findaccountnum(int accountnum, user users[], int& totalusers) {
-	{
-		for (int i = 0; i < totalusers; i++) {
-			if (accountnum == users[i].userAccount.accountNumber) {
-				return true;
-			}
-		}
-		return false;
-	}
-}
-bool findtrueinfo(string email, string password, user users[], int& totalusers) {
-	for (int i = 0;i < totalusers;i++) {
-		if (email == users[i].userAccount.email && password == users[i].userAccount.password)
-			return true;
-	}
-	return false;
-}
-
 // Signing
 bool signup(user& temp, user users[], int& totalusers)
 {
@@ -346,17 +328,21 @@ bool signup(user& temp, user users[], int& totalusers)
 
 	while (true)
 	{
-		string domain = "@gmail.com";
+
 		cout << "[Step 4/5] Enter your email:\n";
 		cin >> temp.userAccount.email;
-		if (findemail(temp.userAccount.email, users, totalusers)) {
+
+		// Check if it ends with "@gmail.com"
+		if (temp.userAccount.email.length() < 10 ||
+			temp.userAccount.email.substr(temp.userAccount.email.length() - 10) != "@gmail.com") {
+			cout << "Email must end with '@gmail.com'\n";
+		}
+		else if (findemail(temp.userAccount.email, users, totalusers)) {
 			cout << "This email already exists!\n";
 		}
-		else
-		{
+		else {
 			break;
 		}
-		
 	}
 	if (temp.isEmployee) {
 		while (true)
@@ -379,11 +365,7 @@ bool signup(user& temp, user users[], int& totalusers)
 				break;
 		}
 	}
-	/*temp.userAccount.accountNumber = (rand() % 50);
-	while (findaccountnum(temp.userAccount.accountNumber, users, totalusers)) {
-		temp.userAccount.accountNumber = (rand() % 50) + 1;
-	}*/
-	//return true;
+	
 }
 int signin(user users[], int totalusers) {
 	char choice;
@@ -446,64 +428,6 @@ int signin(user users[], int totalusers) {
 
 }
 
-// Rating Movies
-//void movierate() {
-//	string title;
-//	float temp_rate;
-//	bool rated = true;
-//	bool found = false, name = true;
-//	displayMovies();
-//	cout << "Enter the title of the movie\n";
-//	getline(cin, title);
-//
-//	name = false;
-//	for (int i = 0;i < totalnumofmovies;i++)
-//	{
-//		if (title == movie[i].name_of_movie)
-//		{
-//			found = true;
-//			for (int j = 0;j < users[logged_in_index].rating.nRatedMovies;j++) {
-//				if (users[logged_in_index].rating.ratedMoviesNames[j] != movie[i].name_of_movie) {
-//					while (rated) {
-//						cout << "Please enter a rating from 1 to 5\n";
-//						cin >> temp_rate;
-//						if (cin.fail()) {
-//							printCenteredText("Rating should be a number from 1 to 5");
-//							cin.clear();
-//							cin.ignore(10000, '\n');
-//						}
-//						else if (temp_rate < 1 || temp_rate>5) {
-//							printCenteredText("Sorry, Invalid rating. Should be from 1 to 5 ");
-//						}
-//						else {
-//							movie[i].total_ratings++;
-//							movie[i].final_score_of_movie += temp_rate;
-//							movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
-//							cout << "The new rating is " << movie[i].average_rate << endl;
-//							printCenteredText("Thank you for your rating:)");
-//							users[logged_in_index].rating.ratedMoviesNames[users[logged_in_index].rating.nRatedMovies] = movie[i].name_of_movie;
-//							users[logged_in_index].rating.nRatedMovies++;
-//							Display_High_Rated_Movies();
-//							rated = false;
-//							return;
-//						}
-//					}
-//				}
-//				else {
-//					printCenteredText("You have already rated this movie");
-//					return;
-//				}
-//			}
-//		}
-//	}
-//
-//	if (!found) {
-//		printCenteredText("Sorry,This Movie is not available");
-//	}
-//
-//	return;
-//}
-
 void movierate() {
 	string title;
 	float temp_rate;
@@ -517,12 +441,13 @@ void movierate() {
 		if (title == movie[i].name_of_movie)
 		{
 			found = true;
-			for (int j = 0;j < users[logged_in_index].rating.nRatedMovies;j++) {
+			for (int j = 0;j < users[logged_in_index].rating.nRatedMovies;j++) {    //check if already rated that movie
 				if (users[logged_in_index].rating.ratedMoviesNames[j] == movie[i].name_of_movie) {
 					printCenteredText("You have already rated this movie");
 					return;
 				}
 			}
+
 			while (rated) {
 				cout << "Please enter a rating from 1 to 5\n";
 				cin >> temp_rate;
@@ -540,6 +465,7 @@ void movierate() {
 					movie[i].average_rate = movie[i].final_score_of_movie / movie[i].total_ratings;
 					cout << "The new rating is " << movie[i].average_rate << endl;
 					printCenteredText("Thank you for your rating:)");
+					cout << '\n';
 					users[logged_in_index].rating.ratedMoviesNames[users[logged_in_index].rating.nRatedMovies] = movie[i].name_of_movie;
 					users[logged_in_index].rating.nRatedMovies++;
 					Display_High_Rated_Movies();
@@ -556,7 +482,7 @@ void movierate() {
 }
 
 void Display_High_Rated_Movies() {
-	//movieinfo High_Rated_Movie[number_of_movies];
+
 	for (int i = 0;i < totalnumofmovies;i++) {
 
 		for (int j = i+1;j < totalnumofmovies;j++) {
@@ -570,14 +496,16 @@ void Display_High_Rated_Movies() {
 }
 
 void Buy_A_Movie() {
-	int choice;
-	bool buying = true;
+	int choice,count;
+	bool buying = true, rebuying = true;
 	displayMovies();
 	while (buying) {
 		cout << "Enter the number of the movie you want to buy:\n";
 		cin >> choice;
 		if (cin.fail()) {
 			printCenteredText("Please enter an integar number:");
+			cin.clear();
+			cin.ignore(1000, '\n');
 			continue;
 		}
 		else if (choice<1 || choice>totalnumofmovies) {
@@ -585,6 +513,23 @@ void Buy_A_Movie() {
 			continue;
 		}
 		else {
+			for (int i = 0;i < users[logged_in_index].userBought.nBoughtMovies;i++) {
+				if (users[logged_in_index].userBought.name_of_bought_movies[i]==movie[choice-1].name_of_movie) {
+					while (rebuying) {
+						cout << "for your info you have bought this movie before\nIf you don't want it press 1\n";
+						cin >> count;
+						if (cin.fail()) {
+							printCenteredText("Please enter an integar number:");
+							cin.clear();
+							cin.ignore(1000, '\n');
+							continue;
+						}
+						else if (count == 1) {
+							return;
+						}
+					}
+				}
+			}
 
 			if (movie[choice - 1].Quantity == 0) {
 				printCenteredText("Sorry,This movie is no longer availble");
@@ -624,6 +569,25 @@ void BoughtandRentedMovies() {
 			cout << i + 1 << ". " << users[logged_in_index].userBought.name_of_bought_movies[i] << "\n";
 		}
 	}
+}
+
+void ViewAccountInfo() {
+	printCenteredText("Username:");
+	printCenteredText(users[logged_in_index].userAccount.username);
+	cout << '\n';
+	printCenteredText("Email:");
+	printCenteredText(users[logged_in_index].userAccount.email);
+	cout << '\n';
+	printCenteredText("Password:");
+	printCenteredText(users[logged_in_index].userAccount.password);
+	cout << '\n';
+	printCenteredText("PhoneNumber:");
+	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
+	cout << '\n';
+	if (users[logged_in_index].frozen) {
+		printCenteredText("Customer have delayed payment");
+	}
+	
 }
 
 void outputToFile(user users[], int totalUsers)
@@ -1246,24 +1210,6 @@ void Calculate_totalPrice() {
 	}
 }
 
-void ViewAccountInfo() {
-	printCenteredText("Username:");
-	printCenteredText(users[logged_in_index].userAccount.username);
-	cout << '\n';
-	printCenteredText("Email:");
-	printCenteredText(users[logged_in_index].userAccount.email);
-	cout << '\n';
-	printCenteredText("Password:");
-	printCenteredText(users[logged_in_index].userAccount.password);
-	cout << '\n';
-	printCenteredText("PhoneNumber:");
-	printCenteredText(users[logged_in_index].userAccount.phoneNumber);
-	cout << '\n';
-	if (users[logged_in_index].frozen) {
-		printCenteredText("Customer have delayed payment");
-	}
-	
-}
 
 void displayMovies() {
 	cout << "Movies: \t\t" << "Rate: \t\t" << "Price Per Day:\t\t" << "Buying Price: \n";

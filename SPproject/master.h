@@ -95,8 +95,6 @@ char employeermenu();
 //Finding true identity
 bool findemail(string email, user users[], int& totalusers);
 bool findphonenumber(string phonenum, user users[], int& totalusers);
-bool findaccountnum(int accountnum, user users[], int& totalusers);
-bool findtrueinfo(string email, string password, user users[], int& totalusers);
 //Sign in/up
 int signin(user users[], int totalusers);
 bool signup(user& temp, user users[], int& totalusers);

@@ -10,13 +10,7 @@
 #include <iostream>
 using namespace std;
 
-//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-
 int main() {
-
-//SetConsoleTextAttribute(hConsole, 9);
-//SetConsoleTextAttribute(hConsole, 240);
 
 	int total_users{ getNumberOfUsersFromFile() };
 
@@ -208,6 +202,7 @@ char customermenu()
 	choice = getValidatedChar("Please enter your choice number: ");
 	return choice;
 }
+
 char employeermenu()
 {
 	char choice;
@@ -243,6 +238,7 @@ bool findemail(string email, user users[], int& totalusers)
 	}
 	return false;
 }
+
 bool findphonenumber(string phonenum, user users[], int& totalusers) {
 	{
 		for (int i = 0; i < totalusers; i++) {
@@ -367,6 +363,7 @@ bool signup(user& temp, user users[], int& totalusers)
 	}
 	
 }
+
 int signin(user users[], int totalusers) {
 	char choice;
 	user temp;
@@ -427,7 +424,7 @@ int signin(user users[], int totalusers) {
 	return 50;
 
 }
-
+//Rating and diplaying
 void movierate() {
 	string title;
 	float temp_rate;
@@ -516,7 +513,7 @@ void Buy_A_Movie() {
 			for (int i = 0;i < users[logged_in_index].userBought.nBoughtMovies;i++) {
 				if (users[logged_in_index].userBought.name_of_bought_movies[i]==movie[choice-1].name_of_movie) {
 					while (rebuying) {
-						cout << "for your info you have bought this movie before\nIf you don't want it press 1\n";
+						cout << "for your info you have bought this movie before\nIf you don't want it press 1\n"; // to let the cutomer remeber that he already bought it before
 						cin >> count;
 						if (cin.fail()) {
 							printCenteredText("Please enter an integar number:");
@@ -771,7 +768,6 @@ void loadFromFile(user users[])
 	}
 	myFile.close();
 }
-
 
 bool isLeap(int year) {
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
@@ -1048,16 +1044,17 @@ void Currentday() {
 
 void sortMoviesByCount() {
 	// ترتيب بالأكبر count
-	for (int i = 0; i < number_of_movies - 1; i++) {
-		for (int j = i + 1; j < number_of_movies; j++) {
+	for (int i = 0; i < number_of_movies - 1; i++) 
+	{
+		for (int j = i + 1; j < number_of_movies; j++) 
+		{
 			if (movie[i].rentingCount < movie[j].rentingCount) {
-				// تبادل العناصر
 				swap(movie[i], movie[j]);
 			}
 		}
 	}
 	for (int i = 0; i < totalnumofmovies; i++) {
-		cout << movie[i].name_of_movie << " - Rentals: " << movie[i].rentingCount << endl;
+		cout << movie[i].name_of_movie << "- Rentals: " << movie[i].rentingCount << endl;
 	}
 }
 
@@ -1135,6 +1132,7 @@ void addingMovies(int count)
 		}
 	}
 }
+
 void moviemanagment()
 {
 	int count;
@@ -1210,52 +1208,14 @@ void Calculate_totalPrice() {
 	}
 }
 
-
 void displayMovies() {
 	cout << "Movies: \t\t" << "Rate: \t\t" << "Price Per Day:\t\t" << "Buying Price: \n";
 	for (int i = 0; i < totalnumofmovies; i++)
 	{
-		cout << i + 1 << ". " << movie[i].name_of_movie << "\t\t " << movie[i].average_rate << "\t\t" << movie[i].price << "\t\t\t" << movie[i].price * 30;
+		cout << i + 1 << ". " << movie[i].name_of_movie << "\t\t" << movie[i].average_rate << "\t\t" << movie[i].price << "\t\t\t" << movie[i].price * 30;
 		cout << '\n';
 	}
 }
-
-void update(movieinfo movie[]) {
-	displayMovies();
-	int choose, quantity;
-	float price;
-	while (true)
-	{
-		while (true) {
-			cout << "Enter the number of the movie you want to edit:\n";
-			cin >> choose;
-
-			if (cin.fail())
-			{
-				printCenteredText("Invalid Choice.");
-				cin.clear();
-				cin.ignore(10000, '\n');
-				continue;
-			}
-			else
-				break;
-		}
-		if (choose > totalnumofmovies)
-		{
-			printCenteredText("Please choose a valid movie number.");
-			continue;
-		}
-		else
-			break;
-	}
-	cout << "Add new quantity:\n";
-	cin >> quantity;
-	movie[choose - 1].Quantity += quantity;
-	cout << "Enter new price:\n";
-	cin >> price;
-	movie[choose - 1 ].price = price;
-
-};
 
 int findMovieIndexByName(string_view movieName)
 {
@@ -1304,6 +1264,43 @@ int getValidatedDate(string_view sentence)
 			return input;
 	}
 }
+
+void update(movieinfo movie[]) {
+	displayMovies();
+	int choose, quantity;
+	float price;
+	while (true)
+	{
+		while (true) {
+			cout << "Enter the number of the movie you want to edit:\n";
+			cin >> choose;
+
+			if (cin.fail())
+			{
+				printCenteredText("Invalid Choice.");
+				cin.clear();
+				cin.ignore(10000, '\n');
+				continue;
+			}
+			else
+				break;
+		}
+		if (choose > totalnumofmovies)
+		{
+			printCenteredText("Please choose a valid movie number.");
+			continue;
+		}
+		else
+			break;
+	}
+	cout << "Add new quantity:\n";
+	cin >> quantity;
+	movie[choose - 1].Quantity += quantity;
+	cout << "Enter new price:\n";
+	cin >> price;
+	movie[choose - 1 ].price = price;
+
+};
 
 void deleteMovies() {
 	displayMovies();
